@@ -25,7 +25,7 @@ module.exports = function(app) {
 			body : JSON.stringify({
 				type : 'select',
 				args : {
-					table : 'messages',
+					table : 'user_info',
 					column : ['*']
 				}	
 			})
