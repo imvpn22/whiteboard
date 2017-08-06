@@ -1,4 +1,4 @@
-var bodyParser = require('body-parser');
+// var bodyParser = require('body-parser');
 var request = require('request');
 
 // all routs are in this file
