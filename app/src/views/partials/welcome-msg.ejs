@@ -1,0 +1,20 @@
+<div class="wb-title">
+	<div class="wb-t-l">
+		<span>White</span>
+	</div>
+	<div class="wb-t-r">
+		<span>Board</span>
+	</div>
+</div>
+
+<div class="intro"> 
+	Improve productivity and collaboration
+</div>
+
+<button id="welcome-play">SignIn</button>
+
+<script type="text/javascript">
+	$('#welcome-play').on('click', function() {		
+		$('#main').load('/login-content');
+	});
+</script>

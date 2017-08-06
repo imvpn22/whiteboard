@@ -1,0 +1,28 @@
+<div class="pop-text">Reset Password</div>
+
+<div class="login-form">
+	<div class="form-item">
+		<label><i class="fa fa-user"></i> Email</label>
+		<input type="text" id="email" autofocus></input>
+	</div>
+	<br>
+
+	<input id="login_btn" type="submit" value="Email Reset Link">
+	<br><hr>
+	<span style="font-size: .8em">Try again after 5 min.</span>
+
+</div>
+
+<button id="back-btn"  class="close" style="right: 0; left: 2em"><-</button>
+<button class="close" id="close-reset">X</button>
+
+<script type="text/javascript">
+	$('#close-reset').on('click', function() {		
+		$('#main').load('/welcome-msg');
+	});
+
+	$('#back-btn').on('click', function() {		
+		$('#main').load('/login-content');
+	});
+
+</script>

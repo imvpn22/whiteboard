@@ -1,0 +1,25 @@
+.main{
+    top: 2.4em;
+	flex-direction: row;
+	justify-content: center;
+	padding: 1em 0;
+}
+
+.group-panel{
+
+	border-left: 1px solid #969696; 
+    height: 100%;
+    flex:1;
+    /*background: rgba(0, 0, 0, 0.51);*/
+    overflow: auto;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+}
+
+.group-info{
+    height: 100%;
+    flex:2;
+
+}

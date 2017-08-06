@@ -1,0 +1,87 @@
+<!doctype html>
+<html>
+<head>
+	<title>White Board | Welcome</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="/assets/css/style.css" rel="stylesheet" />
+	<link href="/assets/css/chat.css" rel="stylesheet" />
+	<link href="/assets/css/groups.css" rel="stylesheet" />
+
+	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+	<script src="/assets/js/jquery-3.2.1.min.js"></script>
+	<script src="/assets/js/hasura.min.js" async></script>
+	<script>
+		hasura.setBaseDomain('c100.hasura.me');
+    	hasura.disableHttps(); // No HTTPS enabled on local-development
+	</script>
+
+</head>
+<body>
+		<div class="header">
+	<button class="head-btn"><i class="fa fa-bars"></i></button>
+	<div class=nav-items>
+		<div class="nav-item nav-item-active" id="chat">
+			chat
+		</div>
+		<div class="nav-item" id="manage">
+			White Board
+		</div>
+		<div class="nav-item" id="groups">
+			groups
+		</div>
+		<div class="nav-item" id="profile">
+			profile
+		</div>
+	</div>
+	<button class="head-btn">logout<i class="fa fa-user" aria-hidden="true"></i></button>
+</div>
+
+<script type="text/javascript">
+		
+	$('#chat').on('click', function(){
+		$('#main').load('/chat-content');
+		$('#chat').addClass("nav-item-active");
+		$('#groups').removeClass('nav-item-active');
+		$('#manage').removeClass('nav-item-active');
+		$('#profile').removeClass('nav-item-active');
+	});
+	
+	$('#groups').on('click', function(){
+		$('#main').load('/groups-content');	
+		$('#chat').removeClass("nav-item-active");
+		$('#groups').addClass("nav-item-active");
+		$('#manage').removeClass('nav-item-active');
+		$('#profile').removeClass('nav-item-active');
+	});
+
+	$('#manage').on('click', function(){
+		$('#main').load('/manage-content');	
+		$('#chat').removeClass('nav-item-active');
+		$('#groups').removeClass('nav-item-active');
+		$('#manage').addClass('nav-item-active');
+		$('#profile').removeClass('nav-item-active');
+	});
+
+	$('#profile').on('click', function(){
+		$('#main').load('/profile-content');
+		$('#chat').removeClass('nav-item-active');
+		$('#groups').removeClass('nav-item-active');
+		$('#manage').removeClass('nav-item-active');
+		$('#profile').addClass('nav-item-active');	
+	});
+
+
+</script>
+	
+		<div class="main" id="main">
+			
+		<% include partials/chat-content %>
+
+
+		</div>
+
+
+
+
+</body>
+</html>
