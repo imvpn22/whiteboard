@@ -3,18 +3,18 @@ var request = require('request');
 
 // all routs are in this file
 module.exports = function(app) {
-	var url;
+	var url = 'http://data.hasura/v1/query';;
 	var headers = {
                  'Content-Type' : 'application/json',
                  'X-Hasura-Role' : 'admin',
-       		 'X-Hasura-Id' : 1
+       		 	 'X-Hasura-Id' : 1
             };
 
-	if (process.env.NODE_ENV === 'development') {
+/*	if (process.env.NODE_ENV === 'development') {
 		url = 'http://localhost:9999/v1/query';
 	} else {
 		url= 'http://data.hasura/v1/query';
-	}
+	}*/
 
 	app.get('/test', function (req, res) {
 		// Fetch data from the data APIs
