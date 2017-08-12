@@ -34,4 +34,35 @@
 		$('#main').load('/signup-content');
 	});
 
+	$('#login_form').on('submit', function () {
+        var $usern = $('#username');
+        var $pass = $('#password');
+        var $user = {
+            username: $usern.val(),
+            password: $pass.val(),
+        };
+
+        $.ajax({
+            method: 'POST',
+            url: auth_url + '/login',
+            xhrFields: {
+                withCredentials: true
+            },
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: JSON.stringify($user),
+        }).done(function (data){
+            console.log(data);
+            window.location = '/app';
+        }).fail(function (error){
+            console.log(error);
+
+        });
+
+    });
+
+
+
+
 </script>

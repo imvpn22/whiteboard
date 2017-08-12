@@ -369,3 +369,91 @@ button {
     cursor: pointer;
     outline: none;
 }
+
+/* Style for nav items */
+.nav-items{
+    display: flex;
+    height: 100%;
+}
+.nav-item {
+    height: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 5px solid #000;
+    width: 300px;
+    cursor: pointer;
+}
+.nav-item:hover {
+    border-color: #bbb;
+}
+.nav-item-active {
+    background:#bbb;
+    border-color: #bbb;
+    color: #000;
+    cursor: default;
+}
+
+
+/* Style for whiteboard */
+
+.group-panel {
+
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+}
+
+.panel-items-title{
+    width: 100%;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+    padding: .5em 0;
+    color: #777;
+}
+
+.draw-tools, .color-palate{
+    /*height: 40%;*/
+    margin: 5%;
+    display: flex;
+    flex-wrap: wrap;
+    background-color: #fff;
+/*    overflow-y: scroll;*/
+    box-shadow: 0 0 1em #eee;
+}
+.width-bar {
+    
+    /*height: 10%;*/
+    /*border: 1px solid #969696;*/
+    padding: .5em 0;
+    width: 100%;
+    border-top: 1px solid #eee;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    color: #777;
+}
+
+.tool-item {
+    margin: .6em;
+    
+    display: flex;   
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5em;
+    height: 1em;
+    width: 1em;
+}
+.clr-box {
+    border: 1px solid #969696;
+}
+
+#wb-canvas-wrapper {
+    border: 1px solid #ddd;
+    height: 97%;
+    width: 98%;
+    margin: 1%;
+    background: #fff;
+    box-shadow: 0 0 .2em #eee;
+}

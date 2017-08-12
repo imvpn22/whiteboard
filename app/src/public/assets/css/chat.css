@@ -2,6 +2,7 @@
     top: 4em;
 	flex-direction: row;
 	justify-content: center;
+    background-color: rgba(199, 199, 199, 0.1) ;
 }
 
 
@@ -10,24 +11,24 @@
 	/* border: 1px solid black; */
     height: 100%;
     flex:1;
-    background: rgba(0, 0, 0, 0.51);
     overflow: auto;
 }
 
 .chat-window{
     height: 100%;
     flex: 4;
-
+    background-color: #ddd
 }
 .chat-nav{
-	height: 5%;
+	height: 3em;
     /* border: 1px solid black; */
-    background: rgba(0, 0, 0, 0.46);
+    /*background: rgba(0, 0, 0, 0.46);*/
 }
 .chats{
 	    /* border: 1px solid #fff; */
-    height: 87%;
-    overflow-y: scroll;
+    height: 84%;
+    overflow-y: auto;
+    background-color: #fff;
 }
 .msg-bar{
 	    /* border: 1px solid #000; */
@@ -67,26 +68,19 @@
 	width: 2em;
 }
 
+.msg {
+    /*border: 1px solid #777;*/
+    font-size: .9em;
+    display: flex;
+    margin: 1em;
+}
 
-.nav-items{
-    display: flex;
-    height: 100%;
+.msg-owner{
+    background-color: #ddd;
+    padding: 1em;
+    min-width: 10%;
 }
-.nav-item {
-    height: 90%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-bottom: 5px solid #000;
-    width: 300px;
-    cursor: pointer;
-}
-.nav-item:hover {
-    border-color: #bbb;
-}
-.nav-item-active {
-    background:#bbb;
-    border-color: #bbb;
-    color: #000;
-    cursor: default;
+.msg-text{
+    padding: 1em;
+    background-color: #eeeeee;
 }

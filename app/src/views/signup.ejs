@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Signup</title>
+	<link href="/assets/css/style.css" rel="stylesheet" />
+	<link href="/assets/css/login.css" rel="stylesheet" />
+	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+	<script src="/assets/js/jquery-3.2.1.min.js"></script>
+	<script src="/assets/js/hasura.min.js"></script>
+	<script>
+          hasura.setProject('anatomy97'); // If your hasura project is hello70.hasura-app.io
+  </script>
+</head>
+<body>
+
+
+
+	<div class="main">
+		<div class="pop-text">Sign-Up</div>
+
+		<form class="login-form" id="signup_form">
+
+			<!-- <div class="form-item">
+				<label><i class="fa fa-user"></i> Name</label>
+				<input type="text" id="name"></input>
+			</div>
+
+			<div class="form-item">
+				<label><i class="fa fa-envelope"></i> E-mail</label>
+				<input type="email" id="email"></input>
+			</div> -->
+
+			<div class="form-item">
+				<label><i class="fa fa-user"></i> Username</label>
+				<input type="text" id="username"></input>
+			</div>
+
+			<div class="form-item">
+				<label><i class="fa fa-lock"></i> Password</label>
+				<input type="password" id="password"></input>
+			</div>
+
+			<!-- <div class="form-item">
+				<label><i class="fa fa-lock"></i>Confirm Password</label>
+				<input type="password" id="r-passwd"></input>
+			</div>
+
+			<div class="form-item form-gen">
+				<label>Gender : </label>
+				<div class="gen-items">
+					<div class="gen-item"><input type="radio" name="gender" value="male"/><i class="fa fa-mars"></i> &nbsp Male</div>
+					
+					<div class="gen-item"><input type="radio" name="gender" value="female"/><i class="fa fa-venus"></i> &nbsp Female </div>
+				</div>
+			</div>	
+		-->
+		<input id="login_btn" type="submit" value="Login">
+		<input id="signup_btn" type="submit" value="Sign-Up">
+	</form>
+
+	<button id="back-btn"  class="close" style="right: 0; left: 2em"><-</button>
+	<button class="close" id="close-signup">X</button>
+
+	<script type="text/javascript">
+
+		$('#close-signup').on('click', function() {		
+			$('#main').load('/welcome-msg');
+		});
+
+		$('#back-btn').on('click', function() {		
+			$('#main').load('/login-content');
+		});
+
+
+		$('#signup_btn').on('click', function () {
+
+			var $name = $('#name');
+			var $usern = $('#username');
+			var $pass = $('#password');
+			var $email = $('#email');
+			
+			var onSuccess = function() {
+				console.log("Signup success");
+			}
+
+			var onError = function() {
+				console.error("could not signup");
+			}
+
+			hasura.setUsername($usern.val());
+			hasura.auth.signup($pass.val());
+			
+		});
+
+		$('#login_btn').on('click', function () {
+			//var $name = $('#name');
+			var usern = $('#username').val();
+			var pass = $('#password').val();
+			//var $email = $('#email');
+
+			
+			console.log("login start, Username: " + usern + "  Password:" + pass);
+
+			hasura.setUsername(usern);
+			hasura.auth.login(pass);
+			
+		});
+
+
+	</script>
+
+</div>
+
+
+
+
+
+</body>
+</html>

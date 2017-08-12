@@ -43,12 +43,30 @@
 	<button class="close" id="close-signup">X</button>
 
 	<script type="text/javascript">
-	$('#close-signup').on('click', function() {		
+
+		$('#close-signup').on('click', function() {		
 			$('#main').load('/welcome-msg');
 		});
 
 		$('#back-btn').on('click', function() {		
 			$('#main').load('/login-content');
+		});
+
+		var auth_url = "https://auth.anatomy97.hasura-app.io/";
+		var data_url = "https://data.anatomy97.hasura-app.io/";
+
+		$('#signup_btn').on('click', function () {
+			var $name = $('#name');
+			var $usern = $('#username');
+			var $pass = $('#password');
+			var $email = $('#email');
+			
+			hasura.setUsername($usern);
+			hasura.auth.signup($pass, onSuccess, onError);
+
+
+
+			
 		});
 
 	</script>

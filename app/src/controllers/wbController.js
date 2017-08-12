@@ -50,8 +50,15 @@ module.exports = function(app) {
 	});
 
 	app.get('/', function (req, res) {
+		
 		res.render('base');
 	});
+	app.get('/signup', function (req, res) {
+		
+		res.render('signup');
+	});
+
+
 	app.get('/welcome-msg', function (req, res) {
 		res.render('partials/welcome-msg');
 	});
@@ -69,6 +76,16 @@ module.exports = function(app) {
 
 	app.get('/app', function(req, res) {
 		res.render('app');
+	});
+
+	app.get('/wb', function(req, res) {
+		res.render('whiteboard');
+	});
+	app.get('/pr', function(req, res) {
+		res.render('profile');
+	});
+	app.get('/ch', function(req, res) {
+		res.render('chat');
 	});
 
 
