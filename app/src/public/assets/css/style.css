@@ -27,9 +27,9 @@ body {
     left:0; right:0;
     top: 0;
     height: 4em;
-    padding: 0 1em;
+    padding: 0;
     display: flex;
-    justify-content: space-between; 
+    justify-content: center; 
     align-items: center;
     z-index: 15;
     background-color: rgba(0,0,0,1);
@@ -374,14 +374,15 @@ button {
 .nav-items{
     display: flex;
     height: 100%;
+    width: 100%;
 }
 .nav-item {
-    height: 90%;
+    height: 3.7em;
     display: flex;
     justify-content: center;
     align-items: center;
-    border-bottom: 5px solid #000;
-    width: 300px;
+    border-bottom: .3em solid #000;
+    width: 30%;
     cursor: pointer;
 }
 .nav-item:hover {

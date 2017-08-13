@@ -1,7 +1,7 @@
 .main{
     top: 4em;
-	flex-direction: row;
-	justify-content: center;
+    flex-direction: row;
+    justify-content: center;
     background-color: rgba(199, 199, 199, 0.1) ;
 }
 
@@ -22,23 +22,27 @@
 .chat-nav{
 	height: 3em;
     /* border: 1px solid black; */
-    /*background: rgba(0, 0, 0, 0.46);*/
+     background: #fff; 
+    display: flex;
+    /* text-align: center; */
+    justify-content: center;
+    align-items: center;
 }
 .chats{
-	    /* border: 1px solid #fff; */
-    height: 84%;
-    overflow-y: auto;
-    background-color: #fff;
+   /* border: 1px solid #fff; */
+   height: 84%;
+   overflow-y: auto;
+   background-color: #fff;
 }
 .msg-bar{
-	    /* border: 1px solid #000; */
-    /* bottom: 0; */
-    /* position: relative; */
-    display: flex;
-    justify-content: center;
-    height: 3em;
-    /* background: #fff; */
-    align-items: center;
+   /* border: 1px solid #000; */
+   /* bottom: 0; */
+   /* position: relative; */
+   display: flex;
+   justify-content: center;
+   height: 3em;
+   /* background: #fff; */
+   align-items: center;
 }
 .new-attach, .new-msg, .send-msg {
 	/*border: 1px solid #969696;*/
@@ -46,7 +50,7 @@
     height: 2em;
     border-radius: 5em;
     margin:.3em;
-     display: flex;
+    display: flex;
     justify-content: center;
     align-items: center;
 }
@@ -54,11 +58,12 @@
 	width: 2em;
 }
 .new-msg{
-	width: 80%;
+	width: 88%;
 	display: flex;
+    justify-content: space-between;
 }
 .new-msg input {
-	width: 100%;
+	width: 87%;
 	border:none;
 	outline: none;
 	margin-left: 2em;
@@ -70,17 +75,23 @@
 
 .msg {
     /*border: 1px solid #777;*/
-    font-size: .9em;
+    font-size: .9em;    
     display: flex;
     margin: 1em;
+}
+
+.you-sent {
+    justify-content: flex-end;
 }
 
 .msg-owner{
     background-color: #ddd;
     padding: 1em;
-    min-width: 10%;
+    /*min-width: 10%;*/
+    border-radius: 2em 0 0 2em;
 }
 .msg-text{
     padding: 1em;
     background-color: #eeeeee;
+    border-radius: 0 2em 2em 0;
 }

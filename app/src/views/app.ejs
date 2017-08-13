@@ -13,80 +13,80 @@
 	<script src="https://use.fontawesome.com/d4ad1e750c.js"></script>
 	<script src="/assets/js/hasura.min.js" async></script>
 	<script>
-	        hasura.setProject('anatomy97'); // If your hasura project is hello70.hasura-app.io
-	</script>
+	        hasura.setProject('aspartame64'); // If your hasura project is hello70.hasura-app.io
+	    </script>
 
-</head>
-<body>
+	</head>
+	<body>
 		<div class="header">
-	<button class="head-btn"><i class="fa fa-bars"></i></button>
-	<div class=nav-items>
-		<div class="nav-item nav-item-active" id="chat">
-			chat
+			<!-- <button class="head-btn"><i class="fa fa-bars"></i></button> -->
+			<div class=nav-items>
+				<div class="nav-item nav-item-active" id="chat">
+				Group Chat
+				</div>
+				<div class="nav-item" id="manage">
+					White Board
+				</div>
+				<div class="nav-item" id="groups">
+					Manage Groups
+				</div>
+				<div class="nav-item" id="profile">
+					User Profile
+				</div>
+			</div>
+			<!-- <button class="head-btn">logout<i class="fa fa-user" aria-hidden="true"></i></button> -->
 		</div>
-		<div class="nav-item" id="manage">
-			White Board
-		</div>
-		<div class="nav-item" id="groups">
-			groups
-		</div>
-		<div class="nav-item" id="profile">
-			profile
-		</div>
-	</div>
-	<button class="head-btn">logout<i class="fa fa-user" aria-hidden="true"></i></button>
-</div>
 
 
-<script type="text/javascript">
-		
-	$('#chat').on('click', function(){
-		$('#loding-div').toggleClass("hidden");
-		$('#main').load('/chat-content');
-		$('#chat').addClass("nav-item-active");
-		$('#groups').removeClass('nav-item-active');
-		$('#manage').removeClass('nav-item-active');
-		$('#profile').removeClass('nav-item-active');
-		$('#loding-div').toggleClass("hidden");
-	});
-	
-	$('#groups').on('click', function(){
-		$('#loding-div').toggleClass("hidden");
-		$('#main').load('/groups-content');	
-		$('#chat').removeClass("nav-item-active");
-		$('#groups').addClass("nav-item-active");
-		$('#manage').removeClass('nav-item-active');
-		$('#profile').removeClass('nav-item-active');
-		$('#loding-div').toggleClass("hidden");
-	});
+		<script type="text/javascript">
 
-	$('#manage').on('click', function(){
-		$('#loding-div').toggleClass("hidden");
-		$('#main').load('/manage-content');	
-		$('#chat').removeClass('nav-item-active');
-		$('#groups').removeClass('nav-item-active');
-		$('#manage').addClass('nav-item-active');
-		$('#profile').removeClass('nav-item-active');
-		$('#loding-div').toggleClass("hidden");
-	});
+			$('#chat').on('click', function(){
+				$('#loding-div').toggleClass("hidden");
+				$('#main').load('/chat-content');
+				$('#chat').addClass("nav-item-active");
+				$('#groups').removeClass('nav-item-active');
+				$('#manage').removeClass('nav-item-active');
+				$('#profile').removeClass('nav-item-active');
+				$('#loding-div').toggleClass("hidden");
+			});
 
-	$('#profile').on('click', function(){
-		$('#loding-div').toggleClass("hidden");
-		$('#main').load('/profile-content');
-		$('#chat').removeClass('nav-item-active');
-		$('#groups').removeClass('nav-item-active');
-		$('#manage').removeClass('nav-item-active');
-		$('#profile').addClass('nav-item-active');	
-		$('#loding-div').toggleClass("hidden");
-	});
+			$('#groups').on('click', function(){
+				$('#loding-div').toggleClass("hidden");
+				$('#main').load('/groups-content');	
+				$('#chat').removeClass("nav-item-active");
+				$('#groups').addClass("nav-item-active");
+				$('#manage').removeClass('nav-item-active');
+				$('#profile').removeClass('nav-item-active');
+				$('#loding-div').toggleClass("hidden");
+			});
+
+			$('#manage').on('click', function(){
+				$('#loding-div').toggleClass("hidden");
+				$('#main').load('/manage-content');	
+				$('#chat').removeClass('nav-item-active');
+				$('#groups').removeClass('nav-item-active');
+				$('#manage').addClass('nav-item-active');
+				$('#profile').removeClass('nav-item-active');
+				$('#loding-div').toggleClass("hidden");
+			});
+
+			$('#profile').on('click', function(){
+				$('#loding-div').toggleClass("hidden");
+				$('#main').load('/profile-content');
+				$('#chat').removeClass('nav-item-active');
+				$('#groups').removeClass('nav-item-active');
+				$('#manage').removeClass('nav-item-active');
+				$('#profile').addClass('nav-item-active');	
+				$('#loding-div').toggleClass("hidden");
+			});
 
 
-</script>
-	
+		</script>
+
 		<div id="loding-div" class="main hidden"> <i id="load-icon" class="fa fa-refresh fa-spin" aria-hidden="true"></i> <span>Loding</span> </div>
 		<div class="main" id="main">
 			
-		<% include partials/chat-content %>
+			<% include partials/chat-content %>
 
 
 		</div>
@@ -94,5 +94,5 @@
 
 
 
-</body>
-</html>
+	</body>
+	</html>
