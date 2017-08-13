@@ -395,6 +395,20 @@ button {
 }
 
 
+/* Style for loding div */
+#loding-div {
+    z-index: 1000;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.81);
+    color: #fff;
+}
+
+#load-icon {
+    font-size: 3em;
+}
+
 /* Style for whiteboard */
 
 .group-panel {
