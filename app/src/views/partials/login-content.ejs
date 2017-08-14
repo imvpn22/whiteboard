@@ -3,13 +3,13 @@
 <form class="login-form" id="login_form">
 	<div class="form-item">
 		<label><i class="fa fa-user"></i> </label>
-		<input type="text" id="username" placeholder="Username" autofocus></input>
+		<input type="text" id="li_uname" placeholder="Username" autofocus></input>
 	</div>
 	<br>
 
 	<div class="form-item">
 		<label><i class="fa fa-lock"></i></label>
-		<input type="password" id="password" placeholder="Password"></input>
+		<input type="password" id="li_pass" placeholder="Password"></input>
 	</div>
 
 	<input id="login_btn" type="submit" value="Login">
@@ -22,47 +22,18 @@
 <button class="close" id="close-login">X</button>
 
 <script type="text/javascript">
-	$('#close-login').on('click', function() {		
+    $('#close-login').on('click', function() {		
 		$('#main').load('/welcome-msg');
 	});
-
 	$('#open-reset-pass').on('click', function(){
 		$('#main').load('/reset-pass-content');
 	});
-
 	$('#open-signup').on('click', function(){
 		$('#main').load('/signup-content');
 	});
-
-	$('#login_form').on('submit', function () {
-        var $usern = $('#username');
-        var $pass = $('#password');
-        var $user = {
-            username: $usern.val(),
-            password: $pass.val(),
-        };
-
-        $.ajax({
-            method: 'POST',
-            url: auth_url + '/login',
-            xhrFields: {
-                withCredentials: true
-            },
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            data: JSON.stringify($user),
-        }).done(function (data){
-            console.log(data);
-            window.location = '/app';
-        }).fail(function (error){
-            console.log(error);
-
-        });
-
+	
+	$("#login_form").on("submit", (e) => {
+        e.preventDefault();
+        login($("#li_uname").val(), $("#li_pass").val());
     });
-
-
-
-
 </script>

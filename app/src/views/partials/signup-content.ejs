@@ -4,22 +4,22 @@
 
 	<div class="form-item">
 		<label><i class="fa fa-user"></i> Name</label>
-		<input type="text" id="name"></input>
+		<input type="text" id="su_name"></input>
 	</div>
 
 	<div class="form-item">
 		<label><i class="fa fa-envelope"></i> E-mail</label>
-		<input type="email" id="email"></input>
+		<input type="email" id="su_email"></input>
 	</div>
 
 	<div class="form-item">
 		<label><i class="fa fa-user"></i> Username</label>
-		<input type="text" id="username"></input>
+		<input type="text" id="su_uname"></input>
 	</div>
 
 	<div class="form-item">
 		<label><i class="fa fa-lock"></i> Password</label>
-		<input type="password" id="password"></input>
+		<input type="password" id="su_pass"></input>
 	</div>
 
 			<!-- <div class="form-item">
@@ -41,89 +41,20 @@
 
 	<button id="back-btn"  class="close" style="right: 0; left: 2em"><-</button>
 	<button class="close" id="close-signup">X</button>
-
+	
 	<script type="text/javascript">
-
-		$('#close-signup').on('click', function() {		
+        $('#close-signup').on('click', function() {		
 			$('#main').load('/welcome-msg');
 		});
-
 		$('#back-btn').on('click', function() {		
 			$('#main').load('/login-content');
 		});
-
-		$('#signup_btn').on('click', function () {
-			var $name = $('#name');
-			var $usern = $('#username');
-			var $pass = $('#password');
-			var $email = $('#email');
-			
-			// Populate user data
-			app.setUserName($usern.val());
-			app.setUserInfo({
-                name: $name.val(),
-                email: $email.val(),
-			});
-			
-			var userd = {
-                username: app.user.username,
-                password: $pass.val(),
-                email: app.user.email
-            };
-			
-			$.ajax({
-                method: 'POST',
-                url: app.urls.auth + "signup",
-                
-                headers: { 'Content-Type': 'application/json' },
-                data: JSON.stringify(userd)
-			}).done(function(user) {
-                console.log("Received data: " + user);
-                console.log("Successfully signed up. Redirecting to app...");
-                
-                // Save critical data
-                var user_obj = JSON.parse(user);
-                app.setUserInfo({
-                    hasura_id: user_obj.hasura_id,
-                    hasura_roles: user_obj.hasura_roles,
-                    auth_token: user_obj.auth_token
-                });
-                
-                // Save additional user data to server
-                var prof_data = {
-                    "type": 'insert',
-                    "args": {
-                        "table": 'profile',
-                        "objects": [{
-                            "id": app.user.id,
-                            "name": app.user.name
-                        }]
-                    }
-                };
-                
-                $.ajax({
-                    method: 'POST',
-                    url: app.urls.data + 'v1/query',
-                    
-                    headers: { 'Content-Type': 'application/json' },
-                    data: JSON.stringify(prof_data)
-                }).done(function(data) {
-                    console.log(data);
-                    
-                    // Redirect to application
-                    window.location = "/app";
-                }).fail((e) => { console.log(e); });
-			}).fail((e) => {
-                // Handle errors
-                // Premise: No change of page (dynamically generated)
-                if (e) {
-                    console.log(e);
-                    console.error("Signup error! Reason: " + e.responseText);
-                } else {
-                    console.error("Fuck e");
-                }
-			});
-		});
-
-	</script>
+		
+		$("#signup_form").on("submit", (e) => {
+            e.preventDefault();
+            signup(
+                $("#su_name").val(), $("#su_uname").val(), $("#su_email").val(), $("#su_pass").val()
+            );
+        });
+    </script>
 	
