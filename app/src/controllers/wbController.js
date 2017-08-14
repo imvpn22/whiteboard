@@ -6,8 +6,8 @@ module.exports = function(app) {
 	var url= 'http://data.hasura/v1/query';
 	var headers = {
                  'Content-Type' : 'application/json',
-                 'X-Hasura-Role' : 'admin',
-       		 	 'X-Hasura-Id' : 1
+                 'X-Hasura-Role' : 'user',
+       		 	 /*'X-Hasura-Id' : 1*/
             };
 
 	app.get('/test', function (req, res) {
