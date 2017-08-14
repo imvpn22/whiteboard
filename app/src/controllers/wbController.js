@@ -3,18 +3,12 @@ var request = require('request');
 
 // all routs are in this file
 module.exports = function(app) {
-	var url ;
+	var url= 'http://data.hasura/v1/query';
 	var headers = {
                  'Content-Type' : 'application/json',
                  'X-Hasura-Role' : 'admin',
        		 	 'X-Hasura-Id' : 1
             };
-
-	if (process.env.NODE_ENV === 'development') {
-		url = 'http://localhost:9999/v1/query';
-	} else {
-		url= 'http://data.hasura/v1/query';
-	}
 
 	app.get('/test', function (req, res) {
 		// Fetch data from the data APIs
@@ -25,15 +19,16 @@ module.exports = function(app) {
 			body : JSON.stringify({
 				type : 'select',
 				args : {
-					table : 'user_info',
+					table : 'profile',
 					column : ['*']
 				}	
 			})
-		};
+		}
+
 		request(options, function(err, response, body){
 			if(err) {
-			  console.error("Could not connect to APIs", err);
-			  res.status(500).send('Internal error');
+			  console.error("Could not connect to APIs : " + err);
+			  res.status(500).send('Internal error : ' + err);
 			  return;
 			}
 
@@ -52,10 +47,6 @@ module.exports = function(app) {
 	app.get('/', function (req, res) {
 		res.render('base');
 	});
-	app.get('/signup', function (req, res) {
-		res.render('signup');
-	});
-
 
 	app.get('/welcome-msg', function (req, res) {
 		res.render('partials/welcome-msg');
@@ -71,22 +62,9 @@ module.exports = function(app) {
 	});
 
 
-
 	app.get('/app', function(req, res) {
 		res.render('app');
 	});
-
-	app.get('/wb', function(req, res) {
-		res.render('whiteboard');
-	});
-	app.get('/pr', function(req, res) {
-		res.render('profile');
-	});
-	app.get('/ch', function(req, res) {
-		res.render('chat');
-	});
-
-
 	app.get('/chat-content', function (req, res) {
 		res.render('partials/chat-content' );
 	});

@@ -1,19 +1,10 @@
-
-
-.group-panel{
-
-	border-left: 1px solid #969696; 
-    height: 100%;
-    flex:1;
-    /*background: rgba(0, 0, 0, 0.51);*/
-    overflow: auto;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-}
-
 .group-info{
     height: 100%;
-    flex:2;
-
+    flex:3;
+}
+.border-left {
+    border-left: 1px solid #ddd;
+}
+.group-add {
+    border-top: 1px solid #eee;
 }
