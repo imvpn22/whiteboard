@@ -7,7 +7,7 @@ module.exports = function(app) {
 	var headers = {
                  'Content-Type' : 'application/json',
                  'X-Hasura-Role' : 'admin',
-       		 	 'X-Hasura-Id' : 1
+       		 	 'X-Hasura-User-Id' : 1
             };
 
 	app.get('/test', function (req, res) {
