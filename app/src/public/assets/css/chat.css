@@ -1,9 +1,9 @@
 .main-container{
     position: absolute;
-    top: 2em;
-    left: 2em;
-    right: 2em;
-    bottom: 2em;
+    top: 0;
+    left: 0em;
+    right: 0em;
+    bottom: 0em;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -17,6 +17,17 @@
   height: 100%;
 }
 
+#groups_panel_back{
+  background-color: rgba(0,0,0, .5);
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 9;
+}
 .group-panel{
     height: 100%;
     flex:1;
@@ -25,8 +36,8 @@
 .group-panel-title{
     height: 3em;
     width: 100%;
-    border-bottom: 1px solid #ddd; 
-    background: #fff; 
+    border-bottom: 1px solid #111; 
+    background: #111; 
     display: flex;
     justify-content: center;
     align-items: center;
@@ -40,49 +51,65 @@
     cursor: pointer;
 }
 .group-panel-item:hover{
-    background-color: #eee;
+    color: #fff;
 }
 .active {
-    background-color: #eee;
+    background-color: #222;
+    colour:#fff;
 }
 
 .chat-window{
-    height: 100%;
+        height: 100%;
     flex: 2;
-    background-color: #ddd;
-    border-left: 1px solid #ddd;
+    border: 1px solid #ddd;
+    position: relative;
+    background-image: url(https://storage.googleapis.com/gweb-uniblog-publish-prod/images/Background.2e16d0ba.fill-1422x800.jpg);
+    /* background-color: #000; */
 }
 .wb-window{
     height: 100%;
     display: flex;
     flex-direction: column;
     flex: 3;
-    background-color: #ddd;
-    border-left: 1px solid #ddd;
+    
+    border: 1px solid #ddd;
 }
 .chat-nav{
     height: 3em;
-    border-bottom: 1px solid #ddd; 
-    /*background: #ddd;*/ 
+    width: 100%;
+    /*border-bottom: 1px solid #ddd;*/ 
+    background: #ddd; 
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
 }
 .chats{
- /* border: 1px solid #fff; */
- height: 84%;
- overflow-y: auto;
- background-color: #fff;
+    /*border: 1px solid #fff; */
+    /* height: 100%; */
+    overflow-y: auto;
+    /* display: flex; */
+    /* flex-direction: column; */
+    /* flex-wrap: wrap; */
+    position: absolute;
+    top: 0;
+    bottom: 3em;
+    width: 100%;
+    /* background-image: url(https://storage.googleapis.com/gweb-uniblog-publish-prod/images/Background.2e16d0ba.fill-1422x800.jpg); */
+    background-color: rgba(0, 0, 0, 0.18);
 }
 .msg-bar{
- /* border: 1px solid #000; */
- /* bottom: 0; */
- /* position: relative; */
- display: flex;
- justify-content: center;
- height: 3em;
- /* background: #fff; */
- align-items: center;
+     /* border: 1px solid #000; */
+    /* bottom: 0; */
+    /* position: relative; */
+    display: flex;
+    justify-content: center;
+    height: 3em;
+    background: #ddd;
+    align-items: center;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
 }
 .new-attach, .new-msg, .send-msg {
   /*border: 1px solid #969696;*/
@@ -134,4 +161,91 @@
     padding: .5em 1em;
     background-color: #eeeeee;
     border-radius: 0 2em 2em 0;
+}
+
+/* Style for loding div */
+#loding-div {
+    z-index: 1000;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.81);
+    color: #fff;
+}
+
+#load-icon {
+    font-size: 3em;
+}
+
+/* Style for whiteboard */
+
+.group-panel {
+
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    position: absolute;
+    background: rgba(0, 0, 0, 0.83);
+    top: 0;
+    left: 0;
+    z-index: 10;
+    color: #ddd;
+    width: 300px;
+}
+
+.panel-items-title{
+    text-align: center;
+    /*border-bottom: 1px solid #eee;*/
+    padding: .5em;
+    color: #777;
+}
+
+/* toolbar whiteboard*/
+.tools-panel {
+    display: flex;
+    flex-direction: column;
+}
+
+.draw-tools, .color-palate{
+    display: flex;
+    flex-wrap: wrap;
+    /*background-color: #fff;*/
+    padding: .2em .3em;
+}
+.draw-tools{
+    border-bottom: 1px solid #eee;
+}
+.width-bar {
+    padding: .5em .3em;
+    /*border-top: 1px solid #eee;*/
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    color: #777;
+}
+.tool-items{
+    display: flex;
+    flex-wrap: wrap;
+}
+.tool-item {
+    margin: .6em;    
+    display: flex;   
+    justify-content: center;
+    align-items: center;
+    /*font-size: 1.5em;*/
+    height: 1em;
+    width: 1em;
+}
+.clr-box {
+    border: 1px solid #969696;
+}
+
+#wb-canvas-wrapper {
+    border: 1px solid #ddd;
+    height: 97%;
+    width: 98%;
+    margin: 1%;
+    background: #fff;
+    box-shadow: 0 0 .2em #eee;
 }

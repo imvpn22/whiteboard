@@ -55,11 +55,12 @@ body {
     align-items: center;
     padding:1em 1em .8em 1em; 
     background: none !important;
-    color:#fff
+    color:#7d7d7d;
+    position:absolute;
+    z-index: 1000;
 }
-.head-btn:hover {
-    background: rgb(37, 183, 243) !important;
-}
+.pos-left{left: 5px}
+.pos-right{right: 5px}
 
 .footer {
     display: flex;
@@ -143,25 +144,6 @@ body {
     align-items: center;   
     flex-wrap: wrap;
     background-color: rgba(0, 0, 0, 0.85);
-}
-.left, .right {
-    flex: 1;
-    width: 90%;
-    min-width: 320px;
-    height: 95vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
-
-.left {
-    justify-content: space-around;
-}
-
-.right{
-    flex: 2;
-    border-left: 1px solid rgba(255,255,255,.1);
 }
 
 a {text-decoration: none; color: inherit; cursor: pointer;}
@@ -393,85 +375,3 @@ button {
 }
 
 
-/* Style for loding div */
-#loding-div {
-    z-index: 1000;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background: rgba(0, 0, 0, 0.81);
-    color: #fff;
-}
-
-#load-icon {
-    font-size: 3em;
-}
-
-/* Style for whiteboard */
-
-.group-panel {
-
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    flex-direction: column;
-}
-
-.panel-items-title{
-    /*width: 100%;*/
-    text-align: center;
-    border-bottom: 1px solid #eee;
-    padding: .5em 0;
-    color: #777;
-}
-
-/* toolbar whiteboard*/
-.tools-panel {
-    display: flex;
-    flex-direction: column;
-}
-
-.draw-tools, .color-palate{
-    /*height: 40%;*/
-    margin: 5%;
-    display: flex;
-    flex-wrap: wrap;
-    background-color: #fff;
-/*    overflow-y: scroll;*/
-    box-shadow: 0 0 1em #eee;
-}
-.width-bar {
-    
-    /*height: 10%;*/
-    /*border: 1px solid #969696;*/
-    padding: .5em 0;
-    width: 100%;
-    border-top: 1px solid #eee;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    color: #777;
-}
-
-.tool-item {
-    margin: .6em;
-    
-    display: flex;   
-    justify-content: center;
-    align-items: center;
-    font-size: 1.5em;
-    height: 1em;
-    width: 1em;
-}
-.clr-box {
-    border: 1px solid #969696;
-}
-
-#wb-canvas-wrapper {
-    border: 1px solid #ddd;
-    height: 97%;
-    width: 98%;
-    margin: 1%;
-    background: #fff;
-    box-shadow: 0 0 .2em #eee;
-}
