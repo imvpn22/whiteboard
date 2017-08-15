@@ -96,12 +96,9 @@ body {
     bottom: 0;
     left: 0;
     right: 0;
-    overflow-y: scroll;
     /* background-image: url(https://s1.wp.com/home.logged-out/page-rey-2/img/hero-icons.svg); */
     background-color: rgba(199, 199, 199, 0.8);
 }
-
-.main::-webkit-scrollbar{width:0;}
 
 .intro {
     font-size: 3em;
@@ -310,15 +307,19 @@ a {text-decoration: none; color: inherit; cursor: pointer;}
     display: flex;
     flex-direction: column;
     margin: 1em 0 .2em 0;
-    width: 100%;
     padding: .3em;
     font-size: 1.1em;
     align-items: center;
-    background: rgba(6, 6, 6, 0.5);
-    color: #ccc;
-    border-radius: .2em;
+    background: rgb(69, 152, 77);
+    color: #fff;
+    border-radius: .3em;
     cursor: pointer;
-    border:2px solid #969696;
+    border: none;
+}
+#login_btn:hover, #signup_btn:hover{
+    /* background: rgba(6, 6, 6, 1); */
+    border: none;
+    box-shadow: 0 0.2em 0.4em rgba(0, 0, 0, 0.72);
 }
 
 #welcome-play{
@@ -337,19 +338,15 @@ a {text-decoration: none; color: inherit; cursor: pointer;}
     box-shadow: 0 0 2em #fff;
 }
 
-#login_btn:hover, #signup_btn:hover{
-    color:#fff;
-    background: rgba(6, 6, 6, 1);
-    border:2px solid #fff;
-}
 
 .close {
-    height: 2em;
-    width: 2em;
+    height: 2.5em;
+    width: 2.5em;
+    font-size: 1em;
     /* text-align: center; */
     border-radius: 50%;
     position: absolute;
-    top: 2em;
+    top: 4em;
     right: 2em;
     color: #fff;
     background: #bbb;
@@ -421,11 +418,17 @@ button {
 }
 
 .panel-items-title{
-    width: 100%;
+    /*width: 100%;*/
     text-align: center;
     border-bottom: 1px solid #eee;
     padding: .5em 0;
     color: #777;
+}
+
+/* toolbar whiteboard*/
+.tools-panel {
+    display: flex;
+    flex-direction: column;
 }
 
 .draw-tools, .color-palate{

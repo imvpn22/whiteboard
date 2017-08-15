@@ -1,10 +1,21 @@
-.main{
-    top: 4em;
-    flex-direction: row;
+.main-container{
+    position: absolute;
+    top: 2em;
+    left: 2em;
+    right: 2em;
+    bottom: 2em;
+    display: flex;
+    flex-direction: column;
     justify-content: center;
-    background-color: rgba(199, 199, 199, 0) ;
+    align-items: center;
+    background-color: rgba(199, 199, 199, .2) ;
+    z-index: 10;
 }
-
+.main-container-content{
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
 
 .group-panel{
     height: 100%;
@@ -37,7 +48,15 @@
 
 .chat-window{
     height: 100%;
-    flex: 4;
+    flex: 2;
+    background-color: #ddd;
+    border-left: 1px solid #ddd;
+}
+.wb-window{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    flex: 3;
     background-color: #ddd;
     border-left: 1px solid #ddd;
 }

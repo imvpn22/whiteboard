@@ -20,7 +20,7 @@ module.exports = function(app) {
 				type : 'select',
 				args : {
 					table : 'test',
-					column : ['*']
+					columns : ['*']
 				}	
 			})
 		}
@@ -46,6 +46,10 @@ module.exports = function(app) {
 
 	app.get('/', function (req, res) {
 		res.render('base');
+	});
+
+	app.get('/wb', function (req, res) {
+		res.render('whiteboard');
 	});
 
 	app.get('/welcome-msg', function (req, res) {
