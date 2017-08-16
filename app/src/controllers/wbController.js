@@ -48,7 +48,7 @@ module.exports = function(app) {
 		res.render('base');
 	});
 
-	app.get('/wb', function (req, res) {
+	app.get('/app', function (req, res) {
 		res.render('whiteboard');
 	});
 
@@ -65,22 +65,22 @@ module.exports = function(app) {
 		res.render('partials/reset-pass-content');
 	});
 
-
-	app.get('/app', function(req, res) {
+	app.get('/app-test', function(req, res) {
 		res.render('app');
-	});
-	app.get('/chat-content', function (req, res) {
-		res.render('partials/chat-content' );
 	});
 	app.get('/groups-content', function (req, res) {
 		res.render('partials/groups-content');
 	});
-	app.get('/manage-content', function (req, res) {
-		res.render('partials/manage-content');
+	app.get('/wb-content', function (req, res) {
+		res.render('partials/wb-content');
 	});
 
 	app.get('/profile-content', function (req, res) {
 		res.render('partials/profile-content');
+	});
+
+	app.get('/profile', function(req,res) {
+		res.render('profile');
 	});
 
 };

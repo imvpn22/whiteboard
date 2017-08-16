@@ -59,8 +59,8 @@
 }
 
 .chat-window{
-        height: 100%;
-    flex: 2;
+    height: 100%;
+    flex: 1;
     border: 1px solid #ddd;
     position: relative;
     background-image: url(https://storage.googleapis.com/gweb-uniblog-publish-prod/images/Background.2e16d0ba.fill-1422x800.jpg);
@@ -70,7 +70,7 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    flex: 3;
+    flex: 2;
     
     border: 1px solid #ddd;
 }
@@ -96,7 +96,7 @@
     bottom: 3em;
     width: 100%;
     /* background-image: url(https://storage.googleapis.com/gweb-uniblog-publish-prod/images/Background.2e16d0ba.fill-1422x800.jpg); */
-    background-color: rgba(0, 0, 0, 0.18);
+    background-color: rgba(252, 252, 252, 0.9);
 }
 .msg-bar{
      /* border: 1px solid #000; */
@@ -236,9 +236,16 @@
     /*font-size: 1.5em;*/
     height: 1em;
     width: 1em;
+    cursor: pointer;
 }
 .clr-box {
-    border: 1px solid #969696;
+    border: 1px solid rgba(150, 150, 150, 0);
+    height: 1.5em;
+    width: 1.5em;
+    margin: 0;
+}
+.clr-box:hover {
+  border-color: #ddd;
 }
 
 #wb-canvas-wrapper {

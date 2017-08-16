@@ -10,7 +10,23 @@ $('#send-msg').on('click', function(){
 	$('#new-msg').val("");
 });
 
+/* nav bar handling */
 $('#open_groups_nav').on('click', function(){
 	$('#groups_nav').toggleClass('hidden');
 	$('#groups_panel_back').toggleClass('hidden');
+});
+$('#groups_panel_back').on('click', function(){
+	$('#groups_nav').toggleClass('hidden');
+	$('#groups_panel_back').toggleClass('hidden');
+});
+
+/* Open User Options */
+$('#user_btn').on('click', function(){
+	$('#user_popup').toggleClass('hidden');
+});
+
+/* Logout event */
+$("#logout_btn").on("click", (e) => {
+	e.preventDefault();
+	logout()
 });
