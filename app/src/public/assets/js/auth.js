@@ -79,7 +79,7 @@ var signup = (_name, _usern, _email, _password) => {
                     def_log(resobj["message"], false);
                     
                     def_log("Signup complete. Redirecting to app...", false);
-                    window.location.href = "/app";
+                    window.location.href = "/";
                 }
             );
         },
@@ -111,7 +111,7 @@ var login = (_usern, _password) => {
             });
             
             def_log("Login complete. Redirecting to app...", false);
-            window.location.href = "/app";
+            window.location.href = "/";
         },
         (edata) => {
             def_log("Login failed. Please try again... (" + edata + ")");

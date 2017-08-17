@@ -14,14 +14,14 @@ module.exports = function(app) {
 		}
 	});
 
-	app.get('/app', function (req, res) {
+	/*app.get('/app', function (req, res) {
 		user_auth_token = req.headers['x-hasura-session-id'];		
 		if (user_auth_token === undefined) {
 			res.render('base');
 		} else {
 			res.render('whiteboard');
 		}
-	});
+	});*/
 
 	app.get('/groups', function (req, res) {
 		res.render('groups');
