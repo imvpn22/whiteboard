@@ -4,18 +4,20 @@ var request = require('request');
 // all routs are in this file
 module.exports = function(app) {
 	var auth_url= 'http://auth.hasura/user/account/info';
-	var headers = {
-                 'Content-Type' : 'application/json',
-                 'X-Hasura-Role' : 'admin',
-       		 	 'X-Hasura-User-Id' : 1
-            };
 
 	app.get('/test', function (req, res) {
+		var user_role = req.headers['x-hasura-user-role'];
 		var user_id = req.headers['x-hasura-user-id'];
 		var user_auth_token = req.headers['x-hasura-session-id'];
-		res.send("User ID : " + user_id + " Auth token : " +  user_auth_token);		
+		res.send("User ID : " + user_id + " Auth token : " +  user_auth_token  + " Role : " + x-hasura-user-role);		
 
 		/*// Verify user token
+		var headers = {
+			'Content-Type' : 'application/json',
+			'X-Hasura-Role' : 'user',
+			'X-Hasura-User-Id' : 1
+		};
+
 		var options = {
 			url : auth_url,
 			method : 'POST',
@@ -31,15 +33,15 @@ module.exports = function(app) {
 
 		request(options, function(err, response, body){
 			if(err) {
-			  console.error("Could not connect to APIs : " + err);
-			  res.status(500).send('Internal error : ' + err);
-			  return;
+				console.error("Could not connect to APIs : " + err);
+				res.status(500).send('Internal error : ' + err);
+				return;
 			}
 
 			if (response.statusCode !== 200) {
-			  console.error('Auth API bad request');
-			  res.status(500).send('Internal error : Could not connect to auth APIs');
-			  return;
+				console.error('Auth API bad request');
+				res.status(500).send('Internal error : Could not connect to auth APIs');
+				return;
 			}
 			
 			if (response.statusCode === 200) {
