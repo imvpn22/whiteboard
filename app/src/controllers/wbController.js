@@ -11,15 +11,22 @@ module.exports = function(app) {
 		var user_auth_token = req.headers['x-hasura-session-id'];		
 		//res.send(req.headers);
 		
+		if (user_auth_token === undefined) {
+			res.render('app');
+		} else {
+			res.render('base');
+		}
+
+
 		// Verify user token
-		var headers = {
+		/*var headers = {
 			'Content-Type' : 'application/json',
 			'X-Hasura-Role' : 'admin',
 			'X-Hasura-User-Id' : 1
 		};
 
 		var options = {
-			url : auth_url + 'user/account/info/',
+			url : auth_url + 'user/account/info',
 			method : 'POST',
 			headers : headers
 		}
@@ -47,7 +54,7 @@ module.exports = function(app) {
 				}
 
 			}
-		});
+		});*/
 		
 	});
 
