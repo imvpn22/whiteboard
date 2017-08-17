@@ -12,9 +12,9 @@ module.exports = function(app) {
 		//res.send(req.headers);
 		
 		if (user_auth_token === undefined) {
-			res.render('app');
-		} else {
 			res.render('base');
+		} else {
+			res.render('app');
 		}
 
 
