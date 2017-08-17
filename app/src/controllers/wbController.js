@@ -58,13 +58,9 @@ module.exports = function(app) {
 		
 	});
 
-	/*app.get('/', function (req, res) {
+	app.get('/', function (req, res) {
 		res.render('base');
 	});
-
-	app.get('/app', function (req, res) {
-		res.render('whiteboard');
-	});*/
 
 	app.get('/groups', function (req, res) {
 		res.render('groups');
