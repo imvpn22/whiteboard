@@ -30,3 +30,10 @@ $("#logout_btn").on("click", (e) => {
 	e.preventDefault();
 	logout()
 });
+
+/* Open profile page */
+	
+$("#profile_btn").on("click", (e) => {
+	e.preventDefault();
+	get_profile();
+});

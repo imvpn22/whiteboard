@@ -3,7 +3,7 @@ var request = require('request');
 
 // all routs are in this file
 module.exports = function(app) {
-	var url= 'http://data.hasura/v1/query';
+	var auth_url= 'http://auth.hasura/user/account/info';
 	var headers = {
                  'Content-Type' : 'application/json',
                  'X-Hasura-Role' : 'admin',
@@ -11,11 +11,14 @@ module.exports = function(app) {
             };
 
 	app.get('/test', function (req, res) {
-		// Fetch data from the data APIs
+		res.send(req.headers);
+		console.log(req.headers);		
+
+		/*// Verify user token
 		var options = {
-			url : url,
+			url : auth_url,
 			method : 'POST',
-			headers : headers,
+			headers : headers
 			body : JSON.stringify({
 				type : 'select',
 				args : {
@@ -33,14 +36,17 @@ module.exports = function(app) {
 			}
 
 			if (response.statusCode !== 200) {
-			  console.error('Data API bad request');
-			  res.status(500).send('Internal error : Could not connect to data APIs');
+			  console.error('Auth API bad request');
+			  res.status(500).send('Internal error : Could not connect to auth APIs');
 			  return;
 			}
 			
-			res.send(body);
-			//res.render('base');
-		});
+			if (response.statusCode === 200) {
+				let user = JSON.parse(body)
+
+
+			}
+		});*/
 		
 	});
 
@@ -50,6 +56,14 @@ module.exports = function(app) {
 
 	app.get('/app', function (req, res) {
 		res.render('whiteboard');
+	});
+
+	app.get('/groups', function (req, res) {
+		res.render('groups');
+	});
+
+	app.get('/profile', function(req,res) {
+		res.render('profile');
 	});
 
 	app.get('/welcome-msg', function (req, res) {
@@ -63,24 +77,6 @@ module.exports = function(app) {
 	});
 	app.get('/reset-pass-content', function (req, res) {
 		res.render('partials/reset-pass-content');
-	});
-
-	app.get('/app-test', function(req, res) {
-		res.render('app');
-	});
-	app.get('/groups-content', function (req, res) {
-		res.render('partials/groups-content');
-	});
-	app.get('/wb-content', function (req, res) {
-		res.render('partials/wb-content');
-	});
-
-	app.get('/profile-content', function (req, res) {
-		res.render('partials/profile-content');
-	});
-
-	app.get('/profile', function(req,res) {
-		res.render('profile');
 	});
 
 };

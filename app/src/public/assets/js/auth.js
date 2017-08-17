@@ -131,3 +131,25 @@ var logout = () => {
     );
     app.clearSession();
 }
+
+var get_profile = () => {
+    if (!app.user.token){
+        alert("Not logged in !");
+        return;
+    } 
+    
+    ajaxp(
+        app.urls.auth + "user/account/info", "", def_headers,
+        
+        (sdata) => {
+            def_log("Received data: " + sdata, false);
+              
+            let user = JSON.parse(sdata);
+            window.location.href = "/profile";
+            
+        },
+        (edata) => {
+            def_log("Get Profile Failed. Please try again... (" + edata + ")");
+        }
+    );
+}
