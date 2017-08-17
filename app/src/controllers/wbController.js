@@ -3,12 +3,10 @@ var request = require('request');
 
 // all routs are in this file
 module.exports = function(app) {
-	var auth_url= 'http://auth.hasura/';
-
-	app.get('/app', function (req, res) {
-		var user_role = req.headers['x-hasura-role'];
-		var user_id = req.headers['x-hasura-user-id'];
-		var user_auth_token = req.headers['x-hasura-session-id'];		
+	//var auth_url= 'http://auth.hasura/';
+	var user_auth_token;
+	app.get('/', function (req, res) {
+		user_auth_token = req.headers['x-hasura-session-id'];		
 		//res.send(req.headers);
 		
 		if (user_auth_token === undefined) {
@@ -16,9 +14,34 @@ module.exports = function(app) {
 		} else {
 			res.render('whiteboard');
 		}
+		
+	});
+
+	app.get('/groups', function (req, res) {
+		res.render('groups');
+	});
+
+	app.get('/profile', function(req,res) {
+		res.render('profile');
+	});
+
+	app.get('/welcome-msg', function (req, res) {
+		res.render('partials/welcome-msg');
+	});
+	app.get('/login-content', function (req, res) {
+		res.render('partials/login-content');
+	});
+	app.get('/signup-content', function (req, res) {
+		res.render('partials/signup-content');
+	});
+	app.get('/reset-pass-content', function (req, res) {
+		res.render('partials/reset-pass-content');
+	});
+
+};
 
 
-		// Verify user token
+// Verify user token
 		/*var headers = {
 			'Content-Type' : 'application/json',
 			'X-Hasura-Role' : 'admin',
@@ -55,32 +78,3 @@ module.exports = function(app) {
 
 			}
 		});*/
-		
-	});
-
-	app.get('/', function (req, res) {
-		res.render('base');
-	});
-
-	app.get('/groups', function (req, res) {
-		res.render('groups');
-	});
-
-	app.get('/profile', function(req,res) {
-		res.render('profile');
-	});
-
-	app.get('/welcome-msg', function (req, res) {
-		res.render('partials/welcome-msg');
-	});
-	app.get('/login-content', function (req, res) {
-		res.render('partials/login-content');
-	});
-	app.get('/signup-content', function (req, res) {
-		res.render('partials/signup-content');
-	});
-	app.get('/reset-pass-content', function (req, res) {
-		res.render('partials/reset-pass-content');
-	});
-
-};
