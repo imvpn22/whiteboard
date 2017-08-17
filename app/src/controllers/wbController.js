@@ -11,8 +11,8 @@ module.exports = function(app) {
             };
 
 	app.get('/test', function (req, res) {
-		res.send(req.headers);
-		console.log(req.headers);		
+		var user_auth_token = req.headers['x-hasura-session-id'];
+		res.send(user_auth_token);		
 
 		/*// Verify user token
 		var options = {
