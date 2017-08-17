@@ -5,7 +5,7 @@ var request = require('request');
 module.exports = function(app) {
 	var auth_url= 'http://auth.hasura/';
 
-	app.get('/test', function (req, res) {
+	app.get('/', function (req, res) {
 		var user_role = req.headers['x-hasura-role'];
 		var user_id = req.headers['x-hasura-user-id'];
 		var user_auth_token = req.headers['x-hasura-session-id'];		
