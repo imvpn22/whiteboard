@@ -5,7 +5,7 @@ var request = require('request');
 module.exports = function(app) {
 	var auth_url= 'http://auth.hasura/';
 
-	app.get('/', function (req, res) {
+	app.get('/app', function (req, res) {
 		var user_role = req.headers['x-hasura-role'];
 		var user_id = req.headers['x-hasura-user-id'];
 		var user_auth_token = req.headers['x-hasura-session-id'];		
@@ -14,7 +14,7 @@ module.exports = function(app) {
 		if (user_auth_token === undefined) {
 			res.render('base');
 		} else {
-			res.render('app');
+			res.render('whiteboard');
 		}
 
 
