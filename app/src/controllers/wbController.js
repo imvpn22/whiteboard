@@ -14,8 +14,8 @@ module.exports = function(app) {
 		// Verify user token
 		var headers = {
 			'Content-Type' : 'application/json',
-			'X-Hasura-Role' : user_role,
-			'X-Hasura-User-Id' : user_id
+			'X-Hasura-Role' : 'admin',
+			'X-Hasura-User-Id' : 1
 		};
 
 		var options = {
