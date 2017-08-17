@@ -3,32 +3,25 @@ var request = require('request');
 
 // all routs are in this file
 module.exports = function(app) {
-	var auth_url= 'http://auth.hasura/user/account/info';
+	var auth_url= 'http://auth.hasura/';
 
 	app.get('/test', function (req, res) {
-		//var user_role = req.headers['x-hasura-user-role'];
+		var user_role = req.headers['x-hasura-role'];
 		var user_id = req.headers['x-hasura-user-id'];
-		var user_auth_token = req.headers['x-hasura-session-id'];
-		//res.send("User ID : " + user_id + " Auth token : " +  user_auth_token  + " Role : " + x-hasura-user-role);		
-		res.send(JSON.stringify(req.headers));
-		/*// Verify user token
+		var user_auth_token = req.headers['x-hasura-session-id'];		
+		//res.send(req.headers);
+		
+		// Verify user token
 		var headers = {
 			'Content-Type' : 'application/json',
-			'X-Hasura-Role' : 'user',
-			'X-Hasura-User-Id' : 1
+			'X-Hasura-Role' : user_role,
+			'X-Hasura-User-Id' : user_id
 		};
 
 		var options = {
-			url : auth_url,
+			url : auth_url + 'user/account/info/',
 			method : 'POST',
 			headers : headers
-			body : JSON.stringify({
-				type : 'select',
-				args : {
-					table : 'test',
-					columns : ['*']
-				}	
-			})
 		}
 
 		request(options, function(err, response, body){
@@ -45,11 +38,16 @@ module.exports = function(app) {
 			}
 			
 			if (response.statusCode === 200) {
-				let user = JSON.parse(body)
-
+				let user_data = JSON.parse(body);
+				let token = user_data['auth_token'];
+				if (token === user_auth_token) {
+					res.render('app');
+				} else {
+					res.render('base');
+				}
 
 			}
-		});*/
+		});
 		
 	});
 
