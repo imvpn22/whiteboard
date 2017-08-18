@@ -1,6 +1,6 @@
-#testing
+# Testing
 
-# Quickstart - Build your own Docker image#
+## Quickstart - Build your own Docker image#
 
 Build the Docker image using the following command
 
@@ -14,7 +14,7 @@ Run the Docker container using the command below.
 $ docker run -d -p 8080:8080 nodejs-express:<tag>
 ```
 
-# Quickstart - git based pipeline
+## Quickstart - git based pipeline
 
 Follow the steps mentioned below for git based pipeline
 
@@ -33,8 +33,8 @@ Follow the steps mentioned below for git based pipeline
     $ git push <remote> master
     ```
 
-# Advanced usage
+## Advanced usage
 
-### **Port**
+#### Port
 
 Default Port for application is `8080` .
