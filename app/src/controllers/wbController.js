@@ -1,8 +1,8 @@
-// var bodyParser = require('body-parser');
+
 var request = require('request');
 
-// all routs are in this file
-module.exports = function(app) {
+// Definition of all web routes here
+module.exports = function(app, io) {
 	//var auth_url= 'http://auth.hasura/';
 	var user_auth_token;
 	app.get('/', function (req, res) {
@@ -14,14 +14,14 @@ module.exports = function(app) {
 		}
 	});
 
-	/*app.get('/app', function (req, res) {
+	app.get('/app', function (req, res) {
 		user_auth_token = req.headers['x-hasura-session-id'];		
-		if (user_auth_token === undefined) {
-			res.render('base');
-		} else {
-			res.render('whiteboard');
-		}
-	});*/
+		// if (user_auth_token === undefined) {
+		// 	res.render('base');
+		// } else {
+		 	res.render('whiteboard');
+		// }
+	});
 
 	app.get('/groups', function (req, res) {
 		res.render('groups');
@@ -44,6 +44,13 @@ module.exports = function(app) {
 		res.render('partials/reset-pass-content');
 	});
 
+	// Socket routes
+	io.on('connection', (socket) => {
+    	console.log("A user just connected");
+    	socket.on('disconnect', () => {
+        	console.log("A user just disconnected");
+    	});
+	});
 };
 
 
