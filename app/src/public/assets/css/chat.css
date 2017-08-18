@@ -245,17 +245,24 @@
     margin: 0;
 }
 .clr-box:hover {
-  border-color: #ddd;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+  transform: scale(1.1);
 }
 
-
-
+.clr-box-active {
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.4) !important;
+    transform: scale(1.3) !important;
+}
 
 #wb-canvas-wrapper {
     border: 1px solid #ddd;
-    height: 97%;
-    width: 98%;
+    height: 97%; width: 98%;
+    max-width: 97%; max-height: 98%;
     margin: 1%;
     background: #fff;
     box-shadow: 0 0 .2em #eee;
+
+    position: relative;
 }
+
+#wb-canvas { position: fixed; }
