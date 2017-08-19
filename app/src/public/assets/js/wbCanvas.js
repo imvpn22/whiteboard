@@ -23,8 +23,9 @@ class Whiteboard {
         this.reAdjustCanvas();
 
         this.config = {};
-        this.config[TOOL_MODE.PEN] = { size: 2 };
-        this.config[TOOL_MODE.ERASER] = { size: 20 };
+        this.config[TOOL_MODE.PEN] = { size: 2, cursor: 'cursor-draw' };
+        this.config[TOOL_MODE.ERASER] = { size: 20, cursor: 'cursor-erase' };
+        this.resetCursor();
 
         this.socket = io();
         this.socket.on('clear', () => { this.clear(false); });
@@ -35,7 +36,17 @@ class Whiteboard {
         this.canvas.height = this.wrapper.clientHeight;
     }
 
-    setTool(tool) { this.tool = tool; }
+    /* Must be called after tool is updated */
+    resetCursor() {
+        let cKlass = this.tool === TOOL_MODE.PEN ?
+                     this.config[TOOL_MODE.ERASER].cursor :
+                     this.config[TOOL_MODE.PEN].cursor;
+
+        this.canvas.classList.remove(cKlass);
+        this.canvas.classList.add(this.config[this.tool].cursor);
+    }
+
+    setTool(tool) { this.tool = tool; this.resetCursor(); }
     setFGColor(col) { this.fgCol = col; }
     setPenSize(size) { this.config[TOOL_MODE.PEN].size = Math.min(25, Math.max(size, 2)); }
 
@@ -46,25 +57,30 @@ class Whiteboard {
         if (sock) this.socket.emit('clear');
     }
 
-    genericRender(preconfig) {
+    genericRender(preconfig, line) {
         this.ctx.lineWidth = preconfig.lw; this.ctx.strokeStyle = preconfig.ss;
-        this.ctx.lineCap = preconfig.lc; this.ctx.lineJoin = preconfig.lj;
+        this.ctx.lineCap = 'round'; this.ctx.lineJoin = 'round';
 
         this.ctx.beginPath();
-        this.ctx.moveTo(this.ppoint.x, this.ppoint.y);
-        this.ctx.lineTo(this.cpoint.x, this.cpoint.y);
+        this.ctx.moveTo(line.x0, line.y0);
+        this.ctx.lineTo(line.x1, line.y1);
         this.ctx.stroke();
         this.ctx.closePath();
     }
 
     render() {
-        this.genericRender({
+        let conf = {
             lw: this.config[this.tool].size,
-            ss: this.tool === TOOL_MODE.PEN ? this.fgCol : this.bgCol,
-            lc: 'round', lj: 'round'
-        });
+            ss: this.tool === TOOL_MODE.PEN ? this.fgCol : this.bgCol
+        }
+        let line = {
+            x0: this.ppoint.x, y0: this.ppoint.y,
+            x1: this.cpoint.x, y1: this.cpoint.y
+        }
 
-        // Emit event to socket
+        this.genericRender(conf, line);
+
+        // Emit event to socket  
     }
 
     /* TODO */

@@ -286,6 +286,8 @@
 }
 
 #wb-canvas { position: fixed; }
+.cursor-draw { cursor: crosshair !important; }
+.cursor-erase { cursor: cell !important; }
 
 
 /* Style for group profile back and close button */
