@@ -98,35 +98,42 @@ class Whiteboard {
 }
 
 var canvasInit = () => {
-    clrBox = document.querySelectorAll(".clr-box");
+    let groupExSelect = (obj, groupSelector, activeKlass) => {
+        let act = document.querySelectorAll('.' + groupSelector + '.' + activeKlass)[0];
+
+        if (act.classList.contains(activeKlass))
+            act.classList.toggle(activeKlass);
+        obj.classList.toggle(activeKlass);
+    }
+
+    clrBox = document.querySelectorAll('.clr-box');
     clrBox.forEach(function (v) {
         v.addEventListener('click', () => {
-            let aCbx = document.querySelectorAll(".clr-box.clr-box-active")[0];
-
-            if (aCbx.classList.contains('clr-box-active'))
-                aCbx.classList.toggle('clr-box-active');
-            v.classList.toggle('clr-box-active');
-
+            groupExSelect(v, 'clr-box', 'clr-box-active');
             wboard.setFGColor(v.style.background);
-        })
+        });
     });
 
     // Register tool events
-    document.getElementById('tool-pen').addEventListener('click', () => {
-        wboard.setTool(TOOL_MODE.PEN);
-    });
-    document.getElementById('tool-eraser').addEventListener('click', () => {
-        wboard.setTool(TOOL_MODE.ERASER);
-    });
     document.getElementById('tool-clear').addEventListener('click', () => {
         wboard.clear(true);
     });
 
-    toolSize = document.getElementById('tool-size');
+    const tmap = { 'tool-pen': TOOL_MODE.PEN, 'tool-eraser': TOOL_MODE.ERASER };
+    ['tool-pen', 'tool-eraser'].map((id) => {
+        let obj = document.getElementById(id);
+        obj.addEventListener('click', () => {
+            groupExSelect(obj, 'tool-item', 'tool-item-active');
+            wboard.setTool(tmap[id]);
+        });
+    });
 
+    // Tool size
+    toolSize = document.getElementById('tool-size');
     toolSize.value = 2;
     toolSize.addEventListener('input', () => { wboard.setPenSize(toolSize.value); });
 
+    // Whiteboard
     wboard = new Whiteboard('wb-canvas-wrapper', 'wb-canvas');
     window.addEventListener('resize', wboard.reAdjustCanvas.bind(wboard), false);
 

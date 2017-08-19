@@ -247,10 +247,14 @@
   width: 2em;
   cursor: pointer;
   color: #888;
+  border-radius: 50%;
+  border: 1px dashed rgba(0, 0, 0, 0);
 }
-.tool-item:hover {
-  background-color: #ddd;
-  color: #222;
+.tool-item:hover { border-color: #aaa; }
+.tool-item-active {
+    color: #fff !important;
+    background-color: #ddd !important;
+    border-color: rgba(0, 0, 0, 0) !important;
 }
 
 .clr-box {
