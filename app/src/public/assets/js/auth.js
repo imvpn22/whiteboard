@@ -79,7 +79,7 @@ var signup = (_name, _usern, _email, _password) => {
                     def_log(resobj["message"], false);
                     
                     def_log("Signup complete. Redirecting to app...", false);
-                    window.location.href = "/";
+                    window.location.href = "/app";
                 }
             );
         },
@@ -111,7 +111,7 @@ var login = (_usern, _password) => {
             });
             
             def_log("Login complete. Redirecting to app...", false);
-            window.location.href = "/";
+            window.location.href = "/app";
         },
         (edata) => {
             def_log("Login failed. Please try again... (" + edata + ")");
@@ -145,8 +145,7 @@ var get_profile = () => {
             def_log("Received data: " + sdata, false);
               
             let user = JSON.parse(sdata);
-            window.location.href = "/profile";
-            
+                        
         },
         (edata) => {
             def_log("Get Profile Failed. Please try again... (" + edata + ")");
