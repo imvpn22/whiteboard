@@ -31,9 +31,23 @@ $("#logout_btn").on("click", (e) => {
 	logout()
 });
 
-/* Open profile page */
-	
+/* Open profile page */	
 $("#profile_btn").on("click", (e) => {
-	e.preventDefault();
-	get_profile();
+	// e.preventDefault();
+	// get_profile();
+	$('#gp_con').removeClass('hidden');
+	$('#p_con').removeClass('hidden');
+});
+
+/* Open Groups Page */
+$("#groups_btn").on("click", (e) => {
+	$('#gp_con').removeClass('hidden');
+	$('#g_con').removeClass('hidden');
+});
+
+/* Close group profile */
+$('#c_gp_con').on('click', function(){
+	$('#gp_con').addClass('hidden');
+	$('#p_con').addClass('hidden');
+	$('#g_con').addClass('hidden');
 });

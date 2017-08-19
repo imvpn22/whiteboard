@@ -119,6 +119,9 @@ var canvasInit = () => {
     document.getElementById('tool-eraser').addEventListener('click', () => {
         wboard.setTool(TOOL_MODE.ERASER);
     });
+    document.getElementById('tool-clear').addEventListener('click', () => {
+        wboard.clear(true);
+    });
 
     toolSize = document.getElementById('tool-size');
 

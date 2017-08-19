@@ -5,30 +5,23 @@ var request = require('request');
 module.exports = function(app, io) {
 	//var auth_url= 'http://auth.hasura/';
 	var user_auth_token;
+	
 	app.get('/', function (req, res) {
-		user_auth_token = req.headers['x-hasura-session-id'];		
-		if (user_auth_token === undefined) {
-			res.render('base');
-		} else {
-			res.render('whiteboard');
-		}
+		// user_auth_token = req.headers['x-hasura-session-id'];		
+		// if (user_auth_token === undefined) {
+		 	res.render('base');
+		// } else {
+		// 	res.render('whiteboard');
+		// }
 	});
 
 	app.get('/app', function (req, res) {
-		user_auth_token = req.headers['x-hasura-session-id'];		
+		// user_auth_token = req.headers['x-hasura-session-id'];		
 		// if (user_auth_token === undefined) {
 		// 	res.render('base');
 		// } else {
 		 	res.render('whiteboard');
 		// }
-	});
-
-	app.get('/groups', function (req, res) {
-		res.render('groups');
-	});
-
-	app.get('/profile', function(req,res) {
-		res.render('profile');
 	});
 
 	app.get('/welcome-msg', function (req, res) {
@@ -39,9 +32,6 @@ module.exports = function(app, io) {
 	});
 	app.get('/signup-content', function (req, res) {
 		res.render('partials/signup-content');
-	});
-	app.get('/reset-pass-content', function (req, res) {
-		res.render('partials/reset-pass-content');
 	});
 
 	// Socket routes
