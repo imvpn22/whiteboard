@@ -27,6 +27,7 @@ class Whiteboard {
         this.config[TOOL_MODE.ERASER] = { size: 20 };
 
         this.socket = io();
+        this.socket.on('clear', () => { this.clear(false); });
     }
 
     reAdjustCanvas() {
@@ -38,13 +39,11 @@ class Whiteboard {
     setFGColor(col) { this.fgCol = col; }
     setPenSize(size) { this.config[TOOL_MODE.PEN].size = Math.min(25, Math.max(size, 2)); }
 
-    clear(sock) {
+    clear(sock = true) {
         this.ctx.fillStyle = this.bgCol;
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-        if (sock) {
-            // Emit event to socket
-        }
+        if (sock) this.socket.emit('clear');
     }
 
     genericRender(preconfig) {
@@ -70,8 +69,8 @@ class Whiteboard {
 
     /* TODO */
     externalRender(data) {
-        if (data.command === 'clear') this.clear(false);
-        else genericRender(data.args);
+        // if (data.command === 'clear') this.clear(false);
+        // else genericRender(data.args);
     }
 
     mouseDown(e) {

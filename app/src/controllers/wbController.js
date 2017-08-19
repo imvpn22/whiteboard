@@ -47,9 +47,13 @@ module.exports = function(app, io) {
 	// Socket routes
 	io.on('connection', (socket) => {
 		console.log("A user just connected");
+		
+		// Socket events
 		socket.on('disconnect', () => {
 			console.log("A user just disconnected");
 		});
+
+		socket.on('clear', () => { socket.broadcast.emit('clear'); });
 	});
 };
 
