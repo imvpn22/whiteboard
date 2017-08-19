@@ -1,28 +1,29 @@
-<div class="pop-text">Sign-In</div>
+<div class="pop-back">
+	<div class="pop-text">Sign-In</div>
 
-<form class="login-form" id="login_form">
-	<div class="form-item">
-		<label><i class="fa fa-user"></i> </label>
-		<input type="text" id="li_uname" placeholder="Username" autofocus></input>
-	</div>
-	<br>
+	<form class="login-form" id="login_form">
+		<div class="form-item">
+			<label><i class="fa fa-user"></i> </label>
+			<input type="text" id="li_uname" placeholder="Username" autofocus></input>
+		</div>
+		<br>
+		<div class="form-item">
+			<label><i class="fa fa-lock"></i></label>
+			<input type="password" id="li_pass" placeholder="Password"></input>
+		</div>
+		<div class="form-item">
+			<input id="login_btn" type="submit" value="Login">
+		</div>
 
-	<div class="form-item">
-		<label><i class="fa fa-lock"></i></label>
-		<input type="password" id="li_pass" placeholder="Password"></input>
-	</div>
-
-	<input id="login_btn" type="submit" value="Login">
-</form>
-
-<span style="font-size: .7em; text-align: right; cursor: pointer;" id="open-reset-pass"><i>Forgot Password?</i></span>
-<div class=""><br>	
-	<span id="open-signup" style="font-size: .8em; cursor: pointer;">Don't have an account yet? <u> Signup </u></span>
+		<!-- <span style="font-size: .7em; text-align: right; cursor: pointer;" id="open-reset-pass"><i>Forgot Password?</i></span>  -->
+		<div class=""><br>	
+			<span id="open-signup" style="font-size: .8em; cursor: pointer;">Don't have an account yet? <u> Signup </u></span>
+		</div>
+		<button class="close" id="close-login"><i class="fa fa-times" aria-hidden="true"></i></button>
+	</form>
 </div>
-<button class="close" id="close-login"><i class="fa fa-times" aria-hidden="true"></i></button>
-
 <script type="text/javascript">
-    $('#close-login').on('click', function() {		
+	$('#close-login').on('click', function() {		
 		$('#main').load('/welcome-msg');
 	});
 	$('#open-reset-pass').on('click', function(){
@@ -33,7 +34,7 @@
 	});
 	
 	$("#login_form").on("submit", (e) => {
-        e.preventDefault();
-        login($("#li_uname").val(), $("#li_pass").val());
-    });
+		e.preventDefault();
+		login($("#li_uname").val(), $("#li_pass").val());
+	});
 </script>

@@ -1,26 +1,27 @@
-<div class="pop-text">Sign-Up</div>
+<div class="pop-back">
+	<div class="pop-text">Sign-Up</div>
 
-<form class="login-form" id="signup_form">
+	<form class="login-form" id="signup_form">
 
-	<div class="form-item">
-		<label><i class="fa fa-user"></i> Name</label>
-		<input type="text" id="su_name"></input>
-	</div>
+		<div class="form-item">
+			<label><i class="fa fa-user"></i></label>
+			<input type="text" id="su_name" placeholder="Name" autofocus></input>
+		</div>
 
-	<div class="form-item">
-		<label><i class="fa fa-envelope"></i> E-mail</label>
-		<input type="email" id="su_email"></input>
-	</div>
+		<div class="form-item">
+			<label><i class="fa fa-envelope"></i></label>
+			<input type="email" id="su_email" placeholder="Email"></input>
+		</div>
 
-	<div class="form-item">
-		<label><i class="fa fa-user"></i> Username</label>
-		<input type="text" id="su_uname"></input>
-	</div>
+		<div class="form-item">
+			<label><i class="fa fa-user"></i></label>
+			<input type="text" id="su_uname" placeholder="Username"></input>
+		</div>
 
-	<div class="form-item">
-		<label><i class="fa fa-lock"></i> Password</label>
-		<input type="password" id="su_pass"></input>
-	</div>
+		<div class="form-item">
+			<label><i class="fa fa-lock"></i></label>
+			<input type="password" id="su_pass" placeholder="Password"></input>
+		</div>
 
 			<!-- <div class="form-item">
 				<label><i class="fa fa-lock"></i>Confirm Password</label>
@@ -36,26 +37,28 @@
 				</div>
 			</div>	
 		-->
-		<input id="signup_btn" type="submit" value="Sign-Up">
+		<div class="form-item">
+			<input id="signup_btn" type="submit" value="Sign-Up">
+		</div>
 	</form>
 
 	<button id="back-btn"  class="close" style="right: 0; left: 2em"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>
 	<button class="close" id="close-signup"><i class="fa fa-times" aria-hidden="true"></i></button>
-	
-	<script type="text/javascript">
-        $('#close-signup').on('click', function() {		
-			$('#main').load('/welcome-msg');
-		});
-		$('#back-btn').on('click', function() {		
-			$('#main').load('/login-content');
-		});
-		
-		$("#signup_form").on("submit", (e) => {
-			
-            e.preventDefault();
-            signup(
-                $("#su_name").val(), $("#su_uname").val(), $("#su_email").val(), $("#su_pass").val()
-            );
-        });
-    </script>
-	
+</div>
+<script type="text/javascript">
+	$('#close-signup').on('click', function() {		
+		$('#main').load('/welcome-msg');
+	});
+	$('#back-btn').on('click', function() {		
+		$('#main').load('/login-content');
+	});
+
+	$("#signup_form").on("submit", (e) => {
+
+		e.preventDefault();
+		signup(
+			$("#su_name").val(), $("#su_uname").val(), $("#su_email").val(), $("#su_pass").val()
+			);
+	});
+</script>
+
