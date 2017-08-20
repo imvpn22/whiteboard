@@ -23,11 +23,14 @@ class Whiteboard {
         this.reAdjustCanvas();
 
         this.config = {};
-        this.config[TOOL_MODE.PEN] = { size: 2 };
-        this.config[TOOL_MODE.ERASER] = { size: 20 };
+        this.config[TOOL_MODE.PEN] = { size: 2, cursor: 'cursor-draw' };
+        this.config[TOOL_MODE.ERASER] = { size: 20, cursor: 'cursor-erase' };
+        this.config.throttle_delay = 10;
+        this.resetCursor();
 
         this.socket = io();
         this.socket.on('clear', () => { this.clear(false); });
+        this.socket.on('draw', (args) => { this.externalRender(args['data']); });
     }
 
     reAdjustCanvas() {
@@ -35,7 +38,17 @@ class Whiteboard {
         this.canvas.height = this.wrapper.clientHeight;
     }
 
-    setTool(tool) { this.tool = tool; }
+    /* Must be called after tool is updated */
+    resetCursor() {
+        let cKlass = this.tool === TOOL_MODE.PEN ?
+                     this.config[TOOL_MODE.ERASER].cursor :
+                     this.config[TOOL_MODE.PEN].cursor;
+
+        this.canvas.classList.remove(cKlass);
+        this.canvas.classList.add(this.config[this.tool].cursor);
+    }
+
+    setTool(tool) { this.tool = tool; this.resetCursor(); }
     setFGColor(col) { this.fgCol = col; }
     setPenSize(size) { this.config[TOOL_MODE.PEN].size = Math.min(25, Math.max(size, 2)); }
 
@@ -46,31 +59,45 @@ class Whiteboard {
         if (sock) this.socket.emit('clear');
     }
 
-    genericRender(preconfig) {
-        this.ctx.lineWidth = preconfig.lw; this.ctx.strokeStyle = preconfig.ss;
-        this.ctx.lineCap = preconfig.lc; this.ctx.lineJoin = preconfig.lj;
+    genericRender(config, line) {
+        this.ctx.lineWidth = config.lw; this.ctx.strokeStyle = config.ss;
+        this.ctx.lineCap = 'round'; this.ctx.lineJoin = 'round';
 
         this.ctx.beginPath();
-        this.ctx.moveTo(this.ppoint.x, this.ppoint.y);
-        this.ctx.lineTo(this.cpoint.x, this.cpoint.y);
+        this.ctx.moveTo(line.x0, line.y0);
+        this.ctx.lineTo(line.x1, line.y1);
         this.ctx.stroke();
         this.ctx.closePath();
     }
 
     render() {
-        this.genericRender({
+        let conf = {
             lw: this.config[this.tool].size,
-            ss: this.tool === TOOL_MODE.PEN ? this.fgCol : this.bgCol,
-            lc: 'round', lj: 'round'
-        });
+            ss: this.tool === TOOL_MODE.PEN ? this.fgCol : this.bgCol
+        }
+        let line = {
+            x0: this.ppoint.x, y0: this.ppoint.y,
+            x1: this.cpoint.x, y1: this.cpoint.y
+        }
 
-        // Emit event to socket
+        this.genericRender(conf, line);
+
+        // Normalize line data for export
+        Object.keys(line).map((k, i) => {
+            line[k] /= (i & 1) === 0 ? this.canvas.width : this.canvas.height;
+        });
+        // Emit data to server
+        this.socket.emit('draw-data', { 'conf': conf, 'line': line });
     }
 
-    /* TODO */
     externalRender(data) {
-        // if (data.command === 'clear') this.clear(false);
-        // else genericRender(data.args);
+        // Scale normalized line data
+        let line = data['line'];
+        Object.keys(line).map((k, i) => {
+            line[k] *= (i & 1) === 0 ? this.canvas.width : this.canvas.height;
+        });
+        // Render data
+        this.genericRender(data['conf'], line);
     }
 
     mouseDown(e) {
@@ -139,9 +166,20 @@ var canvasInit = () => {
 
     // Register mouse events
     wboard.addMouseListener('mousedown', wboard.mouseDown.bind(wboard));
-    wboard.addMouseListener('mousemove', wboard.mouseMove.bind(wboard));
     wboard.addMouseListener('mouseup', wboard.mouseUp.bind(wboard));
     wboard.addMouseListener('mouseleave', wboard.mouseLeave.bind(wboard));
+    
+    // Throttle draw calls for performance
+    wboard.addMouseListener('mousemove', (() => {
+        var epoch = Date.now();
+        return function() {
+            let t = Date.now();
+            if ((t - epoch) >= wboard.config.throttle_delay) {
+                epoch = t;
+                wboard.mouseMove.apply(wboard, arguments);
+            }
+        };
+    })());
 }
 
 window.addEventListener('load', canvasInit, false);
