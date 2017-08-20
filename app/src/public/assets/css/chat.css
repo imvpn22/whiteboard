@@ -121,8 +121,16 @@
   justify-content: center;
   align-items: center;
 }
-.new-attach {
+.new-attach, .send-msg {
   width: 2em;
+  color: #999;
+  background-color: rgba(0,0,0,0);
+  cursor: pointer;
+}
+.new-attach:hover, .send-msg:hover {
+  /*background-color: #fff;*/
+  color: #0f0;
+  text-shadow: 0 0 1em #fff;
 }
 .new-msg{
   width: 88%;
@@ -136,10 +144,6 @@
   margin-left: 2em;
   margin-right: 2em;
 }
-.send-msg{
-  width: 2em;
-}
-
 .msg {
   /*border: 1px solid #777;*/
   font-size: .9em;    
@@ -252,9 +256,9 @@
 }
 .tool-item:hover { border-color: #aaa; }
 .tool-item-active {
-    color: #fff !important;
-    background-color: #ddd !important;
-    border-color: rgba(0, 0, 0, 0) !important;
+  color: #fff !important;
+  background-color: #ddd !important;
+  border-color: rgba(0, 0, 0, 0) !important;
 }
 
 .clr-box {

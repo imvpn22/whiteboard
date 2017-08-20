@@ -81,12 +81,12 @@ var signup = (_name, _usern, _email, _password) => {
                     def_log("Signup complete. Redirecting to app...", false);
                     window.location.href = "/app";
                 }
-            );
+                );
         },
         (edata) => {
             def_log("Signup failed. Please try again... (" + edata + ")");
         }
-    );
+        );
 }
 
 var login = (_usern, _password) => {
@@ -102,7 +102,7 @@ var login = (_usern, _password) => {
         app.urls.auth + "login", JSON.stringify(userd), def_headers,
         (sdata) => {
             def_log("Received data: " + sdata, false);
-              
+
             let user = JSON.parse(sdata);
             app.setUserInfo({
                 hasura_id: user["hasura_id"],
@@ -116,7 +116,7 @@ var login = (_usern, _password) => {
         (edata) => {
             def_log("Login failed. Please try again... (" + edata + ")");
         }
-    );
+        );
 }
 
 var logout = () => {
@@ -128,7 +128,7 @@ var logout = () => {
             def_log("User logged out", false);
             window.location.href = "/";
         }
-    );
+        );
     app.clearSession();
 }
 
@@ -142,13 +142,106 @@ var get_profile = () => {
         app.urls.auth + "user/account/info", "", def_headers,
         
         (sdata) => {
-            def_log("Received data: " + sdata, false);
-              
+            //def_log("Received data: " + sdata, false);
+
             let user = JSON.parse(sdata);
-                        
+            document.getElementById("profile_username").innerHTML = user["username"];
+            document.getElementById("profile_role").innerHTML = user["hasura_roles"];
+            document.getElementById("profile_email").innerHTML = user["email"];
+            document.getElementById("profile_mobile").innerHTML = user["mobile"];
+            document.getElementById("profile_id").innerHTML = user["hasura_id"];
+            document.getElementById("profile_token").innerHTML = user["auth_token"];           
         },
         (edata) => {
             def_log("Get Profile Failed. Please try again... (" + edata + ")");
         }
-    );
+        );
+}
+
+var get_groups = () => {
+    // Get all groups of current user server
+    let prof_data = {
+        "type": "select",
+        "args": {
+            "table": "profile",
+            "columns": ["*"]
+        }
+    };
+
+    ajaxp(
+        app.urls.data + "v1/query", JSON.stringify(prof_data), def_headers,
+        (sresp) => {
+            let resobj = JSON.parse(sresp);
+            def_log(resobj["message"], false);
+
+            def_log("Got all groups", false);
+        }
+        );
+}
+
+var add_group = () => {
+    // Add a new group to server
+    let prof_data = {
+        "type": "insert",
+        "args": {
+            "table": "profile",
+            "objects": [{
+                "id": app.user.id,
+                "name": app.user.name
+            }]
+        }
+    };
+
+    ajaxp(
+        app.urls.data + "v1/query", JSON.stringify(prof_data), def_headers,
+        (sresp) => {
+            let resobj = JSON.parse(sresp);
+            def_log(resobj["message"], false);
+
+            def_log("Signup complete. Redirecting to app...", false);
+            window.location.href = "/app";
+        }
+        );
+}
+
+var get_users = () => {
+    // Get all groups of current user server
+    let prof_data = {
+        "type": "select",
+        "args": {
+            "table": "profile",
+            "columns": ["*"]
+        }
+    };
+
+    ajaxp(
+        app.urls.data + "v1/query", JSON.stringify(prof_data), def_headers,
+        (sresp) => {
+            let resobj = JSON.parse(sresp);
+            def_log(resobj["message"], false);
+
+            def_log("Got all groups", false);
+        }
+        );
+}
+
+var add_user = () => {
+    // Get all groups of current user server
+    let prof_data = {
+        "type": "select",
+        "args": {
+            "table": "profile",
+            "columns": ["*"]
+        }
+    };
+
+    ajaxp(
+        app.urls.data + "v1/query", JSON.stringify(prof_data), def_headers,
+        (sresp) => {
+            let resobj = JSON.parse(sresp);
+            def_log(resobj["message"], false);
+
+            def_log("Got all groups", false);
+        }
+        );
 }

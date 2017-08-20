@@ -50,4 +50,5 @@ $('#c_gp_con').on('click', function(){
 	$('#gp_con').addClass('hidden');
 	$('#p_con').addClass('hidden');
 	$('#g_con').addClass('hidden');
+	get_profile();
 });
