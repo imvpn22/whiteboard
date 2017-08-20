@@ -25,10 +25,12 @@ class Whiteboard {
         this.config = {};
         this.config[TOOL_MODE.PEN] = { size: 2, cursor: 'cursor-draw' };
         this.config[TOOL_MODE.ERASER] = { size: 20, cursor: 'cursor-erase' };
+        this.config.throttle_delay = 10;
         this.resetCursor();
 
         this.socket = io();
         this.socket.on('clear', () => { this.clear(false); });
+        this.socket.on('draw', (args) => { this.externalRender(args['data']); });
     }
 
     reAdjustCanvas() {
@@ -57,8 +59,8 @@ class Whiteboard {
         if (sock) this.socket.emit('clear');
     }
 
-    genericRender(preconfig, line) {
-        this.ctx.lineWidth = preconfig.lw; this.ctx.strokeStyle = preconfig.ss;
+    genericRender(config, line) {
+        this.ctx.lineWidth = config.lw; this.ctx.strokeStyle = config.ss;
         this.ctx.lineCap = 'round'; this.ctx.lineJoin = 'round';
 
         this.ctx.beginPath();
@@ -80,13 +82,22 @@ class Whiteboard {
 
         this.genericRender(conf, line);
 
-        // Emit event to socket  
+        // Normalize line data for export
+        Object.keys(line).map((k, i) => {
+            line[k] /= (i & 1) === 0 ? this.canvas.width : this.canvas.height;
+        });
+        // Emit data to server
+        this.socket.emit('draw-data', { 'conf': conf, 'line': line });
     }
 
-    /* TODO */
     externalRender(data) {
-        // if (data.command === 'clear') this.clear(false);
-        // else genericRender(data.args);
+        // Scale normalized line data
+        let line = data['line'];
+        Object.keys(line).map((k, i) => {
+            line[k] *= (i & 1) === 0 ? this.canvas.width : this.canvas.height;
+        });
+        // Render data
+        this.genericRender(data['conf'], line);
     }
 
     mouseDown(e) {
@@ -155,9 +166,20 @@ var canvasInit = () => {
 
     // Register mouse events
     wboard.addMouseListener('mousedown', wboard.mouseDown.bind(wboard));
-    wboard.addMouseListener('mousemove', wboard.mouseMove.bind(wboard));
     wboard.addMouseListener('mouseup', wboard.mouseUp.bind(wboard));
     wboard.addMouseListener('mouseleave', wboard.mouseLeave.bind(wboard));
+    
+    // Throttle draw calls for performance
+    wboard.addMouseListener('mousemove', (() => {
+        var epoch = Date.now();
+        return function() {
+            let t = Date.now();
+            if ((t - epoch) >= wboard.config.throttle_delay) {
+                epoch = t;
+                wboard.mouseMove.apply(wboard, arguments);
+            }
+        };
+    })());
 }
 
 window.addEventListener('load', canvasInit, false);

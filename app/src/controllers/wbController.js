@@ -44,6 +44,9 @@ module.exports = function(app, io) {
 		});
 
 		socket.on('clear', () => { socket.broadcast.emit('clear'); });
+		socket.on('draw-data', (data) => {
+			socket.broadcast.emit('draw', { 'data': data });
+		});
 	});
 };
 
