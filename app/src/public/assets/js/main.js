@@ -1,5 +1,10 @@
 // API endpoint declarations
 
+var def_log = (e, err = true) => {
+    var dt = (new Date()).toLocaleString();
+    console.log("[" + (err ? "ERROR" : "INFO ") + " | " + dt + "]: " + e);
+}
+
 const localStorage = window.localStorage;
 
 const anonUser = {
@@ -26,6 +31,8 @@ class _app {
             auth: "https://auth." + this.config.project + ".hasura-app.io/",
             data: "https://data." + this.config.project + ".hasura-app.io/"
         }
+
+        this.groups = { data: [], dirty: true };
     }
 
     setUserName(username) {
@@ -47,6 +54,20 @@ class _app {
     
     saveUser() {
         localStorage.setItem('whiteboard.user', JSON.stringify(this.user));
+    }
+
+    updateGroupData(postFn) {
+        if (this.groups.data.length === 0 || this.groups.dirty) {
+            this.groups.data = [];
+            get_groups((data) => {
+                let obj = JSON.parse(data);
+                // Excpecting obj to be an array
+                obj.map((group) => { this.groups.data.push(group); });
+                this.groups.dirty = false;
+
+                if (postFn !== undefined) postFn();
+            });
+        }
     }
     
     clearUser() {

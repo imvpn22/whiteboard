@@ -118,7 +118,6 @@ class Whiteboard {
     }
 
     mouseUp(e) { this.mouseMove(e); this.drawState = DRAW_MODE.PATH_END; }
-
     mouseLeave(e) { this.mouseUp(e); }
 
     addMouseListener(event, fn) { this.canvas.addEventListener(event, fn, false); }

@@ -1,9 +1,16 @@
 
 var request = require('request');
 
+const auth_url= 'http://auth.hasura/';
+const data_url = 'http://data.hasura/';
+const admin_headers = {
+	'Content-Type' : 'application/json;charset=utf-8',
+	'X-Hasura-Role' : 'admin',
+	'X-Hasura-User-Id' : 1
+};
+
 // Definition of all web routes here
 module.exports = function(app, io) {
-	//var auth_url= 'http://auth.hasura/';
 	var user_auth_token;
 	
 	app.get('/', function (req, res) {
