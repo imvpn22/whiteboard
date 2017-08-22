@@ -1,26 +1,26 @@
 <div class="pop-back">
 
 	<form class="login-form" id="signup_form">
-	<div class="pop-text">Sign-Up</div>
+		<div class="pop-text">Sign-Up</div>
 
 		<div class="form-item">
 			<label><i class="fa fa-user"></i></label>
-			<input type="text" id="su_name" placeholder="Name" autofocus></input>
+			<input type="text" id="su_name" placeholder="Name" autofocus required></input>
 		</div>
 
 		<div class="form-item">
 			<label><i class="fa fa-envelope"></i></label>
-			<input type="email" id="su_email" placeholder="Email"></input>
+			<input type="email" id="su_email" placeholder="Email" required></input>
 		</div>
 
 		<div class="form-item">
 			<label><i class="fa fa-user"></i></label>
-			<input type="text" id="su_uname" placeholder="Username"></input>
+			<input type="text" id="su_uname" placeholder="Username" required></input>
 		</div>
 
 		<div class="form-item">
 			<label><i class="fa fa-lock"></i></label>
-			<input type="password" id="su_pass" placeholder="Password"></input>
+			<input type="password" id="su_pass" placeholder="Password" required></input>
 		</div>
 
 			<!-- <div class="form-item">
@@ -40,10 +40,10 @@
 		<div class="form-item">
 			<input id="signup_btn" type="submit" value="Sign-Up">
 		</div>
-	<button id="back-btn" class="close"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>
-	<button class="close" id="close-signup"><i class="fa fa-times" aria-hidden="true"></i></button>
+		<button id="back-btn" class="close"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>
+		<button class="close" id="close-signup"><i class="fa fa-times" aria-hidden="true"></i></button>
 	</form>
-
+	<div class="feedback hidden" id="feedback_box"></div>
 </div>
 <script type="text/javascript">
 	$('#close-signup').on('click', function() {		
@@ -54,11 +54,37 @@
 	});
 
 	$("#signup_form").on("submit", (e) => {
-
 		e.preventDefault();
+		
+		let $fbox = $("#feedback_box");
+		let $sbtn = $("#signup_btn");
+
+		let txt = $sbtn.val();
+		$sbtn.val("Signing in...");
+		$sbtn.attr("disabled", true);
+
 		signup(
-			$("#su_name").val(), $("#su_uname").val(), $("#su_email").val(), $("#su_pass").val()
-			);
+			$("#su_name").val(), 
+			$("#su_uname").val(), 
+			$("#su_email").val(), 
+			$("#su_pass").val(),
+			(sdata) => {
+				$fbox.removeClass("hidden error"); $fbox.addClass("success");
+				$fbox.html("Signup successful. Redirecting to app...");
+
+				$sbtn.val(txt);
+				$sbtn.attr("disabled", false);
+				window.location.href = "/app";
+			},
+			(edata) => {
+				let obj = JSON.parse(edata);
+				$fbox.removeClass("hidden success"); $fbox.addClass("error");
+				$fbox.html("Signup error: " + obj["message"]);
+
+				$sbtn.val(txt);
+				$sbtn.attr("disabled", false);
+			}
+		);
 	});
 </script>
 
