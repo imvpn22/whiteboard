@@ -1,3 +1,4 @@
+
 $('#new-msg').keypress(function (e) {
 	if (e.which == 13) {
 		$('#send-msg').click();
