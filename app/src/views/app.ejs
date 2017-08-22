@@ -16,81 +16,81 @@
 	<script src="/assets/js/auth.js"></script>
 </head>
 <body>
-		<div class="header">
-			<!-- <button class="head-btn"><i class="fa fa-bars"></i></button> -->
-			<div class=nav-items>
-				<div class="nav-item nav-item-active" id="chat">
+	<div class="header">
+		<!-- <button class="head-btn"><i class="fa fa-bars"></i></button> -->
+		<div class=nav-items>
+			<div class="nav-item nav-item-active" id="chat">
 				Group Chat
-				</div>
-				<div class="nav-item" id="manage">
-					White Board
-				</div>
-				<div class="nav-item" id="groups">
-					Manage Groups
-				</div>
-				<div class="nav-item" id="profile">
-					User Profile
-				</div>
 			</div>
-			<!-- <button class="head-btn">logout<i class="fa fa-user" aria-hidden="true"></i></button> -->
+			<div class="nav-item" id="manage">
+				White Board
+			</div>
+			<div class="nav-item" id="groups">
+				Manage Groups
+			</div>
+			<div class="nav-item" id="profile">
+				User Profile
+			</div>
 		</div>
+		<!-- <button class="head-btn">logout<i class="fa fa-user" aria-hidden="true"></i></button> -->
+	</div>
 
 
-		<script type="text/javascript">
+	<script type="text/javascript">
 
-			$('#chat').on('click', function(){
-				$('#loding-div').toggleClass("hidden");
-				$('#main').load('/chat-content');
-				$('#chat').addClass("nav-item-active");
-				$('#groups').removeClass('nav-item-active');
-				$('#manage').removeClass('nav-item-active');
-				$('#profile').removeClass('nav-item-active');
-				$('#loding-div').toggleClass("hidden");
-			});
+		$('#chat').on('click', function(){
+			$('#loding-div').toggleClass("hidden");
+			$('#main').load('/chat-content');
+			$('#chat').addClass("nav-item-active");
+			$('#groups').removeClass('nav-item-active');
+			$('#manage').removeClass('nav-item-active');
+			$('#profile').removeClass('nav-item-active');
+			$('#loding-div').toggleClass("hidden");
+		});
 
-			$('#groups').on('click', function(){
-				$('#loding-div').toggleClass("hidden");
-				$('#main').load('/groups-content');	
-				$('#chat').removeClass("nav-item-active");
-				$('#groups').addClass("nav-item-active");
-				$('#manage').removeClass('nav-item-active');
-				$('#profile').removeClass('nav-item-active');
-				$('#loding-div').toggleClass("hidden");
-			});
+		$('#groups').on('click', function(){
+			$('#loding-div').toggleClass("hidden");
+			$('#main').load('/groups-content');	
+			$('#chat').removeClass("nav-item-active");
+			$('#groups').addClass("nav-item-active");
+			$('#manage').removeClass('nav-item-active');
+			$('#profile').removeClass('nav-item-active');
+			$('#loding-div').toggleClass("hidden");
+		});
 
-			$('#manage').on('click', function(){
-				$('#loding-div').toggleClass("hidden");
-				$('#main').load('/manage-content');	
-				$('#chat').removeClass('nav-item-active');
-				$('#groups').removeClass('nav-item-active');
-				$('#manage').addClass('nav-item-active');
-				$('#profile').removeClass('nav-item-active');
-				$('#loding-div').toggleClass("hidden");
-			});
+		$('#manage').on('click', function(){
+			$('#loding-div').toggleClass("hidden");
+			$('#main').load('/manage-content');	
+			$('#chat').removeClass('nav-item-active');
+			$('#groups').removeClass('nav-item-active');
+			$('#manage').addClass('nav-item-active');
+			$('#profile').removeClass('nav-item-active');
+			$('#loding-div').toggleClass("hidden");
+		});
 
-			$('#profile').on('click', function(){
-				$('#loding-div').toggleClass("hidden");
-				$('#main').load('/profile-content');
-				$('#chat').removeClass('nav-item-active');
-				$('#groups').removeClass('nav-item-active');
-				$('#manage').removeClass('nav-item-active');
-				$('#profile').addClass('nav-item-active');	
-				$('#loding-div').toggleClass("hidden");
-			});
-
-
-		</script>
-
-		<div id="loding-div" class="main hidden"> <i id="load-icon" class="fa fa-refresh fa-spin" aria-hidden="true"></i> <span>Loding</span> </div>
-		<div class="main" id="main">
-			
-			<% include partials/chat-content %>
+		$('#profile').on('click', function(){
+			$('#loding-div').toggleClass("hidden");
+			$('#main').load('/profile-content');
+			$('#chat').removeClass('nav-item-active');
+			$('#groups').removeClass('nav-item-active');
+			$('#manage').removeClass('nav-item-active');
+			$('#profile').addClass('nav-item-active');	
+			$('#loding-div').toggleClass("hidden");
+		});
 
 
-		</div>
+	</script>
+
+	<div id="loding-div" class="main hidden"> <i id="load-icon" class="fa fa-refresh fa-spin" aria-hidden="true"></i> <span>Loding</span> </div>
+	<div class="main" id="main">
+		
+		<% include partials/chat-content %>
+
+
+	</div>
 
 
 
 
-	</body>
-	</html>
+</body>
+</html>

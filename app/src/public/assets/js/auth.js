@@ -1,4 +1,9 @@
 
+var def_log = (e, err = true) => {
+    var dt = (new Date()).toLocaleString();
+    console.log("[" + (err ? "ERROR" : "INFO ") + " | " + dt + "]: " + e);
+}
+
 const def_headers = {
     "Content-Type": "application/json;charset=utf-8"
 }
@@ -55,16 +60,14 @@ var signup = (_name, _usern, _email, _password) => {
                 auth_token: user["auth_token"]
             });
 
-            // Save user data to server
+            // Save profile data to server
             let prof_data = {
                 "type": "insert",
                 "args": {
-                    "table": "user_info",
+                    "table": "profile",
                     "objects": [{
                         "id": app.user.id,
-                        "username": app.user.username,
-                        "name": app.user.name,
-                        "about": ""
+                        "name": app.user.name
                     }]
                 }
             };
@@ -73,17 +76,17 @@ var signup = (_name, _usern, _email, _password) => {
                 app.urls.data + "v1/query", JSON.stringify(prof_data), def_headers,
                 (sresp) => {
                     let resobj = JSON.parse(sresp);
-                    def_log(sresp, false);
+                    def_log(resobj["message"], false);
                     
                     def_log("Signup complete. Redirecting to app...", false);
                     window.location.href = "/app";
                 }
-            );
+                );
         },
         (edata) => {
             def_log("Signup failed. Please try again... (" + edata + ")");
         }
-    );
+        );
 }
 
 var login = (_usern, _password) => {
@@ -113,7 +116,7 @@ var login = (_usern, _password) => {
         (edata) => {
             def_log("Login failed. Please try again... (" + edata + ")");
         }
-    );
+        );
 }
 
 var logout = () => {
@@ -125,19 +128,22 @@ var logout = () => {
             def_log("User logged out", false);
             window.location.href = "/";
         }
-    );
+        );
     app.clearSession();
 }
 
 var get_profile = () => {
-    if (!app.user.token) {
-        console.log("Not logged in!");
+    if (!app.user.token){
+        alert("Not logged in !");
         return;
     } 
     
     ajaxp(
         app.urls.auth + "user/account/info", "", def_headers,
+        
         (sdata) => {
+            //def_log("Received data: " + sdata, false);
+
             let user = JSON.parse(sdata);
             document.getElementById("profile_username").innerHTML = user["username"];
             document.getElementById("profile_role").innerHTML = user["hasura_roles"];
@@ -149,75 +155,16 @@ var get_profile = () => {
         (edata) => {
             def_log("Get Profile Failed. Please try again... (" + edata + ")");
         }
-    );
+        );
 }
 
-var generic_ug_get = (filter_tbl, query_tbl, filter_col, query_col, filter_data, success, error) => {
-    success = success || def_log;
-    error = error || def_log;
-
-    let query = {
+var get_groups = () => {
+    // Get all groups of current user server
+    let prof_data = {
         "type": "select",
         "args": {
-            "table": filter_tbl,
-            "columns": [query_col],
-            "where": {}
-        }
-    };
-    query['args']['where'][filter_col] = filter_data;
-
-    ajaxp(
-        app.urls.data + "v1/query", JSON.stringify(query), def_headers,
-        (sresp) => {
-            let resobj = JSON.parse(sresp);
-
-            let id_list = [];
-            for (var i = 0; i < resobj.length; i++) {
-                id_list.push(resobj[i][query_col]);
-            }
-
-            let query = {
-                "type": "select",
-                "args": {
-                    "table": query_tbl,
-                    "columns": ["*"],
-                    "where": {
-                        "id": { "$in": id_list }
-                    }
-                }
-            };
-
-            ajaxp(
-                app.urls.data + "v1/query", JSON.stringify(query), def_headers,
-                (sdata) => { success(sdata, false); },
-                (edata) => { error(edata); }
-            );
-        }
-    );
-}
-
-var get_groups = (success, error) => {
-    if (!app.user.token) return undefined;
-    generic_ug_get("user_group", "group_info", "user_id", "group_id", app.user.id, success, error);
-}
-
-var get_users = (gid, success, error) => {
-    if (!app.user.token || !group_id) return undefined;
-    generic_ug_get("user_group", "user_info", "group_id", "user_id", gid, success, error);
-}
-
-var add_group = (group_name, success = def_log, error = def_log) => {
-    if (!app.user.token || !group_name) return undefined;
-
-    // Add a new group to server
-    let prof_data = {
-        "type": "insert",
-        "args": {
-            "table": "group_info",
-            "objects": [{
-                "name": group_name
-            }],
-            "returning": [ "id" ]
+            "table": "profile",
+            "columns": ["*"]
         }
     };
 
@@ -225,74 +172,76 @@ var add_group = (group_name, success = def_log, error = def_log) => {
         app.urls.data + "v1/query", JSON.stringify(prof_data), def_headers,
         (sresp) => {
             let resobj = JSON.parse(sresp);
-            def_log(sresp, false);
+            def_log(resobj["message"], false);
 
-            // Add returned group to user_group
-            let ug_data = {
-                "type": "insert",
-                "args": {
-                    "table": "user_group",
-                    "objects": [{
-                        "user_id": app.user.id,
-                        "group_id": resobj['returning'][0]['id'],
-                        "admin": true
-                    }]
-                }
-            };
-
-            ajaxp(
-                app.urls.data + "v1/query", JSON.stringify(ug_data), def_headers,
-                (sdata) => { success(sdata, false); },
-                (edata) => { error(edata); }
-            );
+            def_log("Got all groups", false);
         }
-    );
+        );
 }
 
-var add_user = (username, group_id, success = def_log, error = def_log) => {
-    if (!app.user.token || !username || !group_id) return undefined;
-
-    // Check if user exists
-    let query = {
-        "type": "select",
+var add_group = () => {
+    // Add a new group to server
+    let prof_data = {
+        "type": "insert",
         "args": {
-            "table": "user_info",
-            "columns": ["id"],
-            "where": {
-                "username": username
-            }
+            "table": "profile",
+            "objects": [{
+                "id": app.user.id,
+                "name": app.user.name
+            }]
         }
     };
 
     ajaxp(
-        app.urls.data + "v1/query", JSON.stringify(query), def_headers,
+        app.urls.data + "v1/query", JSON.stringify(prof_data), def_headers,
         (sresp) => {
             let resobj = JSON.parse(sresp);
-            def_log(sresp, false);
+            def_log(resobj["message"], false);
 
-            if (resobj.length === 0)
-                def_log("Username: " + username + " not available");
-            else {
-                let uid = resobj[0]["id"];
-
-                let ug_data = {
-                    "type": "insert",
-                    "args": {
-                        "table": "user_group",
-                        "objects": [{
-                            "user_id": uid,
-                            "group_id": group_id,
-                            "admin": false
-                        }]
-                    }
-                };
-
-                ajaxp(
-                    app.urls.data + "v1/query", JSON.stringify(ug_data), def_headers,
-                    (sdata) => { success(sdata, false); },
-                    (edata) => { error(edata); }
-                );
-            }
+            def_log("Signup complete. Redirecting to app...", false);
+            window.location.href = "/app";
         }
-    );
+        );
+}
+
+var get_users = () => {
+    // Get all groups of current user server
+    let prof_data = {
+        "type": "select",
+        "args": {
+            "table": "profile",
+            "columns": ["*"]
+        }
+    };
+
+    ajaxp(
+        app.urls.data + "v1/query", JSON.stringify(prof_data), def_headers,
+        (sresp) => {
+            let resobj = JSON.parse(sresp);
+            def_log(resobj["message"], false);
+
+            def_log("Got all groups", false);
+        }
+        );
+}
+
+var add_user = () => {
+    // Get all groups of current user server
+    let prof_data = {
+        "type": "select",
+        "args": {
+            "table": "profile",
+            "columns": ["*"]
+        }
+    };
+
+    ajaxp(
+        app.urls.data + "v1/query", JSON.stringify(prof_data), def_headers,
+        (sresp) => {
+            let resobj = JSON.parse(sresp);
+            def_log(resobj["message"], false);
+
+            def_log("Got all groups", false);
+        }
+        );
 }
