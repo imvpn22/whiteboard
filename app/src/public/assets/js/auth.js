@@ -32,7 +32,7 @@ var ajaxp = (_url, _data, _headers, success, error = def_log) => {
     xhr.send(_data);
 } 
 
-var signup = (_name, _usern, _email, _password) => {
+var signup = (_name, _usern, _email, _password, done, fail) => {
     // Populate user data
     app.setUserName(_usern);
     app.setUserInfo({ name: _name, email: _email });
@@ -75,18 +75,16 @@ var signup = (_name, _usern, _email, _password) => {
                     let resobj = JSON.parse(sresp);
                     def_log(sresp, false);
                     
-                    def_log("Signup complete. Redirecting to app...", false);
-                    window.location.href = "/app";
+                    // Call user callback
+                    done(sdata);
                 }
             );
         },
-        (edata) => {
-            def_log("Signup failed. Please try again... (" + edata + ")");
-        }
+        (edata) => { fail(edata); }
     );
 }
 
-var login = (_usern, _password) => {
+var login = (_usern, _password, done, fail) => {
     // Populate user data
     app.setUserName(_usern);
     
@@ -107,12 +105,10 @@ var login = (_usern, _password) => {
                 auth_token: user["auth_token"]
             });
             
-            def_log("Login complete. Redirecting to app...", false);
-            window.location.href = "/app";
+            // Call user callback
+            done(sdata);
         },
-        (edata) => {
-            def_log("Login failed. Please try again... (" + edata + ")");
-        }
+        (edata) => { fail(edata); }
     );
 }
 
