@@ -32,9 +32,35 @@
 	$('#open-signup').on('click', function(){
 		$('#main').load('/signup-content');
 	});
-	
+
 	$("#login_form").on("submit", (e) => {
 		e.preventDefault();
-		login($("#li_uname").val(), $("#li_pass").val());
+
+		let $fbox = $("#feedback_box");
+		let $lbtn = $("#login_btn");
+		
+		let txt = $lbtn.val();
+		$lbtn.val("Logging in...");
+		$lbtn.attr("disabled", true);
+
+		login(
+			$("#li_uname").val(), $("#li_pass").val(),
+			(sdata) => {
+				$fbox.removeClass("hidden error"); $fbox.addClass("success");
+				$fbox.html("Login successful. Redirecting to app...");
+
+				$lbtn.val(txt);
+				$lbtn.attr("disabled", false);
+				window.location.href = "/app";
+			},
+			(edata) => {
+				let obj = JSON.parse(edata);
+				$fbox.removeClass("hidden success"); $fbox.addClass("error");
+				$fbox.html("Login error: " + obj["message"]);
+
+				$lbtn.val(txt);
+				$lbtn.attr("disabled", false);
+			}
+		);
 	});
 </script>
