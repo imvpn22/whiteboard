@@ -15,25 +15,19 @@ class _appui {
         this.userAddBtn.addEventListener('click', () => {
             this.addUserToGroup(this.userAddText.value,
                 (sdata) => {
-                    this.userAddText.blur();
-                    this.userAddText.classList.remove('error-text');
-                    this.userAddText.classList.add('success-text');
-
-                    this.userAddText.value = 'User added successfully';
+                    toggleFeedbackTextClass(
+                        this.userAddText, "error-text", "success-text", "User added successfully"
+                    );
                 },
                 (edata) => {
-                    this.userAddText.blur();
-                    this.userAddText.classList.remove('success-text');
-                    this.userAddText.classList.add('error-text');
-
-                    this.userAddText.value = JSON.parse(edata)["message"];
+                    toggleFeedbackTextClass(
+                        this.userAddText, "success-text", "error-text", JSON.parse(edata)["message"]
+                    );
                 }
             );
         });
         this.userAddText.addEventListener('focus', () => {
-            this.userAddText.classList.remove('success-text');
-            this.userAddText.classList.remove('error-text');
-            this.userAddText.value = "";
+            resetFeedbackTextClass(this.userAddText, [ "success-text", "error-text" ]);
         });
 
         this.grpAddText = document.getElementsByName('new-grp')[0];
@@ -41,30 +35,26 @@ class _appui {
         this.grpAddBtn.addEventListener('click', () => {
             this.addGroup(this.grpAddText.value,
                 (sdata) => {
-                    this.grpAddText.blur();
-                    this.grpAddText.classList.remove('error-text');
-                    this.grpAddText.classList.add('success-text');
-
-                    this.grpAddText.value = 'Group added successfully';
+                    toggleFeedbackTextClass(
+                        this.grpAddText, "error-text", "success-text", "Group added successfully"
+                    );
                 },
                 (edata) => {
-                    this.grpAddText.blur();
-                    this.grpAddText.classList.remove('success-text');
-                    this.grpAddText.classList.add('error-text');
-
-                    this.grpAddText.value = JSON.parse(edata)["message"];
+                    toggleFeedbackTextClass(
+                        this.grpAddText, "success-text", "error-text", JSON.parse(edata)["message"]
+                    );
                 }
             );
         });
         this.grpAddText.addEventListener('focus', () => {
-            this.grpAddText.classList.remove('success-text');
-            this.grpAddText.classList.remove('error-text');
-            this.grpAddText.value = "";
+            resetFeedbackTextClass(this.grpAddText, [ "success-text", "error-text" ]);
         });
 
         this.defaultGroupItemHandler = (group, item) => {
             def_log("Retrieving chat history for #" + group.name, false);
             groupExSelect(item, 'group-panel-item', 'group-panel-item-active');
+            document.getElementById("chat_grp_title").innerHTML = group["name"];
+
             // chatui.setChatHistory(app.retrieveChatHistory(group));
         }
 
@@ -106,7 +96,11 @@ class _appui {
         this.refreshGroupList(
             this.groupNavList, 'group-panel-item', this.defaultGroupItemHandler,
             () => {
-                this.refreshGroupList(this.groupProfList, 'gl-item', this.defaultGroupProfItemHandler, null, false);
+                this.refreshGroupList(
+                    this.groupProfList, 'gl-item', this.defaultGroupProfItemHandler,
+                    () => { this.groupProfList.firstChild.click(); }, false
+                );
+                this.groupNavList.firstChild.click();
             }
         );
     }

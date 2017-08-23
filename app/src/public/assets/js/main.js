@@ -81,6 +81,7 @@ class _app {
 
 var app = new _app();
 
+// Utility functions
 var groupExSelect = (obj, groupSelector, activeKlass) => {
     let act = document.querySelectorAll('.' + groupSelector + '.' + activeKlass)[0];
 
@@ -89,4 +90,21 @@ var groupExSelect = (obj, groupSelector, activeKlass) => {
     obj.classList.toggle(activeKlass);
 }
 
-// export default (new app());
+var toggleFeedbackTextClass = (obj, rKlass, aKlass, text) => {
+    obj.blur();
+    obj.classList.remove(rKlass); obj.classList.add(aKlass);
+
+    if (text !== undefined && typeof text === "string")
+        obj.value = text;
+}
+
+var resetFeedbackTextClass = (obj, filterKlasses) => {
+    let shouldClear = false;
+    filterKlasses.map((klass) => {
+        if (!shouldClear && obj.classList.contains(klass))
+            shouldClear = true;
+        obj.classList.remove(klass);
+    });
+
+    if (shouldClear) obj.value = "";
+}

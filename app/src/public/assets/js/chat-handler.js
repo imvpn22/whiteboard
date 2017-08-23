@@ -41,7 +41,7 @@ $("#profile_btn").on("click", () => {
 	get_profile(
 		(sdata) => {
 			let data = JSON.parse(sdata);
-			console.log(data);
+
 			$('#profile_name').html(data["name"]);
 			$('#profile_username').html('@'+data["username"]);
 			$('#profile_about').html(data["about"]);
