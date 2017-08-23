@@ -16,11 +16,8 @@ module.exports = function(app, io) {
 	function requireLogin(req, res, next) {
 		user_auth_token = req.headers['x-hasura-session-id'];
 		if (user_auth_token === undefined) {
-			console.log("Not logged in");
-			//res.redirect("/");
-			res.send(req.headers); 
+			res.redirect("/"); 
 		} else {
-			console.log("Logged in. Redirecting ...");
 			next();
 		}
 	}
