@@ -75,8 +75,8 @@ var signup = (_name, _usern, _email, _password, success, error) => {
                     let resobj = JSON.parse(sresp);
                     def_log(sresp, false);
                     
-                    // Call user callback
-                    success(sdata);
+                    // Create a default group for new user
+                    add_group("PGroup (" + app.user.username + ")", () => { success(sdata); });
                 }
             );
         },
@@ -160,66 +160,71 @@ var get_profile = (success, error) => {
     );
 }
 
-var generic_ug_get = (filter_tbl, query_tbl, filter_col, query_col, filter_data, success, error) => {
-    success = success || def_log;
-    error = error || def_log;
-
+var get_groups = (success, error) => {
+    if (!app.user.token) return undefined;
+    
     let query = {
         "type": "select",
         "args": {
-            "table": filter_tbl,
-            "columns": query_col,
-            "where": {}
+            "table": "user_group",
+            "columns": [
+                {
+                    "name": "ug_group",
+                    "columns": [ "*" ]
+                }
+            ],
+            "where": { "user_id": app.user.id }
         }
-    };
-    query['args']['where'][filter_col] = filter_data;
+    }
 
     ajaxp(
         app.urls.data + "v1/query", JSON.stringify(query), def_headers,
-        (sresp) => {
-            let resobj = JSON.parse(sresp);
+        (sdata) => {
+            let groups = [];
+            let obj = JSON.parse(sdata);
 
-            let id_list = [];
-            for (var i = 0; i < resobj.length; i++) {
-                id_list.push(resobj[i][query_col[0]]);
-            }
-
-            let query = {
-                "type": "select",
-                "args": {
-                    "table": query_tbl,
-                    "columns": ["*"],
-                    "where": {
-                        "id": { "$in": id_list }
-                    }
-                }
-            };
-
-            ajaxp(
-                app.urls.data + "v1/query", JSON.stringify(query), def_headers,
-                (sdata) => {
-                    // Append extra queried data
-                    let obj = JSON.parse(sdata);
-                    for (var i = 0; i < obj.length; i++) {
-                        for (var j = 1; j < query_col.length; j++)
-                            obj[i][query_col[j]] = resobj[i][query_col[j]];
-                    }
-                    success(JSON.stringify(obj), false);
-                },
-                (edata) => { error(edata); }
-            );
-        }
+            obj.map((o) => { groups.push(o["ug_group"]); });
+            success(JSON.stringify(groups));
+        },
+        error
     );
-}
-
-var get_groups = (success, error) => {
-    if (!app.user.token) return undefined;
-    generic_ug_get("user_group", "group_info", "user_id", ["group_id"], app.user.id, success, error);
 }
 
 var get_users = (gid, success, error) => {
     if (!app.user.token || !gid) return undefined;
-    generic_ug_get("user_group", "user_info", "group_id", ["user_id", "admin"], gid, success, error);
+    
+    let query = {
+        "type": "select",
+        "args": {
+            "table": "user_group",
+            "columns": [
+                "admin",
+                {
+                    "name": "ug_user",
+                    "columns": [ "username", "name" ]
+                }
+            ],
+            "where": { "group_id": gid }
+        }
+    }
+
+    ajaxp(
+        app.urls.data + "v1/query", JSON.stringify(query), def_headers,
+        (sdata) => {
+            let users = [];
+            let obj = JSON.parse(sdata);
+
+            obj.map((o) => {
+                users.push({
+                    "name": o["ug_user"]["name"],
+                    "username": o["ug_user"]["username"],
+                    "admin": o["admin"]
+                });
+            });
+            success(JSON.stringify(users));
+        },
+        error
+    );
 }
 
 var add_group = (group_name, success = def_log, error = def_log) => {
