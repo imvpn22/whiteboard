@@ -190,8 +190,8 @@ var get_groups = (success, error) => {
     );
 }
 
-var get_users = (gid, success, error) => {
-    if (!app.user.token || !gid) return undefined;
+var get_users = (group_id, success, error) => {
+    if (!app.user.token || !group_id) return undefined;
     
     let query = {
         "type": "select",
@@ -204,7 +204,7 @@ var get_users = (gid, success, error) => {
                     "columns": [ "username", "name" ]
                 }
             ],
-            "where": { "group_id": gid }
+            "where": { "group_id": group_id }
         }
     }
 
@@ -314,5 +314,54 @@ var add_user = (username, group_id, success = def_log, error = def_log) => {
                 );
             }
         }
+    );
+}
+
+var dispatch_message = (message, success, error) => {
+    if (!message || message.length === 0)
+        error("Invalid arguments");
+
+    let query = {
+        "type": "insert",
+        "args": {
+            "table": "message",
+            "objects": [{
+                "body": message,
+                "author_id": app.user.id,
+                "group_id": app.groups.active
+            }]
+        }
+    };
+
+    ajaxp(
+        app.urls.data + "v1/query", JSON.stringify(query), def_headers,
+        success, error
+    );
+}
+
+var retrieve_chat_history = (group_id, success, error) => {
+    if (!group_id || typeof group_id !== "number") error("Invalid arguments");
+
+    let query = {
+        "type": "select",
+        "args": {
+            "table": "group_info",
+            "columns": [ "id", "name",
+                {
+                    "name": "gi_messages",
+                    "columns": [ "body", "created",
+                        { "name": "msg_author", "columns": [ "id", "username" ] }
+                    ],
+                    "order_by": "+created"
+                }
+            ],
+            "where": { "id": group_id }
+        }
+    };
+
+    ajaxp(
+        app.urls.data + "v1/query", JSON.stringify(query), def_headers,
+        (sdata) => { success(JSON.stringify(JSON.parse(sdata)[0])); },
+        error
     );
 }

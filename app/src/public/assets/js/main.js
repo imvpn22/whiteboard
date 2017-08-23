@@ -32,7 +32,7 @@ class _app {
             data: "https://data." + this.config.project + ".hasura-app.io/"
         }
 
-        this.groups = { data: [], dirty: true };
+        this.groups = { data: [], dirty: true, active: 0 };
     }
 
     setUserName(username) {

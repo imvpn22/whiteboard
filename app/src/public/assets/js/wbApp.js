@@ -53,9 +53,13 @@ class _appui {
         this.defaultGroupItemHandler = (group, item) => {
             def_log("Retrieving chat history for #" + group.name, false);
             groupExSelect(item, 'group-panel-item', 'group-panel-item-active');
+            
             document.getElementById("chat_grp_title").innerHTML = group["name"];
+            app.groups.active = group['id'];
 
-            // chatui.setChatHistory(app.retrieveChatHistory(group));
+            retrieve_chat_history(group['id'], (sdata) => {
+                chatui.poplulateChat(JSON.parse(sdata)["gi_messages"]);
+            }, def_log);
         }
 
         this.defaultGroupProfItemHandler = (group, item) => {
@@ -63,7 +67,6 @@ class _appui {
             groupExSelect(item, 'gl-item', 'gl-item-active');
 
             this.groupProfListConfig.active = group['id'];
-            def_log("Setting active group id to: " + group['id'], false);
             this.refreshUserList();
         }
     }
