@@ -72,6 +72,7 @@ class _app {
     
     clearUser() {
         this.user = anonUser;
+        this.groups.data = []; this.groups.dirty = true;
         this.saveUser();
     }
     
