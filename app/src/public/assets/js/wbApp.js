@@ -1,4 +1,4 @@
-
+    
 class _chatui {
 
 }
@@ -11,16 +11,50 @@ class _appui {
         this.groupProfListConfig = { active: 0 }
 
         this.defaultGroupItemHandler = (group) => {
-            console.log("Retrieving chat history for #" + group.name);
+            def_log("Retrieving chat history for #" + group.name, false);
             // chatui.setChatHistory(app.retrieveChatHistory(group));
         }
 
         this.defaultGroupProfItemHandler = (group) => {
-            console.log("Retrieving user data for #" + group.name);
+            def_log("Retrieving user data for #" + group.name, false);
 
             this.groupProfListConfig.active = group['id'];
+            def_log("Setting active group id to: " + group['id'], false);
             this.refreshUserList();
         }
+    }
+
+    /* @async */
+    addUserToGroup(username, success, error) {
+        add_user(
+            username, this.groupProfListConfig.active,
+            (sdata) => {
+                this.refreshUserList();
+                if (success && typeof success === 'function') success();
+            },
+            (edata) => {
+                if (error && typeof error === 'function') error();
+            }
+        );
+    }
+
+    /* @async */
+    addGroup(group_name, success, error) {
+        add_group(
+            group_name,
+            (sdata) => { this.forceGlobalGroupRefresh(); success(sdata); },
+            (edata) => { error(edata); }
+        );
+    }
+
+    forceGlobalGroupRefresh() {
+        app.groups.dirty = true;
+        this.refreshGroupList(
+            this.groupNavList, 'group-panel-item', this.defaultGroupItemHandler,
+            () => {
+                this.refreshGroupList(this.groupProfList, 'gl-item', this.defaultGroupProfItemHandler, null, false);
+            }
+        );
     }
 
     /* @asycn */
@@ -30,7 +64,7 @@ class _appui {
             let fMap = {
                 0: (user) => user['username'],
                 1: (user) => user['name'],
-                2: (user) => user['admin'] ? 'Admin' : 'Member'
+                2: (user) => user['admin'] ? 'Leader' : 'Member'
             }
 
             // Clear current list
@@ -86,11 +120,4 @@ class _appui {
 var appui = new _appui();
 var chatui = new _chatui();
 
-window.addEventListener('load', () => {
-    appui.refreshGroupList(
-        appui.groupNavList, 'group-panel-item', appui.defaultGroupItemHandler,
-        () => {
-            appui.refreshGroupList(appui.groupProfList, 'gl-item', appui.defaultGroupProfItemHandler, null, false);
-        }
-    );
-}, false);
+window.addEventListener('load', () => { appui.forceGlobalGroupRefresh(); }, false);
