@@ -7,7 +7,7 @@ $('#new-msg').keypress(function (e) {
 });
 
 $('#send-msg').on('click', function(){
-	$('#chats').append(' <div class="msg you-sent"><span class="msg-owner">You : </span>				<span class="msg-text">' + $("#new-msg").val() + ' </span></div>');
+	$('#chats').append(' <div class="msg you-sent"><span class="msg-text">' + $("#new-msg").val() + ' </span></div>');
 	$('#new-msg').val("");
 });
 
@@ -29,6 +29,7 @@ $('#user_btn').on('click', function(){
 /* Logout event */
 $("#logout_btn").on("click", (e) => {
 	e.preventDefault();
+	$("#logout_btn").html("<span>Logging out ...</span>");
 	logout()
 });
 
