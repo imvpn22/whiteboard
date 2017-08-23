@@ -89,17 +89,13 @@
   position: relative;
 }
 .chats{
-  /*border: 1px solid #fff; */
-  /* height: 100%; */
-  overflow-y: auto;
-  /* display: flex; */
-  /* flex-direction: column; */
-  /* flex-wrap: wrap; */
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column !important;
   position: absolute;
-  top: 0;
+  top: 0px;
   bottom: 3em;
   width: 100%;
-  /* background-image: url(https://storage.googleapis.com/gweb-uniblog-publish-prod/images/Background.2e16d0ba.fill-1422x800.jpg); */
   background-color: rgba(252, 252, 252, 0.9);
 }
 .msg-bar{
@@ -116,7 +112,6 @@
  width: 100%;
 }
 .new-attach, .new-msg, .send-msg {
-  /*border: 1px solid #969696;*/
   background: #fff;
   height: 2em;
   border-radius: 5em;
@@ -132,7 +127,6 @@
   cursor: pointer;
 }
 .new-attach:hover, .send-msg:hover {
-  /*background-color: #fff;*/
   color: #0f0;
   text-shadow: 0 0 1em #fff;
 }
@@ -149,30 +143,33 @@
   margin-right: 2em;
 }
 .msg {
-  /*border: 1px solid #777;*/
-  font-size: .9em;    
+  font-size: .9em;
+  margin: .3em 1em;
+  border-radius: 0 2em 2em;
+  background: #eee;
+  padding: .5em 1em;
+  box-sizing: border-box;
+  font-size: 13px;
   display: flex;
-  margin: 1em;
+  flex-direction: column;
+  align-self: end;
 }
 
 .you-sent {
   justify-content: flex-end;
+  background: #444;
+  color: #fff;
+  align-self: flex-end;
+  border-radius: 2em 2em 0 !important;
+  margin: 1px 1em !important;
+  flex-direction: row-reverse;
 }
 
 .msg-owner{
-  display: flex;
-  background-color: #eee;
-  padding: 0 1em;
-  /* min-width: 10%; */
-  border-radius: 2em 0 0 2em;
   font-weight: 600;
-  justify-content: center;
-  align-items: center;
 }
 .msg-text{
-  padding: .5em 1em .5em 0;
-  background-color: #eeeeee;
-  border-radius: 0 2em 2em 0;
+  font-weight: 100;
 }
 
 /* Style for loding div */
