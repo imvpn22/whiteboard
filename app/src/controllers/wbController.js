@@ -1,34 +1,36 @@
 
 var request = require('request');
 
-const auth_url= 'http://auth.hasura/';
-const data_url = 'http://data.hasura/';
-const admin_headers = {
-	'Content-Type' : 'application/json;charset=utf-8',
-	'X-Hasura-Role' : 'admin',
-	'X-Hasura-User-Id' : 1
-};
+// const auth_url= 'http://auth.hasura/';
+// const data_url = 'http://data.hasura/';
+// const admin_headers = {
+// 	'Content-Type' : 'application/json;charset=utf-8',
+// 	'X-Hasura-Role' : 'admin',
+// 	'X-Hasura-User-Id' : 1
+// };
 
 // Definition of all web routes here
 module.exports = function(app, io) {
 	var user_auth_token;
 	
+	function requireLogin(req, res, next) {
+		user_auth_token = req.headers['x-hasura-session-id'];
+		if (user_auth_token === undefined) {
+			console.log("Not logged in");
+			//res.redirect("/");
+			res.send(req.headers); 
+		} else {
+			console.log("Logged in. Redirecting ...");
+			next();
+		}
+	}
+
 	app.get('/', function (req, res) {
-		// user_auth_token = req.headers['x-hasura-session-id'];		
-		// if (user_auth_token === undefined) {
-		 	res.render('base');
-		// } else {
-		// 	res.render('whiteboard');
-		// }
+		res.render('base');
 	});
 
-	app.get('/app', function (req, res) {
-		// user_auth_token = req.headers['x-hasura-session-id'];		
-		// if (user_auth_token === undefined) {
-		// 	res.render('base');
-		// } else {
-		 	res.render('whiteboard');
-		// }
+	app.get('/app', requireLogin, function (req, res) {
+		res.render('whiteboard');
 	});
 
 	app.get('/welcome-msg', function (req, res) {
