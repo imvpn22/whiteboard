@@ -32,7 +32,7 @@ var ajaxp = (_url, _data, _headers, success, error = def_log) => {
     xhr.send(_data);
 } 
 
-var signup = (_name, _usern, _email, _password, done, fail) => {
+var signup = (_name, _usern, _email, _password, success, error) => {
     // Populate user data
     app.setUserName(_usern);
     app.setUserInfo({ name: _name, email: _email });
@@ -76,15 +76,15 @@ var signup = (_name, _usern, _email, _password, done, fail) => {
                     def_log(sresp, false);
                     
                     // Call user callback
-                    done(sdata);
+                    success(sdata);
                 }
             );
         },
-        (edata) => { fail(edata); }
+        (edata) => { error(edata); }
     );
 }
 
-var login = (_usern, _password, done, fail) => {
+var login = (_usern, _password, success, error) => {
     // Populate user data
     app.setUserName(_usern);
     
@@ -106,9 +106,9 @@ var login = (_usern, _password, done, fail) => {
             });
             
             // Call user callback
-            done(sdata);
+            success(sdata);
         },
-        (edata) => { fail(edata); }
+        (edata) => { error(edata); }
     );
 }
 
@@ -125,26 +125,38 @@ var logout = () => {
     app.clearSession();
 }
 
-var get_profile = () => {
-    if (!app.user.token) {
-        console.log("Not logged in!");
-        return;
-    } 
+var get_profile = (success, error) => {
+    if (!app.user.token) { error("User not logged in"); return; }
+
+    let query = {
+        "type": "select",
+        "args": {
+            "table": "user_info",
+            "columns": [ "name", "about" ],
+            "where": {
+                "id": app.user.id
+            }
+        }
+    }
     
     ajaxp(
-        app.urls.auth + "user/account/info", "", def_headers,
+        app.urls.data + "v1/query", JSON.stringify(query), def_headers,
         (sdata) => {
-            let user = JSON.parse(sdata);
-            document.getElementById("profile_username").innerHTML = user["username"];
-            document.getElementById("profile_role").innerHTML = user["hasura_roles"];
-            document.getElementById("profile_email").innerHTML = user["email"];
-            document.getElementById("profile_mobile").innerHTML = user["mobile"];
-            document.getElementById("profile_id").innerHTML = user["hasura_id"];
-            document.getElementById("profile_token").innerHTML = user["auth_token"];           
+            ajaxp(app.urls.auth + "user/account/info", "", def_headers,
+                (sresp) => {
+                    let acc_info = JSON.parse(sresp);
+                    let usr_info = JSON.parse(sdata)[0];
+
+                    let usr_obj = {};
+                    ["name", "about"].map((x) => { usr_obj[x] = usr_info[x]; });
+                    ["username", "email", "mobile"].map((x) => { usr_obj[x] = acc_info[x]; });
+
+                    success(JSON.stringify(usr_obj));
+                },
+                error
+            );
         },
-        (edata) => {
-            def_log("Get Profile Failed. Please try again... (" + edata + ")");
-        }
+        error
     );
 }
 
@@ -156,7 +168,7 @@ var generic_ug_get = (filter_tbl, query_tbl, filter_col, query_col, filter_data,
         "type": "select",
         "args": {
             "table": filter_tbl,
-            "columns": [query_col],
+            "columns": query_col,
             "where": {}
         }
     };
@@ -169,7 +181,7 @@ var generic_ug_get = (filter_tbl, query_tbl, filter_col, query_col, filter_data,
 
             let id_list = [];
             for (var i = 0; i < resobj.length; i++) {
-                id_list.push(resobj[i][query_col]);
+                id_list.push(resobj[i][query_col[0]]);
             }
 
             let query = {
@@ -185,7 +197,15 @@ var generic_ug_get = (filter_tbl, query_tbl, filter_col, query_col, filter_data,
 
             ajaxp(
                 app.urls.data + "v1/query", JSON.stringify(query), def_headers,
-                (sdata) => { success(sdata, false); },
+                (sdata) => {
+                    // Append extra queried data
+                    let obj = JSON.parse(sdata);
+                    for (var i = 0; i < obj.length; i++) {
+                        for (var j = 1; j < query_col.length; j++)
+                            obj[i][query_col[j]] = resobj[i][query_col[j]];
+                    }
+                    success(JSON.stringify(obj), false);
+                },
                 (edata) => { error(edata); }
             );
         }
@@ -194,12 +214,12 @@ var generic_ug_get = (filter_tbl, query_tbl, filter_col, query_col, filter_data,
 
 var get_groups = (success, error) => {
     if (!app.user.token) return undefined;
-    generic_ug_get("user_group", "group_info", "user_id", "group_id", app.user.id, success, error);
+    generic_ug_get("user_group", "group_info", "user_id", ["group_id"], app.user.id, success, error);
 }
 
 var get_users = (gid, success, error) => {
-    if (!app.user.token || !group_id) return undefined;
-    generic_ug_get("user_group", "user_info", "group_id", "user_id", gid, success, error);
+    if (!app.user.token || !gid) return undefined;
+    generic_ug_get("user_group", "user_info", "group_id", ["user_id", "admin"], gid, success, error);
 }
 
 var add_group = (group_name, success = def_log, error = def_log) => {
@@ -264,10 +284,9 @@ var add_user = (username, group_id, success = def_log, error = def_log) => {
         app.urls.data + "v1/query", JSON.stringify(query), def_headers,
         (sresp) => {
             let resobj = JSON.parse(sresp);
-            def_log(sresp, false);
 
             if (resobj.length === 0)
-                def_log("Username: " + username + " not available");
+                error("{\"message\": \"Username not found\"}");
             else {
                 let uid = resobj[0]["id"];
 
