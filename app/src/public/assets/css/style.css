@@ -64,10 +64,10 @@ body {
 .user-popup{
     position: absolute;
     right: 0.5em;
-    top: 2.5em;
+    top: 2em;
     display: flex;
     flex-direction: column;
-    /* width: 100px; */
+    width: 100px;
     background: #fff;
     border-radius: 3px;
     color: #808080;
@@ -75,10 +75,14 @@ body {
 }
 .user-popup-item{
     padding: .5em;
-    text-align: right;
-    border-bottom: 1px solid #eee;
+    /* text-align: center; */
+    /* border-bottom: 1px solid #eee; */
     font-size: .8em;
     cursor: pointer;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 1.7em;
 }
 .user-popup-item:hover{
     color: #333;
@@ -403,12 +407,22 @@ button {
     box-shadow: 0 0 6px #777;
 }
 .success{
-    border-color: #628a62;
-    background-color: #80c183;
+    border-color: #628a62 !important;
+    background-color: #72ca8e !important;
+}
+.success-text{
+    border-color: #00bc58 !important;
+    color: #00bc58 !important;
+    background-color: #d1ffe6 !important;
 }
 .error{
-    border-color: #e85a5a;
-    background-color: #ff6363;
+    border-color: #e85a5a !important;
+    background-color: #ff6363 !important;
+}
+.error-text{
+    border-color: #ff2861 !important;
+    color: #ff2861 !important;
+    background-color: #ffe5eb !important;
 }
 
 /* Style for nav items */

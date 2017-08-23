@@ -33,11 +33,25 @@ $("#logout_btn").on("click", (e) => {
 });
 
 /* Open profile page */	
-$("#profile_btn").on("click", (e) => {
-	// e.preventDefault();
-	// get_profile();
+$("#profile_btn").on("click", () => {
 	$('#gp_con').removeClass('hidden');
 	$('#p_con').removeClass('hidden');
+
+	get_profile(
+		(sdata) => {
+			let data = JSON.parse(sdata);
+			console.log(data);
+			$('#profile_name').html(data["name"]);
+			$('#profile_username').html('@'+data["username"]);
+			$('#profile_about').html(data["about"]);
+			$('#profile_email').html(data["email"]);
+			$('#profile_mobile').html(data["mobile"]);
+			$('#profile_id').html(app.user.id);
+		},
+		(edata) => {
+
+		}
+	);
 });
 
 /* Open Groups Page */
@@ -51,5 +65,4 @@ $('#c_gp_con').on('click', function(){
 	$('#gp_con').addClass('hidden');
 	$('#p_con').addClass('hidden');
 	$('#g_con').addClass('hidden');
-	// get_profile();
 });

@@ -124,14 +124,6 @@ class Whiteboard {
 }
 
 var canvasInit = () => {
-    let groupExSelect = (obj, groupSelector, activeKlass) => {
-        let act = document.querySelectorAll('.' + groupSelector + '.' + activeKlass)[0];
-
-        if (act.classList.contains(activeKlass))
-            act.classList.toggle(activeKlass);
-        obj.classList.toggle(activeKlass);
-    }
-
     clrBox = document.querySelectorAll('.clr-box');
     clrBox.forEach(function (v) {
         v.addEventListener('click', () => {

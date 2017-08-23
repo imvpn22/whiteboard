@@ -26,7 +26,7 @@ module.exports = function(app, io) {
 		res.render('base');
 	});
 
-	app.get('/app', requireLogin, function (req, res) {
+	app.get('/app', function (req, res) {
 		res.render('whiteboard');
 	});
 

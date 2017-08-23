@@ -57,7 +57,7 @@
 .group-panel-item:hover{
   color: #fff;
 }
-.active {
+.group-panel-item-active {
   background-color: #222;
   colour:#fff;
 }
@@ -310,11 +310,14 @@
   justify-content: center;
   align-items: center;
 }
-.gp-con-item {
+.g-con, .p-con {
   position: absolute;
   top: 2em; bottom: 2em;
   left: 2em; right: 2em;
   display: flex;
   background-color: #eee;
   padding: 1em;
+}
+.p-con{
+  flex-direction: column;
 }

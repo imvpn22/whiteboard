@@ -10,13 +10,67 @@ class _appui {
         this.groupUserList = document.getElementById('gi_user_list');
         this.groupProfListConfig = { active: 0 }
 
-        this.defaultGroupItemHandler = (group) => {
+        this.userAddText = document.getElementsByName('new-usr')[0];
+        this.userAddBtn = document.getElementById('add_usr_btn');
+        this.userAddBtn.addEventListener('click', () => {
+            this.addUserToGroup(this.userAddText.value,
+                (sdata) => {
+                    this.userAddText.blur();
+                    this.userAddText.classList.remove('error-text');
+                    this.userAddText.classList.add('success-text');
+
+                    this.userAddText.value = 'User added successfully';
+                },
+                (edata) => {
+                    this.userAddText.blur();
+                    this.userAddText.classList.remove('success-text');
+                    this.userAddText.classList.add('error-text');
+
+                    this.userAddText.value = JSON.parse(edata)["message"];
+                }
+            );
+        });
+        this.userAddText.addEventListener('focus', () => {
+            this.userAddText.classList.remove('success-text');
+            this.userAddText.classList.remove('error-text');
+            this.userAddText.value = "";
+        });
+
+        this.grpAddText = document.getElementsByName('new-grp')[0];
+        this.grpAddBtn = document.getElementById('add_grp_btn');
+        this.grpAddBtn.addEventListener('click', () => {
+            this.addGroup(this.grpAddText.value,
+                (sdata) => {
+                    this.grpAddText.blur();
+                    this.grpAddText.classList.remove('error-text');
+                    this.grpAddText.classList.add('success-text');
+
+                    this.grpAddText.value = 'Group added successfully';
+                },
+                (edata) => {
+                    this.grpAddText.blur();
+                    this.grpAddText.classList.remove('success-text');
+                    this.grpAddText.classList.add('error-text');
+
+                    this.grpAddText.value = JSON.parse(edata)["message"];
+                }
+            );
+        });
+        this.grpAddText.addEventListener('focus', () => {
+            this.grpAddText.classList.remove('success-text');
+            this.grpAddText.classList.remove('error-text');
+            this.grpAddText.value = "";
+        });
+
+        this.defaultGroupItemHandler = (group, item) => {
             def_log("Retrieving chat history for #" + group.name, false);
+            groupExSelect(item, 'group-panel-item', 'group-panel-item-active');
             // chatui.setChatHistory(app.retrieveChatHistory(group));
         }
 
-        this.defaultGroupProfItemHandler = (group) => {
+        this.defaultGroupProfItemHandler = (group, item) => {
             def_log("Retrieving user data for #" + group.name, false);
+            groupExSelect(item, 'gl-item', 'gl-item-active');
 
             this.groupProfListConfig.active = group['id'];
             def_log("Setting active group id to: " + group['id'], false);
@@ -30,10 +84,10 @@ class _appui {
             username, this.groupProfListConfig.active,
             (sdata) => {
                 this.refreshUserList();
-                if (success && typeof success === 'function') success();
+                if (success && typeof success === 'function') success(sdata);
             },
             (edata) => {
-                if (error && typeof error === 'function') error();
+                if (error && typeof error === 'function') error(edata);
             }
         );
     }
@@ -103,7 +157,7 @@ class _appui {
 
                 // Set up custom attributes for mapping to group objects
                 gitem.setAttribute('data-gid', group['id']);
-                gitem.addEventListener('click', callback.bind(this, group), false);
+                gitem.addEventListener('click', callback.bind(this, group, gitem), false);
 
                 // Append child to list
                 list.appendChild(gitem);

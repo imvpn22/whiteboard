@@ -81,4 +81,12 @@ class _app {
 
 var app = new _app();
 
+var groupExSelect = (obj, groupSelector, activeKlass) => {
+    let act = document.querySelectorAll('.' + groupSelector + '.' + activeKlass)[0];
+
+    if (act && act.classList.contains(activeKlass))
+        act.classList.toggle(activeKlass);
+    obj.classList.toggle(activeKlass);
+}
+
 // export default (new app());
