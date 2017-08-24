@@ -25,7 +25,7 @@ module.exports = function(app, io, groups, sock_nsp) {
 	}
 
 	// GET routes
-	app.get('/', fastForward, function (req, res) {
+	app.get('/', function (req, res) {
 		res.render('base');
 	});
 	app.get('/app', requireLogin, function (req, res) {
