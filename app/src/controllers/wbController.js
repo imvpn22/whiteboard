@@ -1,13 +1,44 @@
 
 var request = require('request');
 
-// const auth_url= 'http://auth.hasura/';
-// const data_url = 'http://data.hasura/';
-// const admin_headers = {
-// 	'Content-Type' : 'application/json;charset=utf-8',
-// 	'X-Hasura-Role' : 'admin',
-// 	'X-Hasura-User-Id' : 1
-// };
+const auth_url= 'http://auth.hasura/';
+const data_url = 'http://data.hasura/';
+const admin_headers = {
+	'Content-Type' : 'application/json;charset=utf-8',
+	'X-Hasura-Role' : 'admin',
+	'X-Hasura-User-Id' : 1
+};
+
+var get_server_groups = (req, res) => {
+	var options = {
+		url: data_url + 'v1/query',
+		method: 'POST',
+		headers: admin_headers,
+		body: {
+			"args": {
+				"table": "group_info",
+				"columns": [ "id", "name" ]
+			},
+			"type": "select"
+		}
+	}
+
+	request(options, function(err, response, body) {
+		if (err) {
+			console.error("Could not connect to APIs : " + err);
+			res.status(500).send('Internal error: ' + err);
+			return;
+		}
+
+		if (response.statusCode !== 200) {
+			console.error('Auth API bad request');
+			res.status(500).send('Internal error: Could not connect to auth APIs');
+			return;
+		}
+
+		if (response.statusCode === 200) { res.send(body); }
+	});
+};
 
 // Definition of all web routes here
 module.exports = function(app, io) {
@@ -39,6 +70,7 @@ module.exports = function(app, io) {
 	app.get('/signup-content', function (req, res) {
 		res.render('partials/signup-content');
 	});
+	app.get('/groups', get_server_groups);
 
 	// Socket routes
 	io.on('connection', (socket) => {
@@ -55,42 +87,3 @@ module.exports = function(app, io) {
 		});
 	});
 };
-
-
-// Verify user token
-		/*var headers = {
-			'Content-Type' : 'application/json',
-			'X-Hasura-Role' : 'admin',
-			'X-Hasura-User-Id' : 1
-		};
-
-		var options = {
-			url : auth_url + 'user/account/info',
-			method : 'POST',
-			headers : headers
-		}
-
-		request(options, function(err, response, body){
-			if(err) {
-				console.error("Could not connect to APIs : " + err);
-				res.status(500).send('Internal error : ' + err);
-				return;
-			}
-
-			if (response.statusCode !== 200) {
-				console.error('Auth API bad request');
-				res.status(500).send('Internal error : Could not connect to auth APIs');
-				return;
-			}
-			
-			if (response.statusCode === 200) {
-				let user_data = JSON.parse(body);
-				let token = user_data['auth_token'];
-				if (token === user_auth_token) {
-					res.render('app');
-				} else {
-					res.render('base');
-				}
-
-			}
-		});*/

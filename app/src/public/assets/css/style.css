@@ -55,7 +55,7 @@ body {
     align-items: center;
     padding:1em 1em .8em 1em; 
     background: none !important;
-    color:#7d7d7d;
+    color:#fff;
     position:absolute;
     z-index: 1000;
 }

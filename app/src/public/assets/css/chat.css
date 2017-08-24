@@ -78,11 +78,20 @@
 
   border: 1px solid #ddd;
 }
+
+#chat_grp_title {
+  font-weight: bold;
+  padding: 0.3em 1em;
+  border-radius: 20em;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
 .chat-nav{
   height: 3em;
   width: 100%;
   /*border-bottom: 1px solid #ddd;*/ 
-  background: #ddd; 
+  background-color: #2f2f2f;
+  color: #fff;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -166,6 +175,7 @@
   /*margin: 1px 1em !important;*/
   flex-direction: row-reverse;
   min-height: 2.1em;
+  padding-left: 2em; margin-left: 15%;
 }
 
 .msg-owner{

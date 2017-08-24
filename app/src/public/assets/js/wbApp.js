@@ -39,14 +39,14 @@ class _chatui {
                 // Invalidate message buffer for current group,
                 // so that it's updated on next bulk retrieval
                 this.chatMap[app.groups.active]["dirty"] = true;
-                console.log("Message successfully sent");
+                def_log("Message successfully sent", false);
             },
-            (edata) => { console.log("Error sending message"); }
+            (edata) => { def_log("Error sending message"); }
         );
     }
 
     poplulateChat(group_id, msgArray) {
-        // Cache messages to keep from unnecessary API calls
+        // Cache messages to prevent unnecessary API calls
         this.chatMap[group_id] = { "msgs": msgArray, "dirty": false };
     }
 
