@@ -9,7 +9,8 @@ const port = process.env.PORT || 8080;
 
 var app = express();
 var server = require('http').Server(app);
-var io = require('socket.io')(server, { 'transports': ['polling'] });
+// var io = require('socket.io')(server, { 'transports': ['polling'] });
+var io = require('socket.io')(server);
 var path = require('path');
 
 // Set up template engine
