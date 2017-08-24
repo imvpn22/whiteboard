@@ -1,6 +1,74 @@
     
 class _chatui {
+    constructor() {
+        this.chatMap = {}
+        this.chatThread = document.getElementById("chats");
+    }
 
+    createMsgElement(message, isSource, author = "") {
+        let msgItem = document.createElement('div');
+        msgItem.classList.add('msg');
+
+        let msgText = document.createElement('span');
+        msgText.classList.add('msg-text');
+        msgText.innerHTML = message;
+
+        let msgOwner = null;
+        if (isSource) {
+            // Current user is the message author
+            msgItem.classList.add('you-sent');
+        } else {
+            // External user
+            msgOwner = document.createElement('span');
+            msgOwner.classList.add('msg-owner');
+            msgOwner.innerHTML = author;
+        }
+
+        if (msgOwner !== null) msgItem.appendChild(msgOwner);
+        msgItem.appendChild(msgText);
+        return msgItem;
+    }
+
+    pushMessage(message, author) {
+        let msgItem = this.createMsgElement(message, author.id === app.user.id, author.username);
+        this.chatThread.appendChild(msgItem);
+
+        dispatch_message(
+            message, app.groups.active,
+            (sdata) => {
+                // Invalidate message buffer for current group,
+                // so that it's updated on next bulk retrieval
+                this.chatMap[app.groups.active]["dirty"] = true;
+                console.log("Message successfully sent");
+            },
+            (edata) => { console.log("Error sending message"); }
+        );
+    }
+
+    poplulateChat(group_id, msgArray) {
+        // Cache messages to keep from unnecessary API calls
+        this.chatMap[group_id] = { "msgs": msgArray, "dirty": false };
+    }
+
+    renderChats(group_id) {
+        if (!this.chatMap[group_id]) return;
+
+        // Clear chat window
+        this.chatThread.innerHTML = "";
+        this.chatMap[group_id]["msgs"].map((msg) => {
+            let msgItem = this.createMsgElement(
+                msg["body"],
+                msg["msg_author"]["id"] === app.user.id, msg["msg_author"]["username"]
+            );
+            this.chatThread.appendChild(msgItem);
+        });
+    }
+
+    needsUpdate(group_id) {
+        return (!this.chatMap[group_id] ||
+                this.chatMap[group_id]["dirty"] === undefined ||
+                this.chatMap[group_id]["dirty"] === true);
+    }
 }
 
 class _appui {
@@ -57,9 +125,16 @@ class _appui {
             document.getElementById("chat_grp_title").innerHTML = group["name"];
             app.groups.active = group['id'];
 
-            retrieve_chat_history(group['id'], (sdata) => {
-                chatui.poplulateChat(JSON.parse(sdata)["gi_messages"]);
-            }, def_log);
+            if (chatui.needsUpdate(group['id'])) {
+                retrieve_chat_history(group['id'], (sdata) => {
+                    // Poplulate and render messages
+                    chatui.poplulateChat(group['id'], JSON.parse(sdata)["gi_messages"]);
+                    chatui.renderChats(group['id']);
+                }, def_log);
+            } else {
+                // Only render the messages
+                chatui.renderChats(group['id']);
+            }
         }
 
         this.defaultGroupProfItemHandler = (group, item) => {

@@ -7,8 +7,9 @@ $('#new-msg').keypress(function (e) {
 });
 
 $('#send-msg').on('click', function(){
-	$('#chats').append(' <div class="msg you-sent"><span class="msg-text">' + $("#new-msg").val() + ' </span></div>');
-	$('#new-msg').val("");
+	let $newMsgBtn = $('#new-msg');
+	chatui.pushMessage($newMsgBtn.val(), { id: app.user.id, username: app.user.username });
+	$newMsgBtn.val("");
 });
 
 /* nav bar handling */

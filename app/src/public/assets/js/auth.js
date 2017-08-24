@@ -317,7 +317,7 @@ var add_user = (username, group_id, success = def_log, error = def_log) => {
     );
 }
 
-var dispatch_message = (message, success, error) => {
+var dispatch_message = (message, group_id, success, error) => {
     if (!message || message.length === 0)
         error("Invalid arguments");
 
@@ -328,7 +328,7 @@ var dispatch_message = (message, success, error) => {
             "objects": [{
                 "body": message,
                 "author_id": app.user.id,
-                "group_id": app.groups.active
+                "group_id": group_id
             }]
         }
     };

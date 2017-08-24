@@ -97,6 +97,7 @@
   bottom: 3em;
   width: 100%;
   background-color: rgba(252, 252, 252, 0.9);
+  padding: 0.8em 0;
 }
 .msg-bar{
  /* border: 1px solid #000; */
@@ -153,16 +154,18 @@
   display: flex;
   flex-direction: column;
   align-self: end;
+  min-height: 3.4em;
 }
 
 .you-sent {
   justify-content: flex-end;
-  background: #444;
+  background: #06f;
   color: #fff;
   align-self: flex-end;
   border-radius: 2em 2em 0 !important;
-  margin: 1px 1em !important;
+  /*margin: 1px 1em !important;*/
   flex-direction: row-reverse;
+  min-height: 2.1em;
 }
 
 .msg-owner{
