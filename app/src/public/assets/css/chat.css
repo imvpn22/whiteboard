@@ -101,12 +101,8 @@
   overflow-y: scroll;
   display: flex;
   flex-direction: column !important;
-  position: absolute;
-  top: 0px;
-  bottom: 3em;
-  width: 100%;
+  width: 100%; height: calc(100% - 3em);
   background-color: rgba(252, 252, 252, 0.9);
-  padding: 0.8em 0;
 }
 .msg-bar{
  /* border: 1px solid #000; */
@@ -153,33 +149,28 @@
   margin-right: 2em;
 }
 .msg {
-  font-size: .9em;
   margin: .3em 1em;
   border-radius: 0 2em 2em;
   background: #eee;
   padding: .5em 1em;
   box-sizing: border-box;
   font-size: 13px;
-  display: flex;
-  flex-direction: column;
   align-self: end;
-  min-height: 3.4em;
 }
 
 .you-sent {
-  justify-content: flex-end;
-  background: #06f;
-  color: #fff;
-  align-self: flex-end;
-  border-radius: 2em 2em 0 !important;
-  /*margin: 1px 1em !important;*/
-  flex-direction: row-reverse;
-  min-height: 2.1em;
-  padding-left: 2em; margin-left: 15%;
+ justify-content: flex-end;
+ background: #06f;
+ color: #fff;
+ align-self: flex-end;
+ border-radius: 2em 2em 0 !important;
+ padding-left: 2em;
+ margin-left: 15%;
 }
 
 .msg-owner{
   font-weight: 600;
+  display: block;
 }
 .msg-text{
   font-weight: 100;
@@ -306,7 +297,6 @@
 #wb-canvas { position: fixed; }
 .cursor-draw { cursor: crosshair !important; }
 .cursor-erase { cursor: cell !important; }
-
 
 /* Style for group profile back and close button */
 #c_gp_con {

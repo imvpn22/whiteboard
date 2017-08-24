@@ -1,6 +1,6 @@
 
 // Testing
-var clrBox, toolSize, wboard;
+var clrBox, toolSize;
 
 const MODE = { TOOL: 0, DRAW: 1 };
 const TOOL_MODE = { PEN: 0, ERASER: 1 }
@@ -27,10 +27,13 @@ class Whiteboard {
         this.config[TOOL_MODE.ERASER] = { size: 20, cursor: 'cursor-erase' };
         this.config.throttle_delay = 10;
         this.resetCursor();
+    }
 
-        this.socket = io();
-        this.socket.on('clear', () => { this.clear(false); });
-        this.socket.on('draw', (args) => { this.externalRender(args['data']); });
+    initSocketHandlers() {
+        app.sockets[app.channels.chat].on('canvas-clear', () => { this.clear(false); });
+        app.sockets[app.channels.chat].on('canvas-draw', (args) => {
+            this.externalRender(args['data']);
+        });
     }
 
     reAdjustCanvas() {
@@ -56,7 +59,7 @@ class Whiteboard {
         this.ctx.fillStyle = this.bgCol;
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-        if (sock) this.socket.emit('clear');
+        if (sock) app.sockets[app.channels.chat].emit('canvas-clear');
     }
 
     genericRender(config, line) {
@@ -87,7 +90,7 @@ class Whiteboard {
             line[k] /= (i & 1) === 0 ? this.canvas.width : this.canvas.height;
         });
         // Emit data to server
-        this.socket.emit('draw-data', { 'conf': conf, 'line': line });
+        app.sockets[app.channels.chat].emit('canvas-draw', { 'conf': conf, 'line': line });
     }
 
     externalRender(data) {
@@ -172,5 +175,3 @@ var canvasInit = () => {
         };
     })());
 }
-
-window.addEventListener('load', canvasInit, false);

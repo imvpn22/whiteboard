@@ -1,66 +1,36 @@
 
-var request = require('request');
-
+// Server request configs
 const auth_url= 'http://auth.hasura/';
 const data_url = 'http://data.hasura/';
 const admin_headers = {
-	'Content-Type' : 'application/json;charset=utf-8',
-	'X-Hasura-Role' : 'admin',
-	'X-Hasura-User-Id' : 1
+    'Content-Type' : 'application/json;charset=utf-8',
+    'X-Hasura-Role' : 'admin',
+    'X-Hasura-User-Id' : 1
 };
 
-var get_server_groups = (req, res) => {
-	var options = {
-		url: data_url + 'v1/query',
-		method: 'POST',
-		headers: admin_headers,
-		body: JSON.stringify({
-			"args": {
-				"table": "group_info",
-				"columns": [ "id", "name" ]
-			},
-			"type": "select"
-		})
-	}
-
-	request(options, function(err, response, body) {
-		if (err) {
-			console.error("Could not connect to APIs : " + err);
-			res.status(500).send('Internal error: ' + err);
-			return;
-		}
-
-		if (response.statusCode !== 200) {
-			console.error('Auth API bad request');
-			res.status(500).send('Internal error: Could not connect to auth APIs');
-			return;
-		}
-
-		if (response.statusCode === 200) { res.send(body); }
-	});
-};
+var socketMap = {};
 
 // Definition of all web routes here
-module.exports = function(app, io) {
-	var user_auth_token;
-	
+module.exports = function(app, io, groups, sock_nsp) {
 	function requireLogin(req, res, next) {
-		user_auth_token = req.headers['x-hasura-session-id'];
-		if (user_auth_token === undefined) {
-			res.redirect("/"); 
-		} else {
-			next();
-		}
+		let user_auth_token = req.headers['x-hasura-session-id'];
+		if (user_auth_token === undefined) { res.redirect("/");  }
+		else { next(); }
 	}
 
-	app.get('/', function (req, res) {
+	function fastForward(req, res, next) {
+		let user_auth_token = req.headers['x-hasura-session-id'];
+		if (user_auth_token !== undefined) { res.redirect("/app");  }
+		else { next(); }
+	}
+
+	// GET routes
+	app.get('/', fastForward, function (req, res) {
 		res.render('base');
 	});
-
 	app.get('/app', function (req, res) {
 		res.render('whiteboard');
 	});
-
 	app.get('/welcome-msg', function (req, res) {
 		res.render('partials/welcome-msg');
 	});
@@ -70,20 +40,80 @@ module.exports = function(app, io) {
 	app.get('/signup-content', function (req, res) {
 		res.render('partials/signup-content');
 	});
-	app.get('/groups', get_server_groups);
 
-	// Socket routes
-	io.on('connection', (socket) => {
-		console.log("User #" + socket.id + " connected");
-		
-		// Socket events
-		socket.on('disconnect', () => {
-			console.log("User #" + socket.id + " disconnected");
+	io.of(sock_nsp.root).on('connection', (socket) => {
+		socket.on('init', (id, username) => {
+			socket.uid = id; socket.username = username;
+			if (!socketMap[id]) socketMap[id] = socket;
+
+			// Emit connection feedback to client
+			socket.emit('feedback', { "message": 'Connected on root nsp' });
 		});
 
-		socket.on('clear', () => { socket.broadcast.emit('clear'); });
-		socket.on('draw-data', (data) => {
-			socket.broadcast.emit('draw', { 'data': data });
+		socket.on('add-user-to-group', (id, group_id) => {
+			if (socketMap[id]) {
+				socketMap[id].emit(
+					'new-group', { "group_id": group_id, "added_by": socket.username }
+				);
+
+				// Emit connection feedback to client
+				socket.emit('feedback', { "message": 'Member addition notified to user' });
+			} else {
+				socket.emit('feedback', { "message": 'Member offline. Unable to notify' });
+			}
+		});
+
+		socket.on('disconnect', () => {
+			if (socketMap[socket.uid]) socketMap[socket.uid] = null;
+		});
+	});
+
+	io.of(sock_nsp.chat).on('connection', (socket) => {
+		socket.on('init', (username, group_id) => {
+			console.log(username + " connecting on [" + group_id + "]");
+
+			socket.username = username;
+			socket.room = "" + group_id; socket.join(socket.room);
+
+			// Notify all others
+			socket.broadcast.to(socket.room).emit('connect-notify', { "username": username });
+			// Emit connection feedback to client
+			socket.emit('feedback', { "message": 'You connected to group ' + group_id });
+		});
+
+		socket.on('group-switch', (group_id) => {
+			if (group_id == socket.room) return;
+			console.log(socket.username + " switching to [" + group_id + "]");
+
+			socket.leave(socket.room);
+			socket.room = "" + group_id; socket.join(socket.room);
+
+			// Emit switch feedback to client
+			socket.emit('feedback', { "message": 'You switched to group ' + group_id });
+		});
+
+		socket.on('push-msg', (message) => {
+			socket.broadcast.to(socket.room).emit(
+				'new-message', { "username": socket.username, "message": message }
+			);
+			// Emit message feedback to client
+			socket.emit('feedback', { "message": 'Your message was recieved' });
+		});
+
+		socket.on('disconnect', () => {
+			console.log(socket.username + " disconnecting on [" + socket.room + "]");
+			
+			socket.leave(socket.room);
+			// Notify all others
+			socket.broadcast.to(socket.room).emit('disconnect-notify', { "username": socket.username });
+		});
+
+		// Canvas operations
+		socket.on('canvas-clear', () => {
+			socket.broadcast.to(socket.room).emit('canvas-clear');
+		});
+		socket.on('canvas-draw', (data) => {
+			socket.broadcast.to(socket.room).emit('canvas-draw', { 'data': data });
 		});
 	});
 };

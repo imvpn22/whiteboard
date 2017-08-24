@@ -5,6 +5,23 @@ class _chatui {
         this.chatThread = document.getElementById("chats");
     }
 
+    initSocketHandlers() {
+        // Handle socket relevant notifs
+        app.sockets[app.channels.chat].on('new-message', (data) => {
+            console.log(data["message"]);
+            let msgItem = this.createMsgElement(data["message"], false, data["username"]);
+            this.chatThread.appendChild(msgItem);
+        });
+
+        app.sockets[app.channels.chat].on('connect-notify', (data) => {
+            def_log("(Server) " + data["username"] + " now online", false);
+        });
+
+        app.sockets[app.channels.chat].on('disconnect-notify', (data) => {
+            def_log("(Server) " + data["username"] + " now offline", false);
+        });
+    }
+
     createMsgElement(message, isSource, author = "") {
         let msgItem = document.createElement('div');
         msgItem.classList.add('msg');
@@ -30,6 +47,11 @@ class _chatui {
     }
 
     pushMessage(message, author) {
+        if (message !== typeof "string" && !message) return;
+
+        message = message.trim();
+        if (message.length === 0) return;
+
         let msgItem = this.createMsgElement(message, author.id === app.user.id, author.username);
         this.chatThread.appendChild(msgItem);
 
@@ -40,6 +62,9 @@ class _chatui {
                 // so that it's updated on next bulk retrieval
                 this.chatMap[app.groups.active]["dirty"] = true;
                 def_log("Message successfully sent", false);
+
+                // Emit a message push event
+                app.sockets[app.channels.chat].emit('push-msg', message);
             },
             (edata) => { def_log("Error sending message"); }
         );
@@ -118,6 +143,7 @@ class _appui {
             resetFeedbackTextClass(this.grpAddText, [ "success-text", "error-text" ]);
         });
 
+        this.sockInitiated = false;
         this.defaultGroupItemHandler = (group, item) => {
             def_log("Retrieving chat history for #" + group.name, false);
             groupExSelect(item, 'group-panel-item', 'group-panel-item-active');
@@ -135,6 +161,15 @@ class _appui {
                 // Only render the messages
                 chatui.renderChats(group['id']);
             }
+
+            if (this.sockInitiated === true) {
+                // Emit a group switch event
+                app.sockets[app.channels.chat].emit('group-switch', app.groups.active);
+            } else {
+                // Init current chat socket
+                app.sockets[app.channels.chat].emit('init', app.user.username, app.groups.active);
+                this.sockInitiated = true;
+            }
         }
 
         this.defaultGroupProfItemHandler = (group, item) => {
@@ -146,11 +181,43 @@ class _appui {
         }
     }
 
+    initSocketHandlers() {
+        app.sockets[app.channels.root].on('new-group', (data) => {
+            // Ignore group data for now
+            this.forceGlobalGroupRefresh();
+        });
+    }
+
+    selectGroupItemById(list, id) {
+        if (list.children.length === 0) return;
+
+        let gitems = list.children;
+        for (var i = 0; i < gitems.length; i++) {
+            if (gitems[i].getAttribute("data-gid") == id) {
+                gitems[i].click(); break;
+            }
+        }
+    }
+
+    selectActiveGroupItem(list) {
+        if (list.children.length === 0) return;
+
+        if (app.groups.active === -1) list.firstChild.click();
+        else this.selectGroupItemById(list, app.groups.active);
+    }
+
     /* @async */
     addUserToGroup(username, success, error) {
         add_user(
             username, this.groupProfListConfig.active,
             (sdata) => {
+                let obj = JSON.parse(sdata);
+                let id = obj["id"];
+                let gid = obj["group_id"] || this.groupProfListConfig.active;
+                
+                // Emit group add info to user
+                app.sockets[app.channels.root].emit('add-user-to-group', id, gid);
+
                 this.refreshUserList();
                 if (success && typeof success === 'function') success(sdata);
             },
@@ -176,9 +243,9 @@ class _appui {
             () => {
                 this.refreshGroupList(
                     this.groupProfList, 'gl-item', this.defaultGroupProfItemHandler,
-                    () => { this.groupProfList.firstChild.click(); }, false
+                    () => { this.selectActiveGroupItem(this.groupProfList); }, false
                 );
-                this.groupNavList.firstChild.click();
+                this.selectActiveGroupItem(this.groupNavList);
             }
         );
     }
@@ -243,7 +310,5 @@ class _appui {
     }
 }
 
-var appui = new _appui();
-var chatui = new _chatui();
-
-window.addEventListener('load', () => { appui.forceGlobalGroupRefresh(); }, false);
+appui = new _appui();
+chatui = new _chatui();
