@@ -14,13 +14,13 @@ var get_server_groups = (req, res) => {
 		url: data_url + 'v1/query',
 		method: 'POST',
 		headers: admin_headers,
-		body: {
+		body: JSON.stringify({
 			"args": {
 				"table": "group_info",
 				"columns": [ "id", "name" ]
 			},
 			"type": "select"
-		}
+		})
 	}
 
 	request(options, function(err, response, body) {
