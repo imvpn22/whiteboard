@@ -1,8 +1,14 @@
-    
+
 class _chatui {
     constructor() {
         this.chatMap = {}
         this.chatThread = document.getElementById("chats");
+    }
+
+    scrollChatToView() {
+        $(this.chatThread).stop().animate({
+            scrollTop: $(this.chatThread)[0].scrollHeight - $(this.chatThread).outerHeight()
+        }, 500, "easeOutExpo");
     }
 
     initSocketHandlers() {
@@ -11,6 +17,7 @@ class _chatui {
             console.log(data["message"]);
             let msgItem = this.createMsgElement(data["message"], false, data["username"]);
             this.chatThread.appendChild(msgItem);
+            this.scrollChatToView();
         });
 
         app.sockets[app.channels.chat].on('connect-notify', (data) => {
@@ -26,16 +33,17 @@ class _chatui {
         let msgItem = document.createElement('div');
         msgItem.classList.add('msg');
 
-        let msgText = document.createElement('span');
+        let msgText = document.createElement('span');-
         msgText.classList.add('msg-text');
         msgText.innerHTML = message;
 
         let msgOwner = null;
         if (isSource) {
             // Current user is the message author
-            msgItem.classList.add('you-sent');
+            msgItem.classList.add('internal-msg');
         } else {
             // External user
+            msgItem.classList.add('external-msg');
             msgOwner = document.createElement('span');
             msgOwner.classList.add('msg-owner');
             msgOwner.innerHTML = author;
@@ -54,6 +62,7 @@ class _chatui {
 
         let msgItem = this.createMsgElement(message, author.id === app.user.id, author.username);
         this.chatThread.appendChild(msgItem);
+        this.scrollChatToView();
 
         dispatch_message(
             message, app.groups.active,
@@ -87,6 +96,8 @@ class _chatui {
             );
             this.chatThread.appendChild(msgItem);
         });
+
+        this.scrollChatToView();
     }
 
     needsUpdate(group_id) {
