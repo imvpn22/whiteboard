@@ -151,15 +151,13 @@
 .msg {
   margin: .3em 1em;
   border-radius: 0 2em 2em;
-  background: #eee;
+  background-color: #eee;
   padding: .5em 1em;
   box-sizing: border-box;
   font-size: 13px;
-  align-self: end;
 }
 
 .internal-msg {
- justify-content: flex-end;
  background: #06f;
  color: #fff;
  align-self: flex-end;
@@ -167,7 +165,20 @@
  padding-left: 2em; padding-top: 0.42em;
  margin-left: 15%;
 }
-.external-msg { margin-right: 15%; }
+.external-msg {
+  margin-right: 15%;
+  align-self: flex-start;
+}
+.info-msg {
+  font-size: 70%;
+  align-self: center;
+  border-radius: 2em 2em;
+  margin: 0.5em 1em;
+  padding: 0.2em 1.5em;
+  background-color: transparent;
+  border: 1px dashed #999;
+  color: #999; box-sizing: border-box;
+}
 
 .msg-owner{
   font-weight: 600;

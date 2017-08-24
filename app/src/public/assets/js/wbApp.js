@@ -21,19 +21,32 @@ class _chatui {
         });
 
         app.sockets[app.channels.chat].on('connect-notify', (data) => {
-            def_log("(Server) " + data["username"] + " now online", false);
+            this.appendInfoElement(data["username"] + " is now online");
         });
 
         app.sockets[app.channels.chat].on('disconnect-notify', (data) => {
-            def_log("(Server) " + data["username"] + " now offline", false);
+            this.appendInfoElement(data["username"] + " went offline");
         });
+    }
+
+    appendInfoElement(message) {
+        let infoItem = document.createElement('div');
+        infoItem.classList.add('info-msg');
+
+        let infoText = document.createElement('span');
+        infoText.classList.add('msg-text');
+        infoText.innerHTML = message;
+        infoItem.appendChild(infoText);
+
+        this.chatThread.appendChild(infoItem);
+        this.scrollChatToView();
     }
 
     createMsgElement(message, isSource, author = "") {
         let msgItem = document.createElement('div');
         msgItem.classList.add('msg');
 
-        let msgText = document.createElement('span');-
+        let msgText = document.createElement('span');
         msgText.classList.add('msg-text');
         msgText.innerHTML = message;
 
