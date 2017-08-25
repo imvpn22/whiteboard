@@ -58,8 +58,8 @@
   color: #fff;
 }
 .group-panel-item-active {
-  background-color: #222;
-  colour:#fff;
+  background-color: #06f;
+  color: #fff !important;
 }
 
 .chat-window{
@@ -137,7 +137,7 @@
   cursor: pointer;
 }
 .new-attach:hover, .send-msg:hover {
-  color: #0f0;
+  color: #06f;
   text-shadow: 0 0 1em #fff;
 }
 .new-msg{
