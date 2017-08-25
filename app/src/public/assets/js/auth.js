@@ -309,7 +309,12 @@ var add_user = (username, group_id, success = def_log, error = def_log) => {
 
                 ajaxp(
                     app.urls.data + "v1/query", JSON.stringify(ug_data), def_headers,
-                    (sdata) => { success(sdata, false); },
+                    (sdata) => {
+                        let obj = JSON.parse(sdata);
+                        obj["group_id"] = group_id; obj["id"] = uid;
+
+                        success(JSON.stringify(obj), false);
+                    },
                     (edata) => { error(edata); }
                 );
             }

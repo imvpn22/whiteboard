@@ -1,5 +1,8 @@
 // API endpoint declarations
 
+// Global vars
+var app, appui, chatui, wboard;
+
 var def_log = (e, err = true) => {
     var dt = (new Date()).toLocaleString();
     console.log("[" + (err ? "ERROR" : "INFO ") + " | " + dt + "]: " + e);
@@ -32,7 +35,27 @@ class _app {
             data: "https://data." + this.config.project + ".hasura-app.io/"
         }
 
-        this.groups = { data: [], dirty: true, active: 0 };
+        this.groups = { data: [], dirty: true, active: -1 };
+        this.channels = { root: "/", chat: "/chat" };
+        this.sockets = {};
+    }
+
+    initiateSockets() {
+        if (!app.user.token) return;
+
+        Object.keys(this.channels).map((key) => {
+            let channel = this.channels[key];
+            if (!this.sockets[channel]) {
+                this.sockets[channel] = io(channel);
+
+                this.sockets[channel].on('feedback', (data) => {
+                    def_log("(Server) " + data["message"], false);
+                });
+            }
+        });
+
+        // Initiate root socket
+        this.sockets[this.channels.root].emit('init', this.user.id, this.user.username);
     }
 
     setUserName(username) {
@@ -79,7 +102,7 @@ class _app {
     clearSession() { this.clearUser(); }
 };
 
-var app = new _app();
+app = new _app();
 
 // Utility functions
 var groupExSelect = (obj, groupSelector, activeKlass) => {
