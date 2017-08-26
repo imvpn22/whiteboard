@@ -81,7 +81,7 @@ class _chatui {
             message, app.groups.active,
             (sdata) => {
                 // Invalidate message buffer for current group,
-                // so that it's updated on next bulk retrieval
+                // so that it's updated on the next bulk retrieval
                 this.chatMap[app.groups.active]["dirty"] = true;
                 def_log("Message successfully sent", false);
 
