@@ -32,16 +32,18 @@
 	<div class="feedback hidden" id="feedback_box"></div>
 </div>
 <script type="text/javascript">
-	$('#close-signup').on('click', function() {		
+	$('#close-signup').on('click', function(e) {
+		e.preventDefault();
 		$('#main').load('/welcome-msg');
 	});
-	$('#back-btn').on('click', function() {		
+	$('#back-btn').on('click', function(e) {
+		e.preventDefault();
 		$('#main').load('/login-content');
 	});
 
 	$("#signup_form").on("submit", (e) => {
 		e.preventDefault();
-		
+
 		let $fbox = $("#feedback_box");
 		let $sbtn = $("#signup_btn");
 

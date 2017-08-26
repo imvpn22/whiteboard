@@ -23,7 +23,8 @@
 	<div class="feedback hidden" id="feedback_box"></div>
 </div>
 <script type="text/javascript">
-	$('#close-login').on('click', function() {		
+	$('#close-login').on('click', function(e) {
+		e.preventDefault();
 		$('#main').load('/welcome-msg');
 	});
 	$('#open-reset-pass').on('click', function(){
