@@ -3,25 +3,27 @@
 <head>
 	<title>White Board | Welcome</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet">
-	<link href="/assets/css/style.css" rel="stylesheet" />
-	<link href="/assets/css/login.css" rel="stylesheet" />
-	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-	<script src="/assets/js/jquery-3.2.1.min.js"></script>
-  <script src="https://use.fontawesome.com/d4ad1e750c.js"></script>
-  <script src="/assets/js/welcome.js"></script>
-  <script src="/assets/js/main.js"></script>
-  <script src="/assets/js/auth.js"></script>
+
+    <link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet">
+    <link href="/assets/css/style.css" rel="stylesheet" />
+    <link href="/assets/css/login.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+
+    <script src="/assets/js/jquery-3.2.1.min.js"></script>
+    <script src="https://use.fontawesome.com/d4ad1e750c.js"></script>
+    <script src="/assets/js/welcome.js"></script>
+    <script src="/assets/js/main.js"></script>
+    <script src="/assets/js/auth.js"></script>
 </head>
 <body>
-  <% include partials/square %>
+    <% include partials/square %>
 
-  <canvas id="myCanvas" width="1350" height="768">
-   Your browser does not support the HTML5 canvas tag.</canvas>
+    <canvas id="myCanvas" class="canvas-fs">
+        Your browser does not support the HTML5 canvas tag.
+    </canvas> 
 
-   <div class="main" id="main">
-    <% include partials/welcome-msg %>
-  </div>
+    <div class="main" id="main">
+        <% include partials/welcome-msg %>
+    </div>
 </body>
 </html>
-`

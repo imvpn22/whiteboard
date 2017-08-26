@@ -20,6 +20,8 @@ body {
 .bm-bl { border-width: 0 0 .2em .2em; bottom: .5em; left: .5em; }
 .bm-br { border-width: 0 .2em .2em 0; bottom: .5em; right: .5em; }
 
+.canvas-fs { position: fixed; top: 0; left: 0; z-index: 5; }
+
 .header {
     color: #eee;
     position: absolute; left:0; right:0; top: 0;
@@ -129,18 +131,16 @@ body {
     font-family: 'Indie Flower', cursive;
 }
 
+.wb-t { width: 15%; min-width: 130px; }
 .wb-t-l {
-    background: #000;
-    color: #fff; width: 15%;
+    background: #000; color: #fff;
     text-align: right;
     border-radius: .1em 0 0 .1em;
     font-weight: 600;
     padding-right: 0.5em;
 }
-
 .wb-t-r {
-    background: #fff;
-    color: #000; width: 15%;
+    background: #fff; color: #000;
     border-radius: 0 .1em .1em 0;
     font-weight: lighter;
     padding-left: 0.4em;
@@ -406,3 +406,7 @@ button {
     color: #000;
     cursor: default;
 }
+
+@media all and (max-width: 680px) { .intro { font-size: 300%; } }
+@media all and (max-width: 480px) { .intro { font-size: 250%; } }
+@media all and (max-width: 376px) { .intro { font-size: 180%; } }
