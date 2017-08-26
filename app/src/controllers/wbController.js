@@ -20,7 +20,6 @@ module.exports = function(app, io, groups, sock_nsp) {
 
 	function fastForward(req, res, next) {
 		let user_auth_token = req.headers['x-hasura-session-id'];
-		console.log(user_auth_token);
 		if (user_auth_token !== undefined) { res.redirect("/app");  }
 		else { next(); }
 	}
