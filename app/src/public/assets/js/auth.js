@@ -236,7 +236,8 @@ var add_group = (group_name, success = def_log, error = def_log) => {
         "args": {
             "table": "group_info",
             "objects": [{
-                "name": group_name
+                "name": group_name,
+                "creator_id": app.user.id
             }],
             "returning": [ "id" ]
         }

@@ -27,12 +27,12 @@ class _app {
         }
         
         this.config = {
-            project: 'aspartame64',
+            project: 'imvpn22'
         }
         
         this.urls = {
-            auth: "https://auth." + this.config.project + ".hasura-app.io/",
-            data: "https://data." + this.config.project + ".hasura-app.io/"
+            auth: "http://auth." + this.config.project + ".hasura.me/",
+            data: "http://data." + this.config.project + ".hasura.me/"
         }
 
         this.groups = { data: [], dirty: true, active: -1 };
