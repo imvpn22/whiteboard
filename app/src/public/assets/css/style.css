@@ -1,3 +1,6 @@
+
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300');
+
 body {
     font-family: sans-serif;
     margin: 0 auto;
@@ -5,29 +8,22 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    /*color: #fff;*/
 }
 
 .bm {
-    height: .7em;
-    width: .7em;
-    border-color: #fff;
-    border-style: solid;
-    position: absolute;
-    z-index: 10;
+    height: .7em; width: .7em;
+    border-color: #d0d0d0; border-style: solid;
+    position: absolute; z-index: 100;
 }
-.bm-tl {border-width: .2em 0 0 .2em; top: .5em; left: .5em; }
-.bm-tr {border-width: .2em .2em 0 0; top: .5em; right: .5em}
-.bm-bl {border-width: 0 0 .2em .2em; bottom: .5em; left: .5em;}
-.bm-br {border-width: 0 .2em .2em 0; bottom: .5em; right: .5em}
+.bm-tl { border-width: .2em 0 0 .2em; top: .5em; left: .5em; }
+.bm-tr { border-width: .2em .2em 0 0; top: .5em; right: .5em; }
+.bm-bl { border-width: 0 0 .2em .2em; bottom: .5em; left: .5em; }
+.bm-br { border-width: 0 .2em .2em 0; bottom: .5em; right: .5em; }
 
 .header {
     color: #eee;
-    position: absolute;
-    left:0; right:0;
-    top: 0;
-    height: 4em;
-    padding: 0;
+    position: absolute; left:0; right:0; top: 0;
+    height: 4em; padding: 0;
     display: flex;
     justify-content: center; 
     align-items: center;
@@ -37,10 +33,8 @@ body {
 
 .header-text {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.4em;
-    letter-spacing: .2em;
+    justify-content: center; align-items: center;
+    font-size: 1.4em; letter-spacing: .2em;
     font-weight: 800;
     margin:.3em 1em;
 }
@@ -49,6 +43,7 @@ body {
     display: flex;
     flex-direction: row;
 }
+
 .head-btn {
     display: flex;
     justify-content: center;
@@ -59,34 +54,26 @@ body {
     position:absolute;
     z-index: 1000;
 }
-.pos-left{left: 5px}
-.pos-right{right: 5px}
-.user-popup{
+.pos-left { left: 5px; }
+.pos-right { right: 5px; }
+.user-popup {
     position: absolute;
-    right: 0.5em;
-    top: 2em;
+    right: 0.5em; top: 2em;
     display: flex;
     flex-direction: column;
     width: 100px;
-    background: #fff;
+    background: #fff; color: #808080;
     border-radius: 3px;
-    color: #808080;
     padding: 0 .3em;
 }
-.user-popup-item{
-    padding: .5em;
-    /* text-align: center; */
-    /* border-bottom: 1px solid #eee; */
-    font-size: .8em;
-    cursor: pointer;
-    display: flex;
+.user-popup-item {
+    padding: .5em; font-size: .8em;
+    cursor: pointer; display: flex;
     justify-content: space-around;
     align-items: center;
     height: 1.7em;
 }
-.user-popup-item:hover{
-    color: #333;
-}
+.user-popup-item:hover { color: #333; }
 
 .footer {
     display: flex;
@@ -119,18 +106,16 @@ body {
     flex-direction: column;
     justify-content: center;
     position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    /* background-image: url(https://s1.wp.com/home.logged-out/page-rey-2/img/hero-icons.svg); */
-    background-color: rgba(199, 199, 199, 0.8);
+    top: 0; bottom: 0;
+    left: 0; right: 0;
+    background-color: rgba(31, 31, 31, 0.8);
 }
 
 .intro {
-    font-size: 3em;
+    font-size: 400%;
     text-align: center;
-    color: #fff;
+    color: #fff; margin: 0 10%;
+    font-family: 'Open Sans Light', sans-serif;
 }
 
 .wb-title {
@@ -144,27 +129,24 @@ body {
     font-family: 'Indie Flower', cursive;
 }
 
-.wb-t-l{
+.wb-t-l {
     background: #000;
-    color: #fff;
-    width: 30%;
+    color: #fff; width: 15%;
     text-align: right;
     border-radius: .1em 0 0 .1em;
     font-weight: 600;
+    padding-right: 0.5em;
 }
 
 .wb-t-r {
     background: #fff;
-    color: #000;
-    width: 30%;
+    color: #000; width: 15%;
     border-radius: 0 .1em .1em 0;
     font-weight: lighter;
+    padding-left: 0.4em;
 }
 
-
-
-
-.content{
+.content {
     width: 100%;
     min-height: 100vh;
     display: flex;
@@ -173,7 +155,7 @@ body {
     background-color: rgba(0, 0, 0, 0.85);
 }
 
-a {text-decoration: none; color: inherit; cursor: pointer;}
+a { text-decoration: none; color: inherit; cursor: pointer; }
 
 .profile-img {
     height: 150px;
@@ -185,17 +167,13 @@ a {text-decoration: none; color: inherit; cursor: pointer;}
     height: 100%;
     overflow-y: scroll;
 }
-.main-content::-webkit-scrollbar{width:0;}
+.main-content::-webkit-scrollbar { width: 0; }
 
-.article-heading {
-    font-size: 2.5em;
-}
-
+.article-heading { font-size: 2.5em; }
 .article-date {
     font-size: .8em;
     font-style: oblique;
 }
-
 .article-content {
     margin: 1em;
     border: 1px dashed;
@@ -203,24 +181,14 @@ a {text-decoration: none; color: inherit; cursor: pointer;}
     padding: 0 1em;
 }
 
-.comment-section {
-    border-top: 3px solid #aaa;
-}
-
-.comment {
-    margin: 1em;
-}
-
-.comment-title {
-    font-style: bold;
-}
-
+.comment-section { border-top: 3px solid #aaa; }
+.comment { margin: 1em; }
+.comment-title { font-style: bold; }
 .comment-text {
     padding-left: 1em;
     font-size: .9em;
     border-left: 2px solid;
 }
-
 
 .user-img {
     font-size: 96px;
@@ -228,7 +196,7 @@ a {text-decoration: none; color: inherit; cursor: pointer;}
     margin: .5em auto;
 }
 
-.hidden {display: none !important;}
+.hidden { display: none !important; }
 
 .pop-back {
     background: #eee;
@@ -245,9 +213,6 @@ a {text-decoration: none; color: inherit; cursor: pointer;}
     padding-bottom: 1em;
     text-align: center;
     font-size: 1.3em;
-    /* letter-spacing: 1px; */
-    /* position: absolute; */
-    /* top: 1em; */
 }
 
 .login-form {
@@ -259,7 +224,7 @@ a {text-decoration: none; color: inherit; cursor: pointer;}
     justify-content: center;
     align-items: center;
     border: 1px solid #fff;
-    border-radius: 1px;
+    border-radius: 4px;
     background: #fff;
     box-shadow: 0 0 1em #ccc;
     position: relative;
@@ -277,8 +242,6 @@ a {text-decoration: none; color: inherit; cursor: pointer;}
 
 
 .form-item label {
-    /* height: 40%; */
-    /* font-size: .8em; */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -305,12 +268,10 @@ a {text-decoration: none; color: inherit; cursor: pointer;}
 
 .form-item input {
     width: 100%; 
-    background: none;
-    color: #333;
-    font-size: .9em;
-    outline:none;
+    background: none; color: #333;
+    font-size: .9em; outline: none;
     border: none;
-    border-bottom: 1px dashed rgba(0,0,0,.2) !important;
+    border-bottom: 1px dashed rgba(0, 0, 0, .1) !important;
 }
 
 .form-item input:focus {
@@ -333,34 +294,35 @@ a {text-decoration: none; color: inherit; cursor: pointer;}
     box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.4);
     transition: all 0.4s ease-in-out;
 }
-#login_btn:hover, #signup_btn:hover{
+#login_btn:hover, #signup_btn:hover {
     background: #0d990d; 
     border: none;
     box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.6);
 }
 
-#welcome-play{
-    padding: .4em 1.7em;
-    font-size: 1em;
-    background: rgba(255, 255, 255, 0.5);
-    color: rgba(0, 0, 0, 0.3);
-    border-radius: .2em;
+#wboard-start {
     position: absolute;
-    bottom: 2em;
-    z-index: 20;
-    transition: all 0.4s ease-in-out;
+    width: 2em; height: 2em;
+    font-size: 1.2em;
+    background: #fff; color: rgb(10, 10, 10);
+    border-radius: 50%;
+    bottom: 40px; z-index: 20;
+    display: flex; justify-content: center;
+    align-items: center; cursor: pointer;
+    transition: all 0.4s cubic-bezier(0, 0, 0.04, 1)
 }
 
-#welcome-play:hover {
-    background: #eee;
+#wboard-start > .fa { transform: translate(10%, 5%); }
+
+#wboard-start:hover {
     color: #000;
-    box-shadow: 0 0 2em #fff;
+    box-shadow: 0 0 25px #fff;
 }
 
 .close {
     font-size: 1em;
     position: absolute;
-    top: .3em;
+    top: .6em;
     right: .3em;
     color: #999;
     background: none;
@@ -368,13 +330,8 @@ a {text-decoration: none; color: inherit; cursor: pointer;}
     justify-content: center;
     align-items: center;
 }
-.close:hover{
-    /*background-color: #eee;*/
-    color: #000;
-}
-#back-btn{
-    left: .3em;
-}
+.close:hover { color: #000; }
+#back-btn { left: .3em; }
 
 button {
     border:none;
@@ -449,5 +406,3 @@ button {
     color: #000;
     cursor: default;
 }
-
-

@@ -8,13 +8,15 @@
 </div>
 
 <div class="intro"> 
-	Improve productivity and collaboration
+	Brainstorm and collaborate like it was meant to
 </div>
 
-<button id="welcome-play" >SignIn</button>
+<div id="wboard-start">
+	<i class="fa fa-play" aria-hidden="true"></i>
+</div>
 
 <script type="text/javascript">
-	$('#welcome-play').on('click', function() {		
+	$('#wboard-start').on('click', function() {		
 		$('#main').load('/login-content');
 	});
 </script>
