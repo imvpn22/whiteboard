@@ -16,7 +16,7 @@ class _chatui {
     initSocketHandlers() {
         // Handle socket relevant notifs
         app.sockets[app.channels.chat].on('new-message', (data) => {
-            this.handleIncomingMessage(data["message"], data["username"]);
+            this.handleIncomingMessage(data["message"], false, data["username"]);
         });
 
         app.sockets[app.channels.chat].on('connect-notify', (data) => {
@@ -28,17 +28,17 @@ class _chatui {
         });
     }
 
-    handleIncomingMessage(message, author) {
-        // Sanitize incoming message for proper parsing while
-        // assuming that message has already been encoded before
-        // 
-        // Once sanitized, pass it through a custom text encoder that
+    handleIncomingMessage(message, isSource, author, autoScroll = true) {
+        // Pass the incoming message through a custom text encoder that
         // converts all special HTML characters to their escaped versions
-        let msg = this.encodeSpecialChars(decodeURIComponent(message));
+        let msg = this.encodeSpecialChars(message);
 
-        let msgItem = this.createMsgElement(msg, false, author);
+        // TODO
+        // Placeholder for further processing here (bold, strikethrough, italics support)
+
+        let msgItem = this.createMsgElement(msg, isSource, author);
         this.chatThread.appendChild(msgItem);
-        this.scrollChatToView();
+        if (autoScroll) this.scrollChatToView();
     }
 
     appendInfoElement(message) {
@@ -92,10 +92,8 @@ class _chatui {
         message = message.trim();
         if (message.length === 0) return;
 
-        // Sanitize message
-        message = encodeURIComponent(message);
-
-        let msgItem = this.createMsgElement(message, author.id === app.user.id, author.username);
+        let msgItem = this.createMsgElement(
+            this.encodeSpecialChars(message), author.id === app.user.id, author.username);
         this.chatThread.appendChild(msgItem);
         this.scrollChatToView();
 
@@ -119,17 +117,17 @@ class _chatui {
         this.chatMap[group_id] = { "msgs": msgArray, "dirty": false };
     }
 
-    renderChats(group_id) {
+    renderChatHistory(group_id) {
         if (!this.chatMap[group_id]) return;
 
         // Clear chat window
         this.chatThread.innerHTML = "";
         this.chatMap[group_id]["msgs"].map((msg) => {
-            let msgItem = this.createMsgElement(
+            this.handleIncomingMessage(
                 msg["body"],
-                msg["msg_author"]["id"] === app.user.id, msg["msg_author"]["username"]
+                msg["msg_author"]["id"] === app.user.id,
+                msg["msg_author"]["username"], false
             );
-            this.chatThread.appendChild(msgItem);
         });
 
         this.scrollChatToView();
@@ -201,11 +199,11 @@ class _appui {
                 retrieve_chat_history(group['id'], (sdata) => {
                     // Poplulate and render messages
                     chatui.poplulateChat(group['id'], JSON.parse(sdata)["gi_messages"]);
-                    chatui.renderChats(group['id']);
+                    chatui.renderChatHistory(group['id']);
                 }, def_log);
             } else {
                 // Only render the messages
-                chatui.renderChats(group['id']);
+                chatui.renderChatHistory(group['id']);
             }
 
             if (this.sockInitiated === true) {
