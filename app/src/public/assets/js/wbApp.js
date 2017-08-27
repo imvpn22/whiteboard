@@ -3,6 +3,8 @@ class _chatui {
     constructor() {
         this.chatMap = {}
         this.chatThread = document.getElementById("chats");
+
+        this.charMap = { 60: "&lt", 62: "&gt", 38: "&amp", 34: "&quot", 39: "&#39" };
     }
 
     scrollChatToView() {
@@ -14,10 +16,7 @@ class _chatui {
     initSocketHandlers() {
         // Handle socket relevant notifs
         app.sockets[app.channels.chat].on('new-message', (data) => {
-            console.log(data["message"]);
-            let msgItem = this.createMsgElement(data["message"], false, data["username"]);
-            this.chatThread.appendChild(msgItem);
-            this.scrollChatToView();
+            this.handleIncomingMessage(data["message"], data["username"]);
         });
 
         app.sockets[app.channels.chat].on('connect-notify', (data) => {
@@ -27,6 +26,19 @@ class _chatui {
         app.sockets[app.channels.chat].on('disconnect-notify', (data) => {
             this.appendInfoElement(data["username"] + " went offline");
         });
+    }
+
+    handleIncomingMessage(message, author) {
+        // Sanitize incoming message for proper parsing while
+        // assuming that message has already been encoded before
+        // 
+        // Once sanitized, pass it through a custom text encoder that
+        // converts all special HTML characters to their escaped versions
+        let msg = this.encodeSpecialChars(decodeURIComponent(message));
+
+        let msgItem = this.createMsgElement(msg, false, author);
+        this.chatThread.appendChild(msgItem);
+        this.scrollChatToView();
     }
 
     appendInfoElement(message) {
@@ -67,11 +79,21 @@ class _chatui {
         return msgItem;
     }
 
+    encodeSpecialChars(text) {
+        return text.split('').reduce((acc, c) => {
+            let ec = this.charMap[c.charCodeAt(0)];
+            return acc + (ec ? ec : c);
+        }, "");
+    }
+
     pushMessage(message, author) {
         if (message !== typeof "string" && !message) return;
 
         message = message.trim();
         if (message.length === 0) return;
+
+        // Sanitize message
+        message = encodeURIComponent(message);
 
         let msgItem = this.createMsgElement(message, author.id === app.user.id, author.username);
         this.chatThread.appendChild(msgItem);
@@ -83,7 +105,7 @@ class _chatui {
                 // Invalidate message buffer for current group,
                 // so that it's updated on the next bulk retrieval
                 this.chatMap[app.groups.active]["dirty"] = true;
-                def_log("Message successfully sent", false);
+                def_log("Message sent successfully", false);
 
                 // Emit a message push event
                 app.sockets[app.channels.chat].emit('push-msg', message);
