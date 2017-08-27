@@ -26,9 +26,8 @@ class _app {
             this.user = anonUser;
         }
         
-        this.config = {
-            project: 'imvpn22'
-        }
+        // App subdomain for Hasura API endpoints
+        this.config = { project: 'ditz97' }
         
         this.urls = {
             auth: "http://auth." + this.config.project + ".hasura.me/",
