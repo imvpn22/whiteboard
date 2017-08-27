@@ -30,8 +30,8 @@ class _app {
         this.config = { project: 'ditz97' }
         
         this.urls = {
-            auth: "http://auth." + this.config.project + ".hasura.me/",
-            data: "http://data." + this.config.project + ".hasura.me/"
+            auth: "https://auth." + this.config.project + ".hasura.me/",
+            data: "https://data." + this.config.project + ".hasura.me/"
         }
 
         this.groups = { data: [], dirty: true, active: -1 };
