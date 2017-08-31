@@ -28,17 +28,8 @@ module.exports = function(app, io, groups, sock_nsp) {
 	app.get('/', fastForward, function (req, res) {
 		res.render('base');
 	});
-	app.get('/app', requireLogin, function (req, res) {
+	app.get('/app',  function (req, res) {
 		res.render('whiteboard');
-	});
-	app.get('/welcome-msg', function (req, res) {
-		res.render('partials/welcome-msg');
-	});
-	app.get('/login-content', function (req, res) {
-		res.render('partials/login-content');
-	});
-	app.get('/signup-content', function (req, res) {
-		res.render('partials/signup-content');
 	});
 
 	io.of(sock_nsp.root).on('connection', (socket) => {

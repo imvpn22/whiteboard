@@ -2,7 +2,7 @@ var bgCanvas, bgCtx;
 
 var renderBgGrid = (config) => {
 	let xq = bgCanvas.width / config.xstep,
-		yq = bgCanvas.height / config.ystep;
+	yq = bgCanvas.height / config.ystep;
 
 	// General config
 	bgCtx.lineWidth = 1;
@@ -37,3 +37,4 @@ window.addEventListener('load', () => {
 	window.addEventListener('resize', canvasResize, false);
 	canvasResize(); renderBgGrid(config);
 }, false);
+

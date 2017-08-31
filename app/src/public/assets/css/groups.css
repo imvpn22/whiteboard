@@ -23,12 +23,13 @@
     background: #ddd;
     font-size: 1em !important;
     color: #333 !important;
+    border-radius: 3px;
 }
 .gl-items{
     width: 100%;
 }
 .gl-item{
-    width: 100%;
+    margin: 10px;
     height: 2em;
     display: flex;
     justify-content: center;
@@ -37,13 +38,14 @@
     font-size: .9em;
     cursor: pointer;
     border: 1px solid rgba(0,0,0,0);
+    border-radius: 3px;
 }
 .gl-item:hover {
-    border-color: #0f0;
+    border-color: #02b875;
 }
 .gl-item-active {
-    background-color: #28b928;
-    border-color: #28b928;
+    background-color: #02b875;
+    border-color: #02b875;
     color: #fff;
 }
 
@@ -94,6 +96,7 @@
    height: 2em;
    justify-content: center;
    background-color: #ddd;
+   border-radius: 3px;
 }
 .gi-title span, .gi-user span {
     width: 24%;

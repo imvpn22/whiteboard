@@ -4,27 +4,181 @@
 	<title>White Board | Welcome</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link href="/assets/css/style.css" rel="stylesheet" />
-    <link href="/assets/css/login.css" rel="stylesheet" />
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-    <link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300" rel="stylesheet">
-
-    <script src="/assets/js/jquery-3.2.1.min.js"></script>
-    <script src="https://use.fontawesome.com/d4ad1e750c.js"></script>
-    <script src="/assets/js/welcome.js"></script>
-    <script src="/assets/js/main.js"></script>
-    <script src="/assets/js/auth.js"></script>
+  <link href="/assets/css/style.css" rel="stylesheet" />
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Fredericka+the+Great|Gudea:400,400i,700&amp;subset=latin-ext" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://use.fontawesome.com/d4ad1e750c.js"></script>
+  <script src="/assets/js/welcome.js"></script>
+  <script src="/assets/js/main.js"></script>
+  <script src="/assets/js/auth.js"></script>
 </head>
 <body>
-    <% include partials/square %>
+  <canvas id="myCanvas" class="canvas-fs">
+    Your browser does not support the HTML5 canvas tag.
+  </canvas> 
 
-    <canvas id="myCanvas" class="canvas-fs">
-        Your browser does not support the HTML5 canvas tag.
-    </canvas> 
-
-    <div class="main" id="main">
-        <% include partials/welcome-msg %>
+  <div class="main" id="main">
+    <div class="wl-wrapper" id="wl_wrapper">
+      <div class="wb-title">
+        <img class="logo-img" src="/assets/images/wb_logo.png"/>
+        <span class="wb-t">White Board<span class="beta-tag"><em>BETA</em></span></span>
+        <button id="wboard-start"><span>Login</span></button>
+      </div>
+      <div class="intro"> 
+        Brainstorm and collaborate like it was meant to
+      </div>
     </div>
+
+    <div class="pop-back hidden" id="login_wrapper">
+      <button class="close" id="close_login_wrapper"><i class="fa fa-times" aria-hidden="true"></i></button>
+      <form class="login-form" id="login_form">
+        <div class="pop-text">Sign in</div>
+        <div class="form-item">
+          <label><i class="fa fa-user"></i> </label>
+          <input type="text" id="li_uname" placeholder="Username" autofocus required></input>
+        </div>
+        <br>
+        <div class="form-item">
+          <label><i class="fa fa-lock"></i></label>
+          <input type="password" id="li_pass" placeholder="Password" required></input>
+        </div>
+        <div class="form-item">
+          <input id="login_btn" type="submit" value="Login">
+        </div>
+
+        <div class=""><br>  
+          <span id="open-signup" style="font-size: .8em; cursor: pointer;">Don't have an account yet? <u> Signup </u></span>
+        </div>
+      </form>
+
+      <form class="login-form hidden" id="signup_form">
+        <div class="pop-text">Sign up</div>
+
+        <div class="form-item">
+          <label><i class="fa fa-user"></i></label>
+          <input type="text" id="su_name" placeholder="Name" autofocus required></input>
+        </div>
+
+        <div class="form-item">
+          <label><i class="fa fa-envelope"></i></label>
+          <input type="email" id="su_email" placeholder="Email" required></input>
+        </div>
+
+        <div class="form-item">
+          <label><i class="fa fa-user"></i></label>
+          <input type="text" id="su_uname" placeholder="Username" required></input>
+        </div>
+
+        <div class="form-item">
+          <label><i class="fa fa-lock"></i></label>
+          <input type="password" id="su_pass" placeholder="Password" required></input>
+        </div>
+
+        <div class="form-item">
+          <input id="signup_btn" type="submit" value="Sign-Up">
+        </div>
+        <button id="back-btn" class="close"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>
+      </form>
+      <div class="feedback hidden" id="feedback_box"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+
+    $('#wboard-start').on('click', function() {   
+      $('#wl_wrapper').addClass('hidden');
+      $('#login_wrapper').removeClass('hidden');
+      $('#login_form').removeClass('hidden');
+    });
+
+    $('#close_login_wrapper').on('click', function(e) {
+      e.preventDefault();
+      $('#login_wrapper').addClass('hidden');
+      $('#login_form').addClass('hidden');
+      $('#signup_form').addClass('hidden');
+      $('#wl_wrapper').removeClass('hidden');
+    });
+
+    $('#open-signup').on('click', function(){
+      $('#login_form').addClass('hidden');
+      $('#signup_form').removeClass('hidden');
+      $('#feedback_box').addClass('hidden');
+    });
+
+    $('#back-btn').on('click', function(e) {
+      e.preventDefault();
+      $('#signup_form').addClass('hidden');
+      $('#login_form').removeClass('hidden');
+      $('#feedback_box').addClass('hidden');
+    });
+
+    $("#login_form").on("submit", (e) => {
+      e.preventDefault();
+
+      let $fbox = $("#feedback_box");
+      let $lbtn = $("#login_btn");
+
+      let txt = $lbtn.val();
+      $lbtn.val("Logging in...");
+      $lbtn.attr("disabled", true);
+
+      login(
+        $("#li_uname").val(), $("#li_pass").val(),
+        (sdata) => {
+          $fbox.removeClass("hidden error"); $fbox.addClass("success");
+          $fbox.html("Login successful. Redirecting to app...");
+
+          $lbtn.val(txt);
+          $lbtn.attr("disabled", false);
+          window.location.href = "/app";
+        },
+        (edata) => {
+          let obj = JSON.parse(edata);
+          $fbox.removeClass("hidden success"); $fbox.addClass("error");
+          $fbox.html("Login error: " + obj["message"]);
+
+          $lbtn.val(txt);
+          $lbtn.attr("disabled", false);
+        }
+        );
+    });
+
+    $("#signup_form").on("submit", (e) => {
+      e.preventDefault();
+
+      let $fbox = $("#feedback_box");
+      let $sbtn = $("#signup_btn");
+
+      let txt = $sbtn.val();
+      $sbtn.val("Signing in...");
+      $sbtn.attr("disabled", true);
+
+      signup(
+        $("#su_name").val(), $("#su_uname").val(),
+        $("#su_email").val(), $("#su_pass").val(),
+        (sdata) => {
+          $fbox.removeClass("hidden error"); $fbox.addClass("success");
+          $fbox.html("Signup successful. Redirecting to app...");
+
+          $sbtn.val(txt);
+          $sbtn.attr("disabled", false);
+          window.location.href = "/app";
+        },
+        (edata) => {
+          let obj = JSON.parse(edata);
+          $fbox.removeClass("hidden success"); $fbox.addClass("error");
+          $fbox.html("Signup error: " + obj["message"]);
+
+          $sbtn.val(txt);
+          $sbtn.attr("disabled", false);
+        }
+        );
+    });
+  </script>
+
+
 </body>
 </html>
