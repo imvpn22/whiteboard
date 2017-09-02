@@ -83,9 +83,9 @@ module.exports = function(app, io, groups, sock_nsp) {
 			socket.emit('feedback', { "message": 'You switched to group ' + group_id });
 		});
 
-		socket.on('push-msg', (message) => {
+		socket.on('push-msg', (message, tstamp) => {
 			socket.broadcast.to(socket.room).emit(
-				'new-message', { "username": socket.username, "message": message }
+				'new-message', { "username": socket.username, "message": message, "tstamp": tstamp }
 			);
 			// Emit message feedback to client
 			socket.emit('feedback', { "message": 'Your message was recieved' });

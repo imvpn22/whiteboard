@@ -106,7 +106,7 @@ class _chatui {
                 def_log("Message sent successfully", false);
 
                 // Emit a message push event
-                app.sockets[app.channels.chat].emit('push-msg', message);
+                app.sockets[app.channels.chat].emit('push-msg', message, new Date().toUTCString());
             },
             (edata) => { def_log("Error sending message"); }
         );
