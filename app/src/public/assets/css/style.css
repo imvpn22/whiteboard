@@ -125,6 +125,9 @@ body {
     left: 0;
     right: 0;
     background-color: rgba(238, 238, 238, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .wl-wrapper{
     display: flex;

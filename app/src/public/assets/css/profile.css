@@ -10,6 +10,9 @@
 	flex: 1;
 	justify-content: space-around;
 }
+.info > span {
+	margin: 10px 0;
+}
 .profile-img{
 	height: 150px;
 	width: 150px;
@@ -22,6 +25,7 @@
 	box-shadow: 0 0 5px #ccc;
 	font-size: 100px;
 	color: #ddd;
+	margin: 20px;
 }
 .profile-img:hover{
 	
@@ -63,7 +67,8 @@
 .detail {
 	flex:1;
 	display: flex;
-	justify-content: center;align-items: center;
+	/*justify-content: center;*/
+	align-items: center;
 }
 .detail-item{
 	width: 90%;

@@ -30,7 +30,7 @@ $('#user_btn').on('click', function(){
 /* Logout event */
 $("#logout_btn").on("click", (e) => {
 	e.preventDefault();
-	$("#logout_btn").html("<span>Logging out ...</span>");
+	$("#logout_btn").html("<span>Logging out</span>");
 	logout()
 });
 

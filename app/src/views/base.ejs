@@ -9,11 +9,6 @@
   <link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Fredericka+the+Great|Gudea:400,400i,700&amp;subset=latin-ext" rel="stylesheet">
-  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-  <script src="https://use.fontawesome.com/d4ad1e750c.js"></script>
-  <script src="/assets/js/welcome.js"></script>
-  <script src="/assets/js/main.js"></script>
-  <script src="/assets/js/auth.js"></script>
 </head>
 <body>
   <canvas id="myCanvas" class="canvas-fs">
@@ -28,7 +23,7 @@
           <span class="wb-t">White Board<span class="beta-tag"><em>BETA</em></span></span>
         </div>
         <div class="nav-items">
-        <button class="nav-item"><span><a href="https://vpnwb.blogspot.in/">Blog</a><span></button>
+          <button class="nav-item"><span><a href="https://vpnwb.blogspot.in/">Blog</a><span></button>
           <button class="nav-item"><span><a href="https://github.com/imvpn22/whiteboard">Github</a><span></button>
           <button class="nav-item" id="wboard-start"><span>Login</span></button>
         </div>
@@ -102,99 +97,13 @@
     </div>
   </div>
 
-  <script type="text/javascript">
+  <!-- Link for scripts -->
 
-    $('#wboard-start').on('click', function() {   
-      $('#wl_wrapper').addClass('hidden');
-      $('#login_wrapper').removeClass('hidden');
-      $('#login_form').removeClass('hidden');
-    });
-
-    $('#close_login_wrapper').on('click', function(e) {
-      e.preventDefault();
-      $('#login_wrapper').addClass('hidden');
-      $('#login_form').addClass('hidden');
-      $('#signup_form').addClass('hidden');
-      $('#wl_wrapper').removeClass('hidden');
-    });
-
-    $('#open-signup').on('click', function(){
-      $('#login_form').addClass('hidden');
-      $('#signup_form').removeClass('hidden');
-      $('#feedback_box').addClass('hidden');
-    });
-
-    $('#back-btn').on('click', function(e) {
-      e.preventDefault();
-      $('#signup_form').addClass('hidden');
-      $('#login_form').removeClass('hidden');
-      $('#feedback_box').addClass('hidden');
-    });
-
-    $("#login_form").on("submit", (e) => {
-      e.preventDefault();
-
-      let $fbox = $("#feedback_box");
-      let $lbtn = $("#login_btn");
-
-      let txt = $lbtn.val();
-      $lbtn.val("Logging in...");
-      $lbtn.attr("disabled", true);
-
-      login(
-        $("#li_uname").val(), $("#li_pass").val(),
-        (sdata) => {
-          $fbox.removeClass("hidden error"); $fbox.addClass("success");
-          $fbox.html("Login successful. Redirecting to app...");
-
-          $lbtn.val(txt);
-          $lbtn.attr("disabled", false);
-          window.location.href = "/app";
-        },
-        (edata) => {
-          let obj = JSON.parse(edata);
-          $fbox.removeClass("hidden success"); $fbox.addClass("error");
-          $fbox.html("Login error: " + obj["message"]);
-
-          $lbtn.val(txt);
-          $lbtn.attr("disabled", false);
-        }
-        );
-    });
-
-    $("#signup_form").on("submit", (e) => {
-      e.preventDefault();
-
-      let $fbox = $("#feedback_box");
-      let $sbtn = $("#signup_btn");
-
-      let txt = $sbtn.val();
-      $sbtn.val("Signing in...");
-      $sbtn.attr("disabled", true);
-
-      signup(
-        $("#su_name").val(), $("#su_uname").val(),
-        $("#su_email").val(), $("#su_pass").val(),
-        (sdata) => {
-          $fbox.removeClass("hidden error"); $fbox.addClass("success");
-          $fbox.html("Signup successful. Redirecting to app...");
-
-          $sbtn.val(txt);
-          $sbtn.attr("disabled", false);
-          window.location.href = "/app";
-        },
-        (edata) => {
-          let obj = JSON.parse(edata);
-          $fbox.removeClass("hidden success"); $fbox.addClass("error");
-          $fbox.html("Signup error: " + obj["message"]);
-
-          $sbtn.val(txt);
-          $sbtn.attr("disabled", false);
-        }
-        );
-    });
-  </script>
-
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://use.fontawesome.com/d4ad1e750c.js"></script>
+  <script src="/assets/js/welcome.js"></script>
+  <script src="/assets/js/main.js"></script>
+  <script src="/assets/js/auth.js"></script>
 
 </body>
 </html>
