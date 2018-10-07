@@ -1,6 +1,14 @@
 
 
 # White Board
+
+------------------------
+## Note
+#### Project is currently under re-development
+
+-----------------------
+
+
 ## About
 This is a webapp I developed during my internship at [Hasura](https://hasura.io) in May - Aug 2017. This project is hosted on hasura platform and uses Hasura APIs.  
 App is live [here](https://whiteboard.ditz97.hasura-app.io/).
