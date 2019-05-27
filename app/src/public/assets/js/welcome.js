@@ -1,73 +1,39 @@
-$('document').ready(function(){
-	var c = document.getElementById("myCanvas");
-	var ctx = c.getContext("2d");
-	ctx.beginPath();
-	ctx.moveTo(10, 30);
-	ctx.lineTo(1345, 30);
+var bgCanvas, bgCtx;
 
-	ctx.moveTo(10, 130);
-	ctx.lineTo(1345, 130);
+var renderBgGrid = (config) => {
+	let xq = bgCanvas.width / config.xstep,
+		yq = bgCanvas.height / config.ystep;
 
-	ctx.moveTo(10, 230);
-	ctx.lineTo(1345, 230);
+	// General config
+	bgCtx.lineWidth = 1;
+	bgCtx.strokeStyle = "rgba(0, 0, 0, 0.5)";
 
-	ctx.moveTo(10, 330);
-	ctx.lineTo(1345, 330);
+	for (var i = 1; i <= xq; i++) {
+		bgCtx.beginPath();
+		bgCtx.moveTo(i * config.xstep, 0);
+		bgCtx.lineTo(i * config.xstep, bgCanvas.height);
+		bgCtx.stroke();
+	}
 
-	ctx.moveTo(10, 430);
-	ctx.lineTo(1345, 430);
+	for (var i = 1; i <= yq; i++) {
+		bgCtx.beginPath();
+		bgCtx.moveTo(0, i * config.ystep);
+		bgCtx.lineTo(bgCanvas.width, i * config.ystep);
+		bgCtx.stroke();
+	}
+}
 
-	ctx.moveTo(10, 530);
-	ctx.lineTo(1345, 530);
+window.addEventListener('load', () => {
+	bgCanvas = document.getElementById("myCanvas");
+	bgCtx = bgCanvas.getContext("2d");
 
-	ctx.moveTo(10, 630);
-	ctx.lineTo(1345, 630);
+	var config = { xstep: 100, ystep: 100 };
+	var canvasResize = () => {
+		bgCanvas.width = window.innerWidth;
+		bgCanvas.height = window.innerHeight;
+		renderBgGrid(config);
+	}
 
-	ctx.moveTo(10, 730);
-	ctx.lineTo(1345, 730);
-
-
-	ctx.moveTo(30,10);
-	ctx.lineTo(30, 758);
-
-	ctx.moveTo(130,10);
-	ctx.lineTo(130, 758);
-
-	ctx.moveTo(230,10);
-	ctx.lineTo(230, 758);
-
-	ctx.moveTo(330,10);
-	ctx.lineTo(330, 758);
-
-	ctx.moveTo(430,10);
-	ctx.lineTo(430, 758);
-
-	ctx.moveTo(530,10);
-	ctx.lineTo(530, 758);
-
-	ctx.moveTo(630,10);
-	ctx.lineTo(630, 758);
-
-	ctx.moveTo(730,10);
-	ctx.lineTo(730, 758);
-
-	ctx.moveTo(830,10);
-	ctx.lineTo(830, 758);
-
-	ctx.moveTo(930,10);
-	ctx.lineTo(930, 758);
-
-	ctx.moveTo(1030,10);
-	ctx.lineTo(1030, 758);
-
-	ctx.moveTo(1130,10);
-	ctx.lineTo(1130, 758);
-
-	ctx.moveTo(1230,10);
-	ctx.lineTo(1230, 758);
-
-	ctx.moveTo(1330,10);
-	ctx.lineTo(1330, 758);
-
-	ctx.stroke();
-});
+	window.addEventListener('resize', canvasResize, false);
+	canvasResize(); renderBgGrid(config);
+}, false);

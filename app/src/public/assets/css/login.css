@@ -1,8 +1,8 @@
 body {
 	width: 100vh;
-	height: 100vh;
 	overflow: hidden;
 	background-image: url(https://s1.wp.com/home.logged-out/page-rey-2/img/hero-icons.svg);
 	background-color: rgb(60, 60, 60);
+    background-size: cover;
 	font-family: verdana;
 }

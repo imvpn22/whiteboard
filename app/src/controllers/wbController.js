@@ -25,10 +25,10 @@ module.exports = function(app, io, groups, sock_nsp) {
 	}
 
 	// GET routes
-	app.get('/', function (req, res) {
+	app.get('/', fastForward, function (req, res) {
 		res.render('base');
 	});
-	app.get('/app', function (req, res) {
+	app.get('/app', requireLogin, function (req, res) {
 		res.render('whiteboard');
 	});
 	app.get('/welcome-msg', function (req, res) {

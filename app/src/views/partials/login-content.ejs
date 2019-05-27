@@ -1,7 +1,7 @@
 <div class="pop-back">
 
 	<form class="login-form" id="login_form">
-	<div class="pop-text">Sign-In</div>
+	<div class="pop-text">Sign in</div>
 		<div class="form-item">
 			<label><i class="fa fa-user"></i> </label>
 			<input type="text" id="li_uname" placeholder="Username" autofocus required></input>
@@ -15,7 +15,6 @@
 			<input id="login_btn" type="submit" value="Login">
 		</div>
 
-		<!-- <span style="font-size: .7em; text-align: right; cursor: pointer;" id="open-reset-pass"><i>Forgot Password?</i></span>  -->
 		<div class=""><br>	
 			<span id="open-signup" style="font-size: .8em; cursor: pointer;">Don't have an account yet? <u> Signup </u></span>
 		</div>
@@ -24,7 +23,8 @@
 	<div class="feedback hidden" id="feedback_box"></div>
 </div>
 <script type="text/javascript">
-	$('#close-login').on('click', function() {		
+	$('#close-login').on('click', function(e) {
+		e.preventDefault();
 		$('#main').load('/welcome-msg');
 	});
 	$('#open-reset-pass').on('click', function(){
