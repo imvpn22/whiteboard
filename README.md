@@ -2,15 +2,8 @@
 
 # White Board
 
-------------------------
-## Note
-#### Project is currently under re-development
-
------------------------
-
-
 ## About
-This is a webapp I developed during my internship at [Hasura](https://hasura.io) in May - Aug 2017. This project is hosted on hasura platform and uses Hasura APIs.  
+This is a webapp I developed during my internship at [Hasura](https://hasura.io) in May - Aug 2017. This project was hosted on hasura platform and uses Hasura APIs.  
 App is live [here](https://whiteboard.ditz97.hasura-app.io/).
 
 ### App idea
@@ -21,15 +14,15 @@ App is live [here](https://whiteboard.ditz97.hasura-app.io/).
 This webapp provides basically three features -  
 
 * __White Board:__ Drawing/Sketching on interactive canvas using various tools and colors.  
-![Screen 1: Whiteboard](https://github.com/imvpn22/whiteboard/blob/master/app/src/screenshot/f1.png)  
+![Screen 1: Whiteboard](https://github.com/imvpn22/whiteboard/blob/master/screenshot/f1.png)  
 
 
 * __Group Chat:__ Group chatting with the members of team, share file/image/video/link.  
-![Screen 2: Group Chat](https://github.com/imvpn22/whiteboard/blob/master/app/src/screenshot/f2.png)  
+![Screen 2: Group Chat](https://github.com/imvpn22/whiteboard/blob/master/screenshot/f2.png)  
   
   
 * __Manage Group:__ Create group/team, add/remove members, promote a member to leader.  
-![Screen 3: Manage Group](https://github.com/imvpn22/whiteboard/blob/master/app/src/screenshot/f3.png)  
+![Screen 3: Manage Group](https://github.com/imvpn22/whiteboard/blob/master/screenshot/f3.png)  
   
   
 ### Video Overview  
@@ -38,46 +31,33 @@ Click to play
   
            
             
-  
 ## Build
 This project is based on Node.JS and uses NPM.  
-Project build description is in app/src/README.md  
   
-    
-## Testing
+### Quickstart
 
-### Quickstart - Build your own Docker image
+Follow the steps mentioned to run locally
 
-Build the Docker image using the following command
-
+1. Clone the repo
 ```bash
-$ docker build -t nodejs-express:<tag> .
+$ git clone https://github.com/imvpn22/whiteboard.git
+```
+2. Go inside `whiteboard` directory
+```bash
+$ cd whiteboard
 ```
 
-Run the Docker container using the command below.
-
+3. Install dependencies
 ```bash
-$ docker run -d -p 8080:8080 nodejs-express:<tag>
+$ npm install
 ```
 
-### Quickstart - git based pipeline
+4. Run server
+```bash
+$ npm start
+```
 
-Follow the steps mentioned below for git based pipeline
-
-1. Ensure that you have a git project
-2. Edit `app/src/server.js`
-3. Commit your changes
-
-    ```bash
-    $ git add .
-    $ git commit -m "message"
-    ```
-
-4. Push the changes to git
-
-    ```bash
-    $ git push <remote> master
-    ```
+5. Open web-browser and go to `http://localhost:8080`
 
 ### Advanced usage
 
