@@ -5,16 +5,16 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon start server.js"
+    "start": "node server.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.19.0",
-    "ejs": "^2.6.1",
-    "express": "^4.17.1",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
     "morgan": "^1.9.1",
     "request": "^2.88.0",
-    "socket.io": "^2.2.0"
+    "socket.io": "^2.5.0"
   }
 }
